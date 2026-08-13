@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
-import { Menu, X } from "lucide-react";
-import { useState } from "react";
+import { Menu, X, ChevronDown } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 
 const nav = [
   { to: "/solutions", label: "Solutions" },
@@ -14,6 +14,18 @@ const nav = [
 
 export function Header() {
   const [open, setOpen] = useState(false);
+  const [joinOpen, setJoinOpen] = useState(false);
+  const joinRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    function onDoc(e: MouseEvent) {
+      if (joinRef.current && !joinRef.current.contains(e.target as Node)) {
+        setJoinOpen(false);
+      }
+    }
+    document.addEventListener("click", onDoc);
+    return () => document.removeEventListener("click", onDoc);
+  }, []);
 
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur">
@@ -36,9 +48,42 @@ export function Header() {
         </nav>
 
         <div className="hidden items-center gap-4 lg:flex">
-          <Link to="/join-provider" className="text-sm text-foreground/80 hover:text-primary">
-            Join as Provider
-          </Link>
+          <div className="relative" ref={joinRef}>
+            <button
+              type="button"
+              aria-expanded={joinOpen}
+              onClick={() => setJoinOpen((v) => !v)}
+              className="inline-flex items-center gap-2 text-sm text-foreground/80 hover:text-primary"
+            >
+              Join
+              <ChevronDown className="size-4" />
+            </button>
+
+            {joinOpen && (
+              <div className="absolute right-0 mt-2 w-56 rounded-md border border-border bg-background shadow-md">
+                <div className="flex flex-col p-2">
+                  <Link
+                    to="/join-provider"
+                    className="px-3 py-2 text-sm text-foreground/90 hover:bg-muted/60"
+                    onClick={() => setJoinOpen(false)}
+                  >
+                    Join as Solution Provider
+                  </Link>
+                  <Link
+                    to="/join-network-partner"
+                    className="mt-1 px-3 py-2 text-sm text-foreground/90 hover:bg-muted/60"
+                    onClick={() => setJoinOpen(false)}
+                  >
+                    Join as Network Partner
+                  </Link>
+                  <p className="mt-2 px-3 text-xs text-muted-foreground">
+                    Network partners include local helps, NGOs and regional experts.
+                  </p>
+                </div>
+              </div>
+            )}
+          </div>
+
           <Link
             to="/find-my-solution"
             className="border border-primary bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-forest-deep"
@@ -71,9 +116,15 @@ export function Header() {
                 {item.label}
               </Link>
             ))}
-            <Link to="/join-provider" onClick={() => setOpen(false)} className="py-3 text-base">
-              Join as Provider
-            </Link>
+            <div className="border-b border-border/60 py-3">
+              <div className="mb-2 text-base font-medium">Join</div>
+              <Link to="/join-provider" onClick={() => setOpen(false)} className="block py-2 text-base">
+                Join as Solution Provider
+              </Link>
+              <Link to="/join-network-partner" onClick={() => setOpen(false)} className="block py-2 text-base">
+                Join as Network Partner
+              </Link>
+            </div>
             <Link
               to="/find-my-solution"
               onClick={() => setOpen(false)}
