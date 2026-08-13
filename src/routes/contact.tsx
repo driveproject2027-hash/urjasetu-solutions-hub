@@ -1,5 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
+import { toast } from "sonner";
+
+import { submitCustomerRequest } from "../lib/db";
 
 import { PageHeader } from "../components/site/PageHeader";
 
@@ -30,6 +33,7 @@ export const Route = createFileRoute("/contact")({
 
 function Contact() {
   const [sent, setSent] = useState(false);
+  const [busy, setBusy] = useState(false);
 
   return (
     <>
@@ -118,7 +122,8 @@ function Contact() {
               <div className="md:col-span-2">
                 <button
                   type="submit"
-                  className="border border-primary bg-primary px-5 py-3 text-sm font-medium text-primary-foreground transition-colors hover:bg-forest-deep"
+                  disabled={busy}
+                  className="border border-primary bg-primary px-5 py-3 disabled:opacity-60 text-sm font-medium text-primary-foreground transition-colors hover:bg-forest-deep"
                 >
                   Submit Enquiry
                 </button>
