@@ -14,6 +14,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as CalculatorRouteImport } from './routes/calculator'
 import { Route as FinancingRouteImport } from './routes/financing'
 import { Route as FindMySolutionRouteImport } from './routes/find-my-solution'
+import { Route as JoinNetworkPartnerRouteImport } from './routes/join-network-partner'
 import { Route as JoinProviderRouteImport } from './routes/join-provider'
 import { Route as NeedsRouteImport } from './routes/needs'
 import { Route as OpportunitiesRouteImport } from './routes/opportunities'
@@ -55,6 +56,11 @@ const FinancingRoute = FinancingRouteImport.update({
 const FindMySolutionRoute = FindMySolutionRouteImport.update({
   id: '/find-my-solution',
   path: '/find-my-solution',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JoinNetworkPartnerRoute = JoinNetworkPartnerRouteImport.update({
+  id: '/join-network-partner',
+  path: '/join-network-partner',
   getParentRoute: () => rootRouteImport,
 } as any)
 const JoinProviderRoute = JoinProviderRouteImport.update({
@@ -149,6 +155,7 @@ export interface FileRoutesByFullPath {
   '/calculator': typeof CalculatorRoute
   '/financing': typeof FinancingRoute
   '/find-my-solution': typeof FindMySolutionRoute
+  '/join-network-partner': typeof JoinNetworkPartnerRoute
   '/join-provider': typeof JoinProviderRoute
   '/needs': typeof NeedsRoute
   '/opportunities': typeof OpportunitiesRoute
@@ -173,6 +180,7 @@ export interface FileRoutesByTo {
   '/calculator': typeof CalculatorRoute
   '/financing': typeof FinancingRoute
   '/find-my-solution': typeof FindMySolutionRoute
+  '/join-network-partner': typeof JoinNetworkPartnerRoute
   '/join-provider': typeof JoinProviderRoute
   '/needs': typeof NeedsRoute
   '/opportunities': typeof OpportunitiesRoute
@@ -194,6 +202,7 @@ export interface FileRoutesById {
   '/calculator': typeof CalculatorRoute
   '/financing': typeof FinancingRoute
   '/find-my-solution': typeof FindMySolutionRoute
+  '/join-network-partner': typeof JoinNetworkPartnerRoute
   '/join-provider': typeof JoinProviderRoute
   '/needs': typeof NeedsRoute
   '/opportunities': typeof OpportunitiesRoute
@@ -220,6 +229,7 @@ export interface FileRouteTypes {
     | '/calculator'
     | '/financing'
     | '/find-my-solution'
+    | '/join-network-partner'
     | '/join-provider'
     | '/needs'
     | '/opportunities'
@@ -244,6 +254,7 @@ export interface FileRouteTypes {
     | '/calculator'
     | '/financing'
     | '/find-my-solution'
+    | '/join-network-partner'
     | '/join-provider'
     | '/needs'
     | '/opportunities'
@@ -264,6 +275,7 @@ export interface FileRouteTypes {
     | '/calculator'
     | '/financing'
     | '/find-my-solution'
+    | '/join-network-partner'
     | '/join-provider'
     | '/needs'
     | '/opportunities'
@@ -289,6 +301,7 @@ export interface RootRouteChildren {
   CalculatorRoute: typeof CalculatorRoute
   FinancingRoute: typeof FinancingRoute
   FindMySolutionRoute: typeof FindMySolutionRoute
+  JoinNetworkPartnerRoute: typeof JoinNetworkPartnerRoute
   JoinProviderRoute: typeof JoinProviderRoute
   NeedsRoute: typeof NeedsRoute
   OpportunitiesRoute: typeof OpportunitiesRoute
@@ -334,6 +347,13 @@ declare module '@tanstack/react-router' {
       path: '/find-my-solution'
       fullPath: '/find-my-solution'
       preLoaderRoute: typeof FindMySolutionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/join-network-partner': {
+      id: '/join-network-partner'
+      path: '/join-network-partner'
+      fullPath: '/join-network-partner'
+      preLoaderRoute: typeof JoinNetworkPartnerRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/join-provider': {
@@ -521,6 +541,7 @@ const rootRouteChildren: RootRouteChildren = {
   CalculatorRoute: CalculatorRoute,
   FinancingRoute: FinancingRoute,
   FindMySolutionRoute: FindMySolutionRoute,
+  JoinNetworkPartnerRoute: JoinNetworkPartnerRoute,
   JoinProviderRoute: JoinProviderRoute,
   NeedsRoute: NeedsRoute,
   OpportunitiesRoute: OpportunitiesRoute,
