@@ -57,14 +57,14 @@ export function Header() {
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
           onClick={() => setOpen((v) => !v)}
-          className="lg:hidden p-2 text-foreground"
+          className="xl:hidden p-2 text-foreground"
         >
           {open ? <X className="size-5" /> : <Menu className="size-5" />}
         </button>
       </div>
 
       {open && (
-        <div className="border-t border-border bg-background lg:hidden">
+        <div className="border-t border-border bg-background xl:hidden">
           <nav className="container-page flex flex-col py-2" aria-label="Mobile">
             {nav.map((item) => (
               <Link
@@ -76,22 +76,21 @@ export function Header() {
                 {item.label}
               </Link>
             ))}
-            <div className="border-b border-border/60 py-3">
-              <div className="mb-2 text-base font-medium">Join</div>
-              <Link to="/join-provider" onClick={() => setOpen(false)} className="block py-2 text-base">
-                Join as Solution Provider
-              </Link>
-              <Link to="/join-network-partner" onClick={() => setOpen(false)} className="block py-2 text-base">
-                Join as Network Partner
-              </Link>
-            </div>
+            <Link to="/contact" onClick={() => setOpen(false)} className="border-b border-border/60 py-3 text-base">
+              Sign In
+            </Link>
             <Link
-              to="/find-my-solution"
+              to="/join-provider"
               onClick={() => setOpen(false)}
               className="my-3 bg-primary px-4 py-3 text-center text-base font-medium text-primary-foreground"
             >
-              Find a Solution
+              Join as Provider
             </Link>
+          </nav>
+        </div>
+      )}
+    </header>
+
           </nav>
         </div>
       )}
