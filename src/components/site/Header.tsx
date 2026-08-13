@@ -46,8 +46,11 @@ export function Header() {
           >
             Join as Provider
           </Link>
-          <Link to="/contact" className="whitespace-nowrap text-sm text-foreground/80 hover:text-primary">
-            Sign In
+          <Link
+            to={session ? "/account" : "/auth"}
+            className="whitespace-nowrap text-sm text-foreground/80 hover:text-primary"
+          >
+            {session ? "My account" : "Sign In"}
           </Link>
         </div>
 
@@ -76,8 +79,12 @@ export function Header() {
                 {item.label}
               </Link>
             ))}
-            <Link to="/contact" onClick={() => setOpen(false)} className="border-b border-border/60 py-3 text-base">
-              Sign In
+            <Link
+              to={session ? "/account" : "/auth"}
+              onClick={() => setOpen(false)}
+              className="border-b border-border/60 py-3 text-base"
+            >
+              {session ? "My account" : "Sign In"}
             </Link>
             <Link
               to="/join-provider"
