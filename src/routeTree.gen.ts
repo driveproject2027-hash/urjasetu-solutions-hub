@@ -12,8 +12,12 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as CalculatorRouteImport } from './routes/calculator'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as DriveRouteImport } from './routes/drive'
+import { Route as EventsRouteImport } from './routes/events'
 import { Route as FinancingRouteImport } from './routes/financing'
 import { Route as FindMySolutionRouteImport } from './routes/find-my-solution'
+import { Route as JoinNetworkPartnerRouteImport } from './routes/join-network-partner'
 import { Route as JoinProviderRouteImport } from './routes/join-provider'
 import { Route as NeedsRouteImport } from './routes/needs'
 import { Route as OpportunitiesRouteImport } from './routes/opportunities'
@@ -47,6 +51,21 @@ const CalculatorRoute = CalculatorRouteImport.update({
   path: '/calculator',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DriveRoute = DriveRouteImport.update({
+  id: '/drive',
+  path: '/drive',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EventsRoute = EventsRouteImport.update({
+  id: '/events',
+  path: '/events',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FinancingRoute = FinancingRouteImport.update({
   id: '/financing',
   path: '/financing',
@@ -55,6 +74,11 @@ const FinancingRoute = FinancingRouteImport.update({
 const FindMySolutionRoute = FindMySolutionRouteImport.update({
   id: '/find-my-solution',
   path: '/find-my-solution',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JoinNetworkPartnerRoute = JoinNetworkPartnerRouteImport.update({
+  id: '/join-network-partner',
+  path: '/join-network-partner',
   getParentRoute: () => rootRouteImport,
 } as any)
 const JoinProviderRoute = JoinProviderRouteImport.update({
@@ -147,8 +171,12 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/calculator': typeof CalculatorRoute
+  '/contact': typeof ContactRoute
+  '/drive': typeof DriveRoute
+  '/events': typeof EventsRoute
   '/financing': typeof FinancingRoute
   '/find-my-solution': typeof FindMySolutionRoute
+  '/join-network-partner': typeof JoinNetworkPartnerRoute
   '/join-provider': typeof JoinProviderRoute
   '/needs': typeof NeedsRoute
   '/opportunities': typeof OpportunitiesRoute
@@ -171,8 +199,12 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/calculator': typeof CalculatorRoute
+  '/contact': typeof ContactRoute
+  '/drive': typeof DriveRoute
+  '/events': typeof EventsRoute
   '/financing': typeof FinancingRoute
   '/find-my-solution': typeof FindMySolutionRoute
+  '/join-network-partner': typeof JoinNetworkPartnerRoute
   '/join-provider': typeof JoinProviderRoute
   '/needs': typeof NeedsRoute
   '/opportunities': typeof OpportunitiesRoute
@@ -192,8 +224,12 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/calculator': typeof CalculatorRoute
+  '/contact': typeof ContactRoute
+  '/drive': typeof DriveRoute
+  '/events': typeof EventsRoute
   '/financing': typeof FinancingRoute
   '/find-my-solution': typeof FindMySolutionRoute
+  '/join-network-partner': typeof JoinNetworkPartnerRoute
   '/join-provider': typeof JoinProviderRoute
   '/needs': typeof NeedsRoute
   '/opportunities': typeof OpportunitiesRoute
@@ -218,8 +254,12 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/calculator'
+    | '/contact'
+    | '/drive'
+    | '/events'
     | '/financing'
     | '/find-my-solution'
+    | '/join-network-partner'
     | '/join-provider'
     | '/needs'
     | '/opportunities'
@@ -242,8 +282,12 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/calculator'
+    | '/contact'
+    | '/drive'
+    | '/events'
     | '/financing'
     | '/find-my-solution'
+    | '/join-network-partner'
     | '/join-provider'
     | '/needs'
     | '/opportunities'
@@ -262,8 +306,12 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/calculator'
+    | '/contact'
+    | '/drive'
+    | '/events'
     | '/financing'
     | '/find-my-solution'
+    | '/join-network-partner'
     | '/join-provider'
     | '/needs'
     | '/opportunities'
@@ -287,8 +335,12 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   CalculatorRoute: typeof CalculatorRoute
+  ContactRoute: typeof ContactRoute
+  DriveRoute: typeof DriveRoute
+  EventsRoute: typeof EventsRoute
   FinancingRoute: typeof FinancingRoute
   FindMySolutionRoute: typeof FindMySolutionRoute
+  JoinNetworkPartnerRoute: typeof JoinNetworkPartnerRoute
   JoinProviderRoute: typeof JoinProviderRoute
   NeedsRoute: typeof NeedsRoute
   OpportunitiesRoute: typeof OpportunitiesRoute
@@ -322,6 +374,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CalculatorRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/drive': {
+      id: '/drive'
+      path: '/drive'
+      fullPath: '/drive'
+      preLoaderRoute: typeof DriveRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/events': {
+      id: '/events'
+      path: '/events'
+      fullPath: '/events'
+      preLoaderRoute: typeof EventsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/financing': {
       id: '/financing'
       path: '/financing'
@@ -334,6 +407,13 @@ declare module '@tanstack/react-router' {
       path: '/find-my-solution'
       fullPath: '/find-my-solution'
       preLoaderRoute: typeof FindMySolutionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/join-network-partner': {
+      id: '/join-network-partner'
+      path: '/join-network-partner'
+      fullPath: '/join-network-partner'
+      preLoaderRoute: typeof JoinNetworkPartnerRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/join-provider': {
@@ -519,8 +599,12 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   CalculatorRoute: CalculatorRoute,
+  ContactRoute: ContactRoute,
+  DriveRoute: DriveRoute,
+  EventsRoute: EventsRoute,
   FinancingRoute: FinancingRoute,
   FindMySolutionRoute: FindMySolutionRoute,
+  JoinNetworkPartnerRoute: JoinNetworkPartnerRoute,
   JoinProviderRoute: JoinProviderRoute,
   NeedsRoute: NeedsRoute,
   OpportunitiesRoute: OpportunitiesRoute,

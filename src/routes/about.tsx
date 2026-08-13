@@ -71,9 +71,16 @@ function About() {
 
         <aside className="space-y-4 border-t border-border pt-6 lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0">
           <h2 className="text-sm font-semibold uppercase tracking-[0.12em] text-muted-foreground">Get started</h2>
+          <Link to="/drive" className="block font-medium hover:text-primary">
+            About DRIVE →
+          </Link>
+          <Link to="/events" className="block font-medium hover:text-primary">
+            Events &amp; awareness →
+          </Link>
           <Link to="/find-my-solution" className="block font-medium hover:text-primary">
             Find my solution →
           </Link>
+
           <Link to="/join-provider" className="block font-medium hover:text-primary">
             Join as a provider →
           </Link>
