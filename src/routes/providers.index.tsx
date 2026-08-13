@@ -1,7 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { BadgeCheck, MapPin, Search, Star } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
+import { fetchApprovedProviders, providerTypeLabels } from "../lib/db";
 import { PageHeader } from "../components/site/PageHeader";
 import { providers, solutions } from "../data/catalog";
 
@@ -21,11 +22,28 @@ export const Route = createFileRoute("/providers/")({
   component: ProvidersIndex,
 });
 
+type ApprovedProvider = {
+  id: string;
+  organisation: string;
+  location: string | null;
+  provider_type: string;
+  services: string[] | null;
+  website: string | null;
+  description: string | null;
+};
+
 function ProvidersIndex() {
+  const [approved, setApproved] = useState<ApprovedProvider[]>([]);
   const [query, setQuery] = useState("");
   const [tech, setTech] = useState("");
   const [state, setState] = useState("");
   const [verifiedOnly, setVerifiedOnly] = useState(false);
+
+  useEffect(() => {
+    fetchApprovedProviders()
+      .then((rows) => setApproved((rows ?? []) as unknown as ApprovedProvider[]))
+      .catch(() => undefined);
+  }, []);
 
   const techs = [...new Set(solutions.map((s) => s.name))];
   const states = [...new Set(providers.map((p) => p.state))];
@@ -122,6 +140,35 @@ function ProvidersIndex() {
         </aside>
 
         <div>
+          {approved.length > 0 && (
+            <section className="mb-10">
+              <h2 className="mb-3 font-display text-xl font-semibold">Verified platform providers</h2>
+              <ul className="divide-y divide-border border-y border-border">
+                {approved.map((a) => (
+                  <li key={a.id} className="py-5">
+                    <div className="flex flex-wrap items-center gap-3">
+                      <h3 className="font-display text-lg font-semibold">{a.organisation}</h3>
+                      <span className="border border-border px-2 py-0.5 text-xs text-muted-foreground">
+                        {providerTypeLabels[a.provider_type as "solution"] ?? a.provider_type}
+                      </span>
+                    </div>
+                    <p className="mt-1 text-sm text-muted-foreground">{a.location}</p>
+                    {a.services && a.services.length > 0 && (
+                      <p className="mt-2 text-sm">{a.services.join(" · ")}</p>
+                    )}
+                    {a.description && (
+                      <p className="mt-2 max-w-2xl whitespace-pre-line text-sm text-foreground/85">{a.description}</p>
+                    )}
+                    {a.website && (
+                      <a href={a.website} className="mt-2 inline-block text-sm text-primary underline" rel="noreferrer">
+                        Visit website
+                      </a>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
           <p className="mb-4 text-sm text-muted-foreground">{results.length} providers</p>
           <ul className="divide-y divide-border border-y border-border">
             {results.map((p) => (
