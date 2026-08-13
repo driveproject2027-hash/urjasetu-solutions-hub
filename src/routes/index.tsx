@@ -71,6 +71,8 @@ const journey = [
 ];
 
 function Home() {
+  const lead = stories[0]!;
+
   return (
     <>
       {/* Hero */}
@@ -181,10 +183,10 @@ function Home() {
 
           <div className="mt-10 grid gap-10 lg:grid-cols-[1.3fr_1fr]">
             <article className="group">
-              <Link to="/stories/$slug" params={{ slug: stories[0].slug }} className="block overflow-hidden">
+              <Link to="/stories/$slug" params={{ slug: lead.slug }} className="block overflow-hidden">
                 <img
-                  src={storyImages[stories[0].image]}
-                  alt={stories[0].headline}
+                  src={storyImages[lead.image]}
+                  alt={lead.headline}
                   loading="lazy"
                   width={1408}
                   height={1200}
@@ -193,15 +195,15 @@ function Home() {
               </Link>
               <p className="mt-5 text-xs uppercase tracking-[0.14em] text-amber">Demo story</p>
               <h3 className="mt-2 font-display text-xl font-semibold md:text-2xl">
-                “{stories[0].headline}”
+                “{lead.headline}”
               </h3>
               <p className="mt-2 text-sm text-muted-foreground">
-                {stories[0].person} · {stories[0].role} · {stories[0].location}
+                {lead.person} · {lead.role} · {lead.location}
               </p>
-              <p className="mt-4 max-w-xl text-base leading-relaxed">{stories[0].problem}</p>
+              <p className="mt-4 max-w-xl text-base leading-relaxed">{lead.problem}</p>
               <Link
                 to="/find-my-solution"
-                search={{ problem: stories[0].problemId, story: stories[0].slug }}
+                search={{ problem: lead.problemId, story: lead.slug }}
                 className="mt-5 inline-flex items-center gap-2 border border-primary px-5 py-2.5 text-sm font-medium text-primary transition-colors hover:bg-primary hover:text-primary-foreground"
               >
                 I have a similar problem <ArrowRight className="size-4" />

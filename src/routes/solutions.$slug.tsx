@@ -27,9 +27,9 @@ export const Route = createFileRoute("/solutions/$slug")({
 
 function SolutionPage() {
   const { solution } = Route.useLoaderData();
-  const related = providers.filter((p) => p.technologies.some((t) => solution.name.startsWith(t.split(" ")[0])));
+  const related = providers.filter((p) => p.technologies.some((t) => solution.name.startsWith(t.split(" ")[0] ?? t)));
   const relatedStories = stories.filter((s) => s.solutionSlug === solution.slug);
-  const relatedNeeds = openNeeds.filter((n) => solution.name.toLowerCase().includes(n.looking.toLowerCase().split(" ")[0]));
+  const relatedNeeds = openNeeds.filter((n) => solution.name.toLowerCase().includes((n.looking.toLowerCase().split(" ")[0] ?? "")));
 
   return (
     <article>
