@@ -19,6 +19,7 @@ import { Route as NeedsRouteImport } from './routes/needs'
 import { Route as OpportunitiesRouteImport } from './routes/opportunities'
 import { Route as ProvidersRouteImport } from './routes/providers'
 import { Route as ResourcesRouteImport } from './routes/resources'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SolutionsRouteImport } from './routes/solutions'
 import { Route as StoriesRouteImport } from './routes/stories'
 import { Route as ProvidersIndexRouteImport } from './routes/providers.index'
@@ -78,6 +79,11 @@ const ResourcesRoute = ResourcesRouteImport.update({
   path: '/resources',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SolutionsRoute = SolutionsRouteImport.update({
   id: '/solutions',
   path: '/solutions',
@@ -130,6 +136,7 @@ export interface FileRoutesByFullPath {
   '/opportunities': typeof OpportunitiesRoute
   '/providers': typeof ProvidersRouteWithChildren
   '/resources': typeof ResourcesRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/solutions': typeof SolutionsRouteWithChildren
   '/stories': typeof StoriesRouteWithChildren
   '/providers/$id': typeof ProvidersIdRoute
@@ -149,6 +156,7 @@ export interface FileRoutesByTo {
   '/needs': typeof NeedsRoute
   '/opportunities': typeof OpportunitiesRoute
   '/resources': typeof ResourcesRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/providers/$id': typeof ProvidersIdRoute
   '/solutions/$slug': typeof SolutionsSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
@@ -168,6 +176,7 @@ export interface FileRoutesById {
   '/opportunities': typeof OpportunitiesRoute
   '/providers': typeof ProvidersRouteWithChildren
   '/resources': typeof ResourcesRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/solutions': typeof SolutionsRouteWithChildren
   '/stories': typeof StoriesRouteWithChildren
   '/providers/$id': typeof ProvidersIdRoute
@@ -190,6 +199,7 @@ export interface FileRouteTypes {
     | '/opportunities'
     | '/providers'
     | '/resources'
+    | '/sitemap.xml'
     | '/solutions'
     | '/stories'
     | '/providers/$id'
@@ -209,6 +219,7 @@ export interface FileRouteTypes {
     | '/needs'
     | '/opportunities'
     | '/resources'
+    | '/sitemap.xml'
     | '/providers/$id'
     | '/solutions/$slug'
     | '/stories/$slug'
@@ -227,6 +238,7 @@ export interface FileRouteTypes {
     | '/opportunities'
     | '/providers'
     | '/resources'
+    | '/sitemap.xml'
     | '/solutions'
     | '/stories'
     | '/providers/$id'
@@ -248,6 +260,7 @@ export interface RootRouteChildren {
   OpportunitiesRoute: typeof OpportunitiesRoute
   ProvidersRoute: typeof ProvidersRouteWithChildren
   ResourcesRoute: typeof ResourcesRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SolutionsRoute: typeof SolutionsRouteWithChildren
   StoriesRoute: typeof StoriesRouteWithChildren
 }
@@ -322,6 +335,13 @@ declare module '@tanstack/react-router' {
       path: '/resources'
       fullPath: '/resources'
       preLoaderRoute: typeof ResourcesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/solutions': {
@@ -435,6 +455,7 @@ const rootRouteChildren: RootRouteChildren = {
   OpportunitiesRoute: OpportunitiesRoute,
   ProvidersRoute: ProvidersRouteWithChildren,
   ResourcesRoute: ResourcesRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   SolutionsRoute: SolutionsRouteWithChildren,
   StoriesRoute: StoriesRouteWithChildren,
 }
