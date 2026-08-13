@@ -1,24 +1,394 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import {
+  ArrowRight,
+  BatteryCharging,
+  Factory,
+  Fuel,
+  Leaf,
+  Snowflake,
+  Sprout,
+  Truck,
+  Zap,
+} from "lucide-react";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
+import heroImg from "../assets/hero-textile.jpg";
+import storyDryer from "../assets/story-dryer.jpg";
+import storyCold from "../assets/story-cold.jpg";
+import storyTextile from "../assets/hero-textile.jpg";
+import solarImg from "../assets/solutions-solar.jpg";
+import { openNeeds, opportunities, problems, solutions, stories } from "../data/catalog";
+import { t } from "../lib/i18n";
+
 export const Route = createFileRoute("/")({
-  component: Index,
+  head: () => ({
+    meta: [
+      { title: "UrjaSetu — Find the right DRE solution for your business" },
+      {
+        name: "description",
+        content:
+          "UrjaSetu connects Indian businesses with decentralised renewable energy solutions and verified providers. Start with your problem, get a recommendation, compare providers.",
+      },
+      { property: "og:title", content: "UrjaSetu — DRE Solutions & Business Platform" },
+      {
+        property: "og:description",
+        content:
+          "Start with the problem. Discover suitable renewable-energy solutions and connect with providers across India.",
+      },
+    ],
+    links: [{ rel: "canonical", href: "https://urjasetu.lovable.app/" }],
+  }),
+  component: Home,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
-function Index() {
+const problemIcons: Record<string, typeof Zap> = {
+  "energy-cost": Zap,
+  "power-cuts": BatteryCharging,
+  diesel: Fuel,
+  spoilage: Sprout,
+  processing: Factory,
+  cooling: Snowflake,
+  mobility: Truck,
+  "new-business": Leaf,
+};
+
+const storyImages: Record<string, string> = {
+  textile: storyTextile,
+  dryer: storyDryer,
+  cold: storyCold,
+};
+
+const journey = [
+  "Problem",
+  "Assess",
+  "Recommend",
+  "Discover",
+  "Match",
+  "Connect",
+  "Quote",
+  "Compare",
+  "Book",
+  "Grow",
+];
+
+function Home() {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
+    <>
+      {/* Hero */}
+      <section className="border-b border-border bg-ivory">
+        <div className="container-page grid items-stretch gap-0 md:grid-cols-[1.05fr_1fr]">
+          <div className="flex flex-col justify-center py-14 pr-0 md:py-24 md:pr-14">
+            <p className="eyebrow">{t("hero.eyebrow")}</p>
+            <h1 className="mt-4 max-w-xl text-[2.1rem] font-semibold leading-[1.1] text-foreground md:text-5xl">
+              {t("hero.title")}
+            </h1>
+            <p className="mt-5 max-w-lg text-base leading-relaxed text-muted-foreground md:text-lg">
+              {t("hero.body")}
+            </p>
+            <div className="mt-8 flex flex-wrap items-center gap-3">
+              <Link
+                to="/find-my-solution"
+                className="inline-flex items-center gap-2 bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition-colors hover:bg-forest-deep"
+              >
+                {t("hero.cta")} <ArrowRight className="size-4" />
+              </Link>
+              <Link
+                to="/solutions"
+                className="border border-foreground/25 px-6 py-3 text-sm font-medium text-foreground transition-colors hover:border-foreground/60"
+              >
+                {t("hero.secondary")}
+              </Link>
+            </div>
+            <Link
+              to="/join-provider"
+              className="mt-6 inline-flex items-center gap-1 text-sm text-primary underline-offset-4 hover:underline"
+            >
+              {t("hero.provider")} <ArrowRight className="size-3.5" />
+            </Link>
+          </div>
+          <div className="relative -mx-5 md:mx-0">
+            <img
+              src={heroImg}
+              alt="A woman entrepreneur running a solar-powered stitching unit in rural India"
+              width={1408}
+              height={1200}
+              className="h-64 w-full object-cover md:h-full"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* Problem-first grid */}
+      <section className="border-b border-border">
+        <div className="container-page py-16 md:py-20">
+          <div className="max-w-2xl">
+            <h2 className="text-2xl font-semibold md:text-3xl">{t("problems.title")}</h2>
+            <p className="mt-3 text-muted-foreground">{t("problems.sub")}</p>
+          </div>
+          <div className="mt-10 grid grid-cols-1 gap-px border border-border bg-border sm:grid-cols-2 lg:grid-cols-4">
+            {problems.map((p) => {
+              const Icon = problemIcons[p.id] ?? Zap;
+              return (
+                <Link
+                  key={p.id}
+                  to="/find-my-solution"
+                  search={{ problem: p.id }}
+                  className="group bg-background p-6 transition-colors hover:bg-ivory"
+                >
+                  <Icon className="size-5 text-primary" strokeWidth={1.5} />
+                  <h3 className="mt-4 text-base font-semibold">{p.label}</h3>
+                  <p className="mt-1.5 text-sm text-muted-foreground">{p.blurb}</p>
+                  <span className="mt-4 inline-flex items-center gap-1 text-xs font-medium text-primary opacity-0 transition-opacity group-hover:opacity-100">
+                    Start here <ArrowRight className="size-3" />
+                  </span>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Journey */}
+      <section className="bg-forest-deep text-ivory">
+        <div className="container-page py-14">
+          <p className="text-[0.72rem] uppercase tracking-[0.14em] text-ivory/60">How UrjaSetu works</p>
+          <h2 className="mt-3 max-w-2xl text-2xl font-semibold md:text-3xl">
+            One path, from a real problem to a completed project.
+          </h2>
+          <ol className="mt-8 flex flex-wrap gap-x-6 gap-y-3">
+            {journey.map((step, i) => (
+              <li key={step} className="flex items-center gap-2 text-sm text-ivory/90">
+                <span className="text-xs text-ivory/50">{String(i + 1).padStart(2, "0")}</span>
+                {step}
+                {i < journey.length - 1 && <span className="text-ivory/30">/</span>}
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      {/* Stories */}
+      <section className="border-b border-border">
+        <div className="container-page py-16 md:py-20">
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <div className="max-w-xl">
+              <h2 className="text-2xl font-semibold md:text-3xl">{t("stories.title")}</h2>
+              <p className="mt-3 text-muted-foreground">{t("stories.sub")}</p>
+            </div>
+            <Link to="/stories" className="text-sm font-medium text-primary hover:underline">
+              Explore business stories →
+            </Link>
+          </div>
+
+          <div className="mt-10 grid gap-10 lg:grid-cols-[1.3fr_1fr]">
+            <article className="group">
+              <Link to="/stories/$slug" params={{ slug: stories[0].slug }} className="block overflow-hidden">
+                <img
+                  src={storyImages[stories[0].image]}
+                  alt={stories[0].headline}
+                  loading="lazy"
+                  width={1408}
+                  height={1200}
+                  className="h-72 w-full object-cover transition-transform duration-500 group-hover:scale-[1.03] md:h-96"
+                />
+              </Link>
+              <p className="mt-5 text-xs uppercase tracking-[0.14em] text-amber">Demo story</p>
+              <h3 className="mt-2 font-display text-xl font-semibold md:text-2xl">
+                “{stories[0].headline}”
+              </h3>
+              <p className="mt-2 text-sm text-muted-foreground">
+                {stories[0].person} · {stories[0].role} · {stories[0].location}
+              </p>
+              <p className="mt-4 max-w-xl text-base leading-relaxed">{stories[0].problem}</p>
+              <Link
+                to="/find-my-solution"
+                search={{ problem: stories[0].problemId, story: stories[0].slug }}
+                className="mt-5 inline-flex items-center gap-2 border border-primary px-5 py-2.5 text-sm font-medium text-primary transition-colors hover:bg-primary hover:text-primary-foreground"
+              >
+                I have a similar problem <ArrowRight className="size-4" />
+              </Link>
+            </article>
+
+            <div className="divide-y divide-border rule-top">
+              {stories.slice(1).map((s) => (
+                <Link
+                  key={s.slug}
+                  to="/stories/$slug"
+                  params={{ slug: s.slug }}
+                  className="flex gap-4 py-5 first:pt-6"
+                >
+                  <img
+                    src={storyImages[s.image]}
+                    alt=""
+                    loading="lazy"
+                    width={1200}
+                    height={900}
+                    className="h-20 w-24 shrink-0 object-cover"
+                  />
+                  <div>
+                    <h3 className="font-display text-base font-semibold leading-snug">“{s.headline}”</h3>
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      {s.person} · {s.location}
+                    </p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Solutions — asymmetric */}
+      <section className="border-b border-border bg-ivory">
+        <div className="container-page py-16 md:py-20">
+          <div className="grid gap-10 md:grid-cols-[1fr_1.2fr]">
+            <div>
+              <h2 className="text-2xl font-semibold md:text-3xl">Explore DRE solutions</h2>
+              <p className="mt-3 max-w-md text-muted-foreground">
+                Technology matched to what your business actually needs — generation, storage, cooling,
+                processing and mobility.
+              </p>
+              <img
+                src={solarImg}
+                alt="Technicians installing rooftop solar on a small factory"
+                loading="lazy"
+                width={1200}
+                height={900}
+                className="mt-8 h-56 w-full object-cover"
+              />
+            </div>
+            <ul className="divide-y divide-border border-y border-border">
+              {solutions.slice(0, 7).map((s) => (
+                <li key={s.slug}>
+                  <Link
+                    to="/solutions/$slug"
+                    params={{ slug: s.slug }}
+                    className="group flex items-baseline justify-between gap-6 py-4 transition-colors hover:text-primary"
+                  >
+                    <span>
+                      <span className="font-display text-lg font-medium">{s.name}</span>
+                      <span className="mt-1 block max-w-md text-sm text-muted-foreground">{s.summary}</span>
+                    </span>
+                    <ArrowRight className="size-4 shrink-0 opacity-0 transition-opacity group-hover:opacity-100" />
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* Open needs */}
+      <section className="border-b border-border">
+        <div className="container-page py-16 md:py-20">
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <h2 className="text-2xl font-semibold md:text-3xl">{t("needs.title")}</h2>
+              <p className="mt-3 max-w-xl text-muted-foreground">
+                Active demand posted by businesses. Providers respond directly.
+              </p>
+            </div>
+            <Link to="/needs" className="text-sm font-medium text-primary hover:underline">
+              View all open needs →
+            </Link>
+          </div>
+          <ul className="mt-8 divide-y divide-border border-y border-border">
+            {openNeeds.slice(0, 3).map((n) => (
+              <li key={n.id} className="flex flex-wrap items-center justify-between gap-4 py-5">
+                <div>
+                  <h3 className="font-medium">{n.title}</h3>
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    {n.business} · {n.location} · Budget {n.budget}
+                  </p>
+                </div>
+                <Link
+                  to="/needs"
+                  className="border border-border px-4 py-2 text-sm transition-colors hover:border-primary hover:text-primary"
+                >
+                  Respond to this need
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* Calculator + opportunities */}
+      <section className="border-b border-border bg-ivory">
+        <div className="container-page grid gap-12 py-16 md:grid-cols-2 md:py-20">
+          <div>
+            <h2 className="text-2xl font-semibold md:text-3xl">What could solar look like for your business?</h2>
+            <p className="mt-3 text-muted-foreground">
+              A quick indicative estimate of system size, generation, savings and payback. Estimates only —
+              always confirm with a provider site assessment.
+            </p>
+            <Link
+              to="/calculator"
+              className="mt-6 inline-flex items-center gap-2 bg-primary px-5 py-3 text-sm font-medium text-primary-foreground hover:bg-forest-deep"
+            >
+              Open the solar calculator <ArrowRight className="size-4" />
+            </Link>
+          </div>
+          <div>
+            <h2 className="text-2xl font-semibold md:text-3xl">Start a DRE business</h2>
+            <ul className="mt-5 grid grid-cols-2 gap-x-6 gap-y-2 text-sm">
+              {opportunities.map((o) => (
+                <li key={o.slug}>
+                  <Link to="/opportunities" className="hover:text-primary">
+                    {o.title}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            <Link to="/opportunities" className="mt-6 inline-block text-sm font-medium text-primary hover:underline">
+              Explore opportunities →
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Providers + DRIVE */}
+      <section className="border-b border-border">
+        <div className="container-page grid gap-12 py-16 md:grid-cols-2 md:py-20">
+          <div>
+            <h2 className="text-2xl font-semibold md:text-3xl">Find DRE providers</h2>
+            <p className="mt-3 text-muted-foreground">
+              Search installers, manufacturers and service providers by technology, industry and service area.
+            </p>
+            <Link to="/providers" className="mt-6 inline-block text-sm font-medium text-primary hover:underline">
+              Browse the provider directory →
+            </Link>
+          </div>
+          <div className="border-l border-border pl-8">
+            <p className="eyebrow">Institutional</p>
+            <h2 className="mt-3 text-xl font-semibold">The DRIVE initiative</h2>
+            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+              UrjaSetu is developed under DRIVE — Decentralised Renewable Energy Innovation for Vibrant
+              Enterprises — an initiative supporting MSMEs and rural enterprises to adopt clean energy.
+            </p>
+            <Link to="/about" className="mt-5 inline-block text-sm font-medium text-primary hover:underline">
+              About DRIVE →
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA block */}
+      <section className="bg-primary text-primary-foreground">
+        <div className="container-page flex flex-wrap items-center justify-between gap-6 py-14">
+          <div>
+            <h2 className="text-2xl font-semibold md:text-3xl">Don't start with technology. Start with the problem.</h2>
+            <p className="mt-2 max-w-xl text-primary-foreground/80">
+              Tell us what is holding your business back and we'll take it from there.
+            </p>
+          </div>
+          <Link
+            to="/find-my-solution"
+            className="bg-ivory px-6 py-3 text-sm font-medium text-forest-deep transition-opacity hover:opacity-90"
+          >
+            Find My Solution
+          </Link>
+        </div>
+      </section>
+    </>
   );
 }
