@@ -24,6 +24,9 @@ import { Route as SolutionsRouteImport } from './routes/solutions'
 import { Route as StoriesRouteImport } from './routes/stories'
 import { Route as ProvidersIndexRouteImport } from './routes/providers.index'
 import { Route as ProvidersIdRouteImport } from './routes/providers.$id'
+import { Route as ResourcesIndexRouteImport } from './routes/resources.index'
+import { Route as ResourcesCategoryRouteImport } from './routes/resources.$category'
+import { Route as ResourcesFinanceHelperRouteImport } from './routes/resources.finance-helper'
 import { Route as SolutionsIndexRouteImport } from './routes/solutions.index'
 import { Route as SolutionsSlugRouteImport } from './routes/solutions.$slug'
 import { Route as StoriesIndexRouteImport } from './routes/stories.index'
@@ -104,6 +107,21 @@ const ProvidersIdRoute = ProvidersIdRouteImport.update({
   path: '/$id',
   getParentRoute: () => ProvidersRoute,
 } as any)
+const ResourcesIndexRoute = ResourcesIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ResourcesRoute,
+} as any)
+const ResourcesCategoryRoute = ResourcesCategoryRouteImport.update({
+  id: '/$category',
+  path: '/$category',
+  getParentRoute: () => ResourcesRoute,
+} as any)
+const ResourcesFinanceHelperRoute = ResourcesFinanceHelperRouteImport.update({
+  id: '/finance-helper',
+  path: '/finance-helper',
+  getParentRoute: () => ResourcesRoute,
+} as any)
 const SolutionsIndexRoute = SolutionsIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -135,14 +153,17 @@ export interface FileRoutesByFullPath {
   '/needs': typeof NeedsRoute
   '/opportunities': typeof OpportunitiesRoute
   '/providers': typeof ProvidersRouteWithChildren
-  '/resources': typeof ResourcesRoute
+  '/resources': typeof ResourcesRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/solutions': typeof SolutionsRouteWithChildren
   '/stories': typeof StoriesRouteWithChildren
   '/providers/$id': typeof ProvidersIdRoute
+  '/resources/$category': typeof ResourcesCategoryRoute
+  '/resources/finance-helper': typeof ResourcesFinanceHelperRoute
   '/solutions/$slug': typeof SolutionsSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
   '/providers/': typeof ProvidersIndexRoute
+  '/resources/': typeof ResourcesIndexRoute
   '/solutions/': typeof SolutionsIndexRoute
   '/stories/': typeof StoriesIndexRoute
 }
@@ -155,12 +176,14 @@ export interface FileRoutesByTo {
   '/join-provider': typeof JoinProviderRoute
   '/needs': typeof NeedsRoute
   '/opportunities': typeof OpportunitiesRoute
-  '/resources': typeof ResourcesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/providers/$id': typeof ProvidersIdRoute
+  '/resources/$category': typeof ResourcesCategoryRoute
+  '/resources/finance-helper': typeof ResourcesFinanceHelperRoute
   '/solutions/$slug': typeof SolutionsSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
   '/providers': typeof ProvidersIndexRoute
+  '/resources': typeof ResourcesIndexRoute
   '/solutions': typeof SolutionsIndexRoute
   '/stories': typeof StoriesIndexRoute
 }
@@ -175,14 +198,17 @@ export interface FileRoutesById {
   '/needs': typeof NeedsRoute
   '/opportunities': typeof OpportunitiesRoute
   '/providers': typeof ProvidersRouteWithChildren
-  '/resources': typeof ResourcesRoute
+  '/resources': typeof ResourcesRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/solutions': typeof SolutionsRouteWithChildren
   '/stories': typeof StoriesRouteWithChildren
   '/providers/$id': typeof ProvidersIdRoute
+  '/resources/$category': typeof ResourcesCategoryRoute
+  '/resources/finance-helper': typeof ResourcesFinanceHelperRoute
   '/solutions/$slug': typeof SolutionsSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
   '/providers/': typeof ProvidersIndexRoute
+  '/resources/': typeof ResourcesIndexRoute
   '/solutions/': typeof SolutionsIndexRoute
   '/stories/': typeof StoriesIndexRoute
 }
@@ -203,9 +229,12 @@ export interface FileRouteTypes {
     | '/solutions'
     | '/stories'
     | '/providers/$id'
+    | '/resources/$category'
+    | '/resources/finance-helper'
     | '/solutions/$slug'
     | '/stories/$slug'
     | '/providers/'
+    | '/resources/'
     | '/solutions/'
     | '/stories/'
   fileRoutesByTo: FileRoutesByTo
@@ -218,12 +247,14 @@ export interface FileRouteTypes {
     | '/join-provider'
     | '/needs'
     | '/opportunities'
-    | '/resources'
     | '/sitemap.xml'
     | '/providers/$id'
+    | '/resources/$category'
+    | '/resources/finance-helper'
     | '/solutions/$slug'
     | '/stories/$slug'
     | '/providers'
+    | '/resources'
     | '/solutions'
     | '/stories'
   id:
@@ -242,9 +273,12 @@ export interface FileRouteTypes {
     | '/solutions'
     | '/stories'
     | '/providers/$id'
+    | '/resources/$category'
+    | '/resources/finance-helper'
     | '/solutions/$slug'
     | '/stories/$slug'
     | '/providers/'
+    | '/resources/'
     | '/solutions/'
     | '/stories/'
   fileRoutesById: FileRoutesById
@@ -259,7 +293,7 @@ export interface RootRouteChildren {
   NeedsRoute: typeof NeedsRoute
   OpportunitiesRoute: typeof OpportunitiesRoute
   ProvidersRoute: typeof ProvidersRouteWithChildren
-  ResourcesRoute: typeof ResourcesRoute
+  ResourcesRoute: typeof ResourcesRouteWithChildren
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SolutionsRoute: typeof SolutionsRouteWithChildren
   StoriesRoute: typeof StoriesRouteWithChildren
@@ -372,6 +406,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProvidersIdRouteImport
       parentRoute: typeof ProvidersRoute
     }
+    '/resources/': {
+      id: '/resources/'
+      path: '/'
+      fullPath: '/resources/'
+      preLoaderRoute: typeof ResourcesIndexRouteImport
+      parentRoute: typeof ResourcesRoute
+    }
+    '/resources/$category': {
+      id: '/resources/$category'
+      path: '/$category'
+      fullPath: '/resources/$category'
+      preLoaderRoute: typeof ResourcesCategoryRouteImport
+      parentRoute: typeof ResourcesRoute
+    }
+    '/resources/finance-helper': {
+      id: '/resources/finance-helper'
+      path: '/finance-helper'
+      fullPath: '/resources/finance-helper'
+      preLoaderRoute: typeof ResourcesFinanceHelperRouteImport
+      parentRoute: typeof ResourcesRoute
+    }
     '/solutions/': {
       id: '/solutions/'
       path: '/'
@@ -417,6 +472,22 @@ const ProvidersRouteWithChildren = ProvidersRoute._addFileChildren(
   ProvidersRouteChildren,
 )
 
+interface ResourcesRouteChildren {
+  ResourcesCategoryRoute: typeof ResourcesCategoryRoute
+  ResourcesFinanceHelperRoute: typeof ResourcesFinanceHelperRoute
+  ResourcesIndexRoute: typeof ResourcesIndexRoute
+}
+
+const ResourcesRouteChildren: ResourcesRouteChildren = {
+  ResourcesCategoryRoute: ResourcesCategoryRoute,
+  ResourcesFinanceHelperRoute: ResourcesFinanceHelperRoute,
+  ResourcesIndexRoute: ResourcesIndexRoute,
+}
+
+const ResourcesRouteWithChildren = ResourcesRoute._addFileChildren(
+  ResourcesRouteChildren,
+)
+
 interface SolutionsRouteChildren {
   SolutionsSlugRoute: typeof SolutionsSlugRoute
   SolutionsIndexRoute: typeof SolutionsIndexRoute
@@ -454,7 +525,7 @@ const rootRouteChildren: RootRouteChildren = {
   NeedsRoute: NeedsRoute,
   OpportunitiesRoute: OpportunitiesRoute,
   ProvidersRoute: ProvidersRouteWithChildren,
-  ResourcesRoute: ResourcesRoute,
+  ResourcesRoute: ResourcesRouteWithChildren,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SolutionsRoute: SolutionsRouteWithChildren,
   StoriesRoute: StoriesRouteWithChildren,

@@ -18,11 +18,8 @@ export function Header() {
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur">
       <div className="container-page flex h-16 items-center justify-between gap-6">
-        <Link to="/" className="flex items-baseline gap-2">
-          <span className="font-display text-lg font-bold tracking-tight text-primary">UrjaSetu</span>
-          <span className="hidden text-[0.7rem] uppercase tracking-[0.14em] text-muted-foreground sm:inline">
-            DRE Solutions &amp; Business Platform
-          </span>
+        <Link to="/" className="flex items-baseline">
+          <span className="font-display text-xl font-bold tracking-tight text-primary">UrjaSetu</span>
         </Link>
 
         <nav className="hidden items-center gap-6 lg:flex" aria-label="Primary">
