@@ -15,7 +15,11 @@ const staticPaths = [
   "/calculator",
   "/about",
   "/join-provider",
+  "/contact",
+  "/drive",
+  "/events",
 ];
+
 
 export const Route = createFileRoute("/sitemap.xml")({
   server: {
