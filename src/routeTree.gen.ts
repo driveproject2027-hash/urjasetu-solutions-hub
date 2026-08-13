@@ -24,6 +24,7 @@ import { Route as SolutionsRouteImport } from './routes/solutions'
 import { Route as StoriesRouteImport } from './routes/stories'
 import { Route as ProvidersIndexRouteImport } from './routes/providers.index'
 import { Route as ProvidersIdRouteImport } from './routes/providers.$id'
+import { Route as ResourcesIndexRouteImport } from './routes/resources.index'
 import { Route as SolutionsIndexRouteImport } from './routes/solutions.index'
 import { Route as SolutionsSlugRouteImport } from './routes/solutions.$slug'
 import { Route as StoriesIndexRouteImport } from './routes/stories.index'
@@ -104,6 +105,11 @@ const ProvidersIdRoute = ProvidersIdRouteImport.update({
   path: '/$id',
   getParentRoute: () => ProvidersRoute,
 } as any)
+const ResourcesIndexRoute = ResourcesIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ResourcesRoute,
+} as any)
 const SolutionsIndexRoute = SolutionsIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -135,7 +141,7 @@ export interface FileRoutesByFullPath {
   '/needs': typeof NeedsRoute
   '/opportunities': typeof OpportunitiesRoute
   '/providers': typeof ProvidersRouteWithChildren
-  '/resources': typeof ResourcesRoute
+  '/resources': typeof ResourcesRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/solutions': typeof SolutionsRouteWithChildren
   '/stories': typeof StoriesRouteWithChildren
@@ -143,6 +149,7 @@ export interface FileRoutesByFullPath {
   '/solutions/$slug': typeof SolutionsSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
   '/providers/': typeof ProvidersIndexRoute
+  '/resources/': typeof ResourcesIndexRoute
   '/solutions/': typeof SolutionsIndexRoute
   '/stories/': typeof StoriesIndexRoute
 }
@@ -155,12 +162,12 @@ export interface FileRoutesByTo {
   '/join-provider': typeof JoinProviderRoute
   '/needs': typeof NeedsRoute
   '/opportunities': typeof OpportunitiesRoute
-  '/resources': typeof ResourcesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/providers/$id': typeof ProvidersIdRoute
   '/solutions/$slug': typeof SolutionsSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
   '/providers': typeof ProvidersIndexRoute
+  '/resources': typeof ResourcesIndexRoute
   '/solutions': typeof SolutionsIndexRoute
   '/stories': typeof StoriesIndexRoute
 }
@@ -175,7 +182,7 @@ export interface FileRoutesById {
   '/needs': typeof NeedsRoute
   '/opportunities': typeof OpportunitiesRoute
   '/providers': typeof ProvidersRouteWithChildren
-  '/resources': typeof ResourcesRoute
+  '/resources': typeof ResourcesRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/solutions': typeof SolutionsRouteWithChildren
   '/stories': typeof StoriesRouteWithChildren
@@ -183,6 +190,7 @@ export interface FileRoutesById {
   '/solutions/$slug': typeof SolutionsSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
   '/providers/': typeof ProvidersIndexRoute
+  '/resources/': typeof ResourcesIndexRoute
   '/solutions/': typeof SolutionsIndexRoute
   '/stories/': typeof StoriesIndexRoute
 }
@@ -206,6 +214,7 @@ export interface FileRouteTypes {
     | '/solutions/$slug'
     | '/stories/$slug'
     | '/providers/'
+    | '/resources/'
     | '/solutions/'
     | '/stories/'
   fileRoutesByTo: FileRoutesByTo
@@ -218,12 +227,12 @@ export interface FileRouteTypes {
     | '/join-provider'
     | '/needs'
     | '/opportunities'
-    | '/resources'
     | '/sitemap.xml'
     | '/providers/$id'
     | '/solutions/$slug'
     | '/stories/$slug'
     | '/providers'
+    | '/resources'
     | '/solutions'
     | '/stories'
   id:
@@ -245,6 +254,7 @@ export interface FileRouteTypes {
     | '/solutions/$slug'
     | '/stories/$slug'
     | '/providers/'
+    | '/resources/'
     | '/solutions/'
     | '/stories/'
   fileRoutesById: FileRoutesById
@@ -259,7 +269,7 @@ export interface RootRouteChildren {
   NeedsRoute: typeof NeedsRoute
   OpportunitiesRoute: typeof OpportunitiesRoute
   ProvidersRoute: typeof ProvidersRouteWithChildren
-  ResourcesRoute: typeof ResourcesRoute
+  ResourcesRoute: typeof ResourcesRouteWithChildren
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SolutionsRoute: typeof SolutionsRouteWithChildren
   StoriesRoute: typeof StoriesRouteWithChildren
@@ -372,6 +382,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProvidersIdRouteImport
       parentRoute: typeof ProvidersRoute
     }
+    '/resources/': {
+      id: '/resources/'
+      path: '/'
+      fullPath: '/resources/'
+      preLoaderRoute: typeof ResourcesIndexRouteImport
+      parentRoute: typeof ResourcesRoute
+    }
     '/solutions/': {
       id: '/solutions/'
       path: '/'
@@ -417,6 +434,18 @@ const ProvidersRouteWithChildren = ProvidersRoute._addFileChildren(
   ProvidersRouteChildren,
 )
 
+interface ResourcesRouteChildren {
+  ResourcesIndexRoute: typeof ResourcesIndexRoute
+}
+
+const ResourcesRouteChildren: ResourcesRouteChildren = {
+  ResourcesIndexRoute: ResourcesIndexRoute,
+}
+
+const ResourcesRouteWithChildren = ResourcesRoute._addFileChildren(
+  ResourcesRouteChildren,
+)
+
 interface SolutionsRouteChildren {
   SolutionsSlugRoute: typeof SolutionsSlugRoute
   SolutionsIndexRoute: typeof SolutionsIndexRoute
@@ -454,7 +483,7 @@ const rootRouteChildren: RootRouteChildren = {
   NeedsRoute: NeedsRoute,
   OpportunitiesRoute: OpportunitiesRoute,
   ProvidersRoute: ProvidersRouteWithChildren,
-  ResourcesRoute: ResourcesRoute,
+  ResourcesRoute: ResourcesRouteWithChildren,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SolutionsRoute: SolutionsRouteWithChildren,
   StoriesRoute: StoriesRouteWithChildren,
