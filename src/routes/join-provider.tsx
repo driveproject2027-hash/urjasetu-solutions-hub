@@ -1,6 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
 import { toast } from "sonner";
 
+import { submitProviderApplication, type ProviderType } from "../lib/db";
 import { PageHeader } from "../components/site/PageHeader";
 import { solutions } from "../data/catalog";
 
@@ -23,6 +25,8 @@ export const Route = createFileRoute("/join-provider")({
 const steps = ["Submitted", "Under review", "Verified", "Published"];
 
 function JoinProvider() {
+  const [busy, setBusy] = useState(false);
+
   return (
     <>
       <PageHeader
@@ -45,11 +49,51 @@ function JoinProvider() {
           className="grid gap-6 md:grid-cols-2"
           onSubmit={(e) => {
             e.preventDefault();
-            toast.success("Registration recorded", {
-              description: "Provider accounts and verification go live in the next phase.",
-            });
+            const form = e.currentTarget;
+            const fd = new FormData(form);
+            setBusy(true);
+            submitProviderApplication({
+              organisation: String(fd.get("company-name") ?? ""),
+              contact_person: String(fd.get("contact-person") ?? ""),
+              email: String(fd.get("email") ?? ""),
+              phone: String(fd.get("phone") ?? ""),
+              location: [fd.get("city"), fd.get("state")].filter(Boolean).join(", "),
+              provider_type: (fd.get("provider_type") as ProviderType) ?? "solution",
+              services: fd.getAll("services").map(String),
+              website: String(fd.get("website") ?? ""),
+              description: [
+                `Service areas: ${String(fd.get("service-areas-districts") ?? "")}`,
+                `Industries: ${String(fd.get("industries-served") ?? "")}`,
+                `Experience: ${String(fd.get("years-of-experience") ?? "")} years`,
+                String(fd.get("exp") ?? ""),
+              ]
+                .filter(Boolean)
+                .join("\n"),
+            })
+              .then(() => {
+                toast.success("Application submitted", {
+                  description: "Our team will review your details and get in touch.",
+                });
+                form.reset();
+              })
+              .catch((err: Error) => toast.error("Could not submit", { description: err.message }))
+              .finally(() => setBusy(false));
           }}
         >
+          <div className="md:col-span-2">
+            <label htmlFor="provider_type" className="mb-1.5 block text-sm font-medium">
+              I am registering as
+            </label>
+            <select
+              id="provider_type"
+              name="provider_type"
+              className="w-full border border-input bg-background px-3 py-2.5 text-base outline-none focus:border-primary md:w-96"
+            >
+              <option value="solution">DRE Solution Provider</option>
+              <option value="finance">Finance Provider</option>
+              <option value="network">Network Partner</option>
+            </select>
+          </div>
           <Field label="Company name" required />
           <Field label="Contact person" required />
           <Field label="Phone" required />
@@ -61,7 +105,7 @@ function JoinProvider() {
             <div className="grid gap-2 sm:grid-cols-3">
               {solutions.map((s) => (
                 <label key={s.slug} className="flex items-center gap-2 text-sm">
-                  <input type="checkbox" className="size-4 accent-[oklch(0.42_0.075_152)]" />
+                  <input type="checkbox" name="services" value={s.name} className="size-4 accent-[oklch(0.42_0.075_152)]" />
                   {s.name}
                 </label>
               ))}
@@ -77,6 +121,7 @@ function JoinProvider() {
             </label>
             <textarea
               id="exp"
+              name="exp"
               rows={5}
               className="w-full border border-input bg-background px-3 py-2.5 text-base outline-none focus:border-primary"
             />
@@ -87,7 +132,8 @@ function JoinProvider() {
           </p>
           <button
             type="submit"
-            className="bg-primary px-6 py-3 text-sm font-medium text-primary-foreground hover:bg-forest-deep md:justify-self-start"
+            disabled={busy}
+            className="bg-primary px-6 py-3 disabled:opacity-60 text-sm font-medium text-primary-foreground hover:bg-forest-deep md:justify-self-start"
           >
             Submit registration
           </button>
@@ -116,6 +162,7 @@ function Field({
       </label>
       <input
         id={id}
+        name={id}
         type={type}
         required={required}
         className="w-full border border-input bg-background px-3 py-2.5 text-base outline-none focus:border-primary"
