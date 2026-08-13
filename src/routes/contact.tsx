@@ -81,9 +81,24 @@ function Contact() {
               className="mt-6 grid gap-5 md:grid-cols-2"
               onSubmit={(e) => {
                 e.preventDefault();
-                setSent(true);
+                const fd = new FormData(e.currentTarget);
+                setBusy(true);
+                submitCustomerRequest({
+                  source: "contact",
+                  name: String(fd.get("name") ?? ""),
+                  business_name: String(fd.get("org") ?? ""),
+                  phone: String(fd.get("phone") ?? ""),
+                  email: String(fd.get("email") ?? ""),
+                  problem: String(fd.get("message") ?? ""),
+                })
+                  .then(() => setSent(true))
+                  .catch((err: Error) =>
+                    toast.error("Could not send your enquiry", { description: err.message }),
+                  )
+                  .finally(() => setBusy(false));
               }}
             >
+
               <Field label="Name" name="name" />
               <Field label="Business / Organisation" name="org" />
               <Field label="Phone number" name="phone" type="tel" />
