@@ -1,9 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 
 import { PageHeader } from "../components/site/PageHeader";
+import { fetchImpactMetrics } from "../lib/db";
 
-// Impact metrics — replace "To be updated" once verified figures are provided.
-const impact = [
+// Fallback shown until verified figures are published from the admin dashboard.
+const fallbackImpact = [
   { label: "No. of Solutions", value: "To be updated" },
   { label: "Enterprises Benefited", value: "To be updated" },
   { label: "Regions Covered", value: "To be updated" },
@@ -46,6 +48,19 @@ export const Route = createFileRoute("/drive")({
 });
 
 function Drive() {
+  const [impact, setImpact] = useState(fallbackImpact);
+
+  useEffect(() => {
+    fetchImpactMetrics()
+      .then((rows) => {
+        const list = (rows ?? []) as unknown as Array<{ label: string; value: string | null }>;
+        if (list.length > 0) {
+          setImpact(list.map((m) => ({ label: m.label, value: m.value || "To be updated" })));
+        }
+      })
+      .catch(() => undefined);
+  }, []);
+
   return (
     <>
       <PageHeader

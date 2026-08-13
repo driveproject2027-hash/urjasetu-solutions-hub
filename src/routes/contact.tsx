@@ -1,5 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
+import { toast } from "sonner";
+
+import { submitCustomerRequest } from "../lib/db";
 
 import { PageHeader } from "../components/site/PageHeader";
 
@@ -30,6 +33,7 @@ export const Route = createFileRoute("/contact")({
 
 function Contact() {
   const [sent, setSent] = useState(false);
+  const [busy, setBusy] = useState(false);
 
   return (
     <>
@@ -81,9 +85,24 @@ function Contact() {
               className="mt-6 grid gap-5 md:grid-cols-2"
               onSubmit={(e) => {
                 e.preventDefault();
-                setSent(true);
+                const fd = new FormData(e.currentTarget);
+                setBusy(true);
+                submitCustomerRequest({
+                  source: "contact",
+                  name: String(fd.get("name") ?? ""),
+                  business_name: String(fd.get("org") ?? ""),
+                  phone: String(fd.get("phone") ?? ""),
+                  email: String(fd.get("email") ?? ""),
+                  problem: String(fd.get("message") ?? ""),
+                })
+                  .then(() => setSent(true))
+                  .catch((err: Error) =>
+                    toast.error("Could not send your enquiry", { description: err.message }),
+                  )
+                  .finally(() => setBusy(false));
               }}
             >
+
               <Field label="Name" name="name" />
               <Field label="Business / Organisation" name="org" />
               <Field label="Phone number" name="phone" type="tel" />
@@ -103,7 +122,8 @@ function Contact() {
               <div className="md:col-span-2">
                 <button
                   type="submit"
-                  className="border border-primary bg-primary px-5 py-3 text-sm font-medium text-primary-foreground transition-colors hover:bg-forest-deep"
+                  disabled={busy}
+                  className="border border-primary bg-primary px-5 py-3 disabled:opacity-60 text-sm font-medium text-primary-foreground transition-colors hover:bg-forest-deep"
                 >
                   Submit Enquiry
                 </button>

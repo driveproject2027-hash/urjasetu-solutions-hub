@@ -1,5 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 
+import { fetchPublishedEvents } from "../lib/db";
 import { PageHeader } from "../components/site/PageHeader";
 
 /**
@@ -15,7 +17,7 @@ type EventItem = {
   contact?: string;
 };
 
-const events: EventItem[] = [];
+
 
 export const Route = createFileRoute("/events")({
   head: () => ({
@@ -39,6 +41,32 @@ export const Route = createFileRoute("/events")({
 });
 
 function Events() {
+  const [events, setEvents] = useState<EventItem[]>([]);
+
+  useEffect(() => {
+    fetchPublishedEvents()
+      .then((rows) => {
+        const list = (rows ?? []) as unknown as Array<{
+          id: string;
+          title: string;
+          description: string | null;
+          starts_at: string | null;
+          location: string | null;
+          registration_url: string | null;
+        }>;
+        setEvents(
+          list.map((e) => ({
+            name: e.title,
+            date: e.starts_at ? new Date(e.starts_at).toLocaleString() : "Date to be announced",
+            location: e.location ?? "Location to be announced",
+            description: e.description ?? "",
+            ...(e.registration_url ? { contact: e.registration_url } : {}),
+          })),
+        );
+      })
+      .catch(() => undefined);
+  }, []);
+
   return (
     <>
       <PageHeader

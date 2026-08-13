@@ -3,6 +3,9 @@ import { ArrowLeft, ArrowRight, Check } from "lucide-react";
 import { useMemo, useState } from "react";
 import { z } from "zod";
 
+import { toast } from "sonner";
+
+import { submitCustomerRequest } from "../lib/db";
 import { PageHeader } from "../components/site/PageHeader";
 import { problems, solutions, stories, type ProblemId } from "../data/catalog";
 import { ContactPrompt } from "../components/site/ContactPrompt";
@@ -83,6 +86,7 @@ function Finder() {
   const total = 4;
 
   const recommendations = useMemo(() => score(answers), [answers]);
+  const [saving, setSaving] = useState(false);
 
   return (
     <>
@@ -305,6 +309,49 @@ function Finder() {
                 </article>
               ))}
             </div>
+            <form
+              className="mt-10 grid gap-4 border border-border bg-card p-6 md:grid-cols-2"
+              onSubmit={(e) => {
+                e.preventDefault();
+                const form = e.currentTarget;
+                const fd = new FormData(form);
+                setSaving(true);
+                submitCustomerRequest({
+                  source: "find_my_solution",
+                  name: String(fd.get("fname") ?? ""),
+                  business_name: String(fd.get("fbusiness") ?? ""),
+                  email: String(fd.get("femail") ?? ""),
+                  phone: String(fd.get("fphone") ?? ""),
+                  location: answers.location,
+                  problem: answers.problem,
+                  solution_interest: recommendations.map((r) => r.name).join(", "),
+                  budget: answers.budget,
+                  details: { answers, recommendations: recommendations.map((r) => r.slug) },
+                })
+                  .then(() => {
+                    form.reset();
+                    toast.success("Sent to our team", {
+                      description: "We will connect you with the right domain expert.",
+                    });
+                  })
+                  .catch((err: Error) => toast.error("Could not send", { description: err.message }))
+                  .finally(() => setSaving(false));
+              }}
+            >
+              <h3 className="font-semibold md:col-span-2">Send this to our team for expert help</h3>
+              <input name="fname" required placeholder="Your name" aria-label="Your name" className="border border-input bg-background px-3 py-2.5 text-base" />
+              <input name="fbusiness" placeholder="Business name" aria-label="Business name" className="border border-input bg-background px-3 py-2.5 text-base" />
+              <input name="femail" type="email" placeholder="Email" aria-label="Email" className="border border-input bg-background px-3 py-2.5 text-base" />
+              <input name="fphone" placeholder="Phone" aria-label="Phone" className="border border-input bg-background px-3 py-2.5 text-base" />
+              <button
+                type="submit"
+                disabled={saving}
+                className="bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground hover:bg-forest-deep disabled:opacity-60 md:col-span-2 md:justify-self-start"
+              >
+                Send my requirement
+              </button>
+            </form>
+
             <div className="mt-10 border border-border bg-ivory p-6">
               <h3 className="font-semibold">Want providers to come to you?</h3>
               <p className="mt-1 text-sm text-muted-foreground">

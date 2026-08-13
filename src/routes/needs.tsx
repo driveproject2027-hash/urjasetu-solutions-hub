@@ -1,9 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 import { PageHeader } from "../components/site/PageHeader";
 import { openNeeds } from "../data/catalog";
+import { fetchPublicNeeds, submitCustomerRequest, submitNeedResponse, submitOpenNeed } from "../lib/db";
 
 export const Route = createFileRoute("/needs")({
   head: () => ({
@@ -21,9 +22,32 @@ export const Route = createFileRoute("/needs")({
   component: Needs,
 });
 
+type LiveNeed = {
+  id: string;
+  title: string;
+  business_name: string | null;
+  sector: string | null;
+  location: string | null;
+  description: string | null;
+  budget: string | null;
+  timeline: string | null;
+  status: string | null;
+};
+
 function Needs() {
   const [showForm, setShowForm] = useState(false);
   const [privacy, setPrivacy] = useState("Public");
+  const [busy, setBusy] = useState(false);
+  const [live, setLive] = useState<LiveNeed[]>([]);
+  const [respondTo, setRespondTo] = useState<string | null>(null);
+
+  function loadNeeds() {
+    fetchPublicNeeds()
+      .then((rows) => setLive((rows ?? []) as unknown as LiveNeed[]))
+      .catch(() => undefined);
+  }
+
+  useEffect(loadNeeds, []);
 
   return (
     <>
@@ -47,10 +71,33 @@ function Needs() {
             className="mb-12 grid gap-5 border border-border bg-card p-6 md:grid-cols-2"
             onSubmit={(e) => {
               e.preventDefault();
-              setShowForm(false);
-              toast.success("Requirement recorded", {
-                description: "Posting to providers goes live once accounts are enabled.",
-              });
+              const form = e.currentTarget;
+              const fd = new FormData(form);
+              const problem = String(fd.get("problem") ?? "");
+              const looking = String(fd.get("what-solution-are-you-looking-for") ?? "");
+              setBusy(true);
+              submitOpenNeed({
+                title: looking || problem.slice(0, 80) || "New requirement",
+                business_name: String(fd.get("business-type") ?? ""),
+                sector: String(fd.get("business-type") ?? ""),
+                location: String(fd.get("location") ?? ""),
+                description: [problem, String(fd.get("details") ?? ""), `Visibility: ${privacy}`]
+                  .filter(Boolean)
+                  .join("\n"),
+                budget: String(fd.get("budget") ?? ""),
+                timeline: String(fd.get("timeline") ?? ""),
+                contact_email: String(fd.get("contact-email") ?? ""),
+              })
+                .then(() => {
+                  form.reset();
+                  setShowForm(false);
+                  loadNeeds();
+                  toast.success("Requirement posted", {
+                    description: "Our team reviews it before publishing to providers.",
+                  });
+                })
+                .catch((err: Error) => toast.error("Could not post", { description: err.message }))
+                .finally(() => setBusy(false));
             }}
           >
             <h2 className="text-lg font-semibold md:col-span-2">Post your requirement</h2>
@@ -60,6 +107,7 @@ function Needs() {
             <Input label="What solution are you looking for?" placeholder="e.g. Solar dryer" />
             <Input label="Budget" placeholder="e.g. ₹1–2 lakh" />
             <Input label="Timeline" placeholder="e.g. Within 2 months" />
+            <Input label="Contact email" placeholder="you@business.in" />
             <div>
               <label htmlFor="privacy" className="mb-1.5 block text-sm font-medium">
                 Visibility
@@ -80,6 +128,7 @@ function Needs() {
               </label>
               <textarea
                 id="details"
+                name="details"
                 rows={4}
                 className="w-full border border-input bg-background px-3 py-2.5 text-base outline-none focus:border-primary"
               />
@@ -90,11 +139,83 @@ function Needs() {
             </p>
             <button
               type="submit"
-              className="bg-primary px-5 py-3 text-sm font-medium text-primary-foreground hover:bg-forest-deep md:col-span-2 md:justify-self-start"
+              disabled={busy}
+              className="bg-primary px-5 py-3 disabled:opacity-60 text-sm font-medium text-primary-foreground hover:bg-forest-deep md:col-span-2 md:justify-self-start"
             >
               Post requirement
             </button>
           </form>
+        )}
+
+        {live.length > 0 && (
+          <ul className="mb-12 divide-y divide-border border-y border-border">
+            {live.map((n) => (
+              <li key={n.id} className="grid gap-4 py-6 md:grid-cols-[1fr_auto] md:items-start">
+                <div>
+                  <div className="flex flex-wrap items-center gap-3">
+                    <h2 className="font-display text-lg font-semibold">{n.title}</h2>
+                    <span className="border border-border px-2 py-0.5 text-xs text-muted-foreground">
+                      {n.status ?? "Published"}
+                    </span>
+                  </div>
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    {[n.business_name, n.sector, n.location].filter(Boolean).join(" · ")}
+                  </p>
+                  {n.description && <p className="mt-3 max-w-2xl whitespace-pre-line text-base">{n.description}</p>}
+                  <dl className="mt-3 flex flex-wrap gap-x-8 gap-y-1 text-sm">
+                    <div className="flex gap-2">
+                      <dt className="text-muted-foreground">Budget</dt>
+                      <dd>{n.budget || "Not specified"}</dd>
+                    </div>
+                    <div className="flex gap-2">
+                      <dt className="text-muted-foreground">Timeline</dt>
+                      <dd>{n.timeline || "Not specified"}</dd>
+                    </div>
+                  </dl>
+                  {respondTo === n.id && (
+                    <form
+                      className="mt-4 grid max-w-xl gap-3 border border-border bg-ivory p-4"
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                        const form = e.currentTarget;
+                        const fd = new FormData(form);
+                        setBusy(true);
+                        submitNeedResponse({
+                          need_id: n.id,
+                          contact_name: String(fd.get("rname") ?? ""),
+                          contact_email: String(fd.get("remail") ?? ""),
+                          message: String(fd.get("rmessage") ?? ""),
+                        })
+                          .then(() => {
+                            form.reset();
+                            setRespondTo(null);
+                            toast.success("Response sent", {
+                              description: "The business and our team can now see your proposal.",
+                            });
+                          })
+                          .catch((err: Error) => toast.error("Could not send", { description: err.message }))
+                          .finally(() => setBusy(false));
+                      }}
+                    >
+                      <input name="rname" placeholder="Your name / organisation" aria-label="Your name" className="border border-input bg-background px-3 py-2 text-sm" />
+                      <input name="remail" type="email" placeholder="Email" aria-label="Email" className="border border-input bg-background px-3 py-2 text-sm" />
+                      <textarea name="rmessage" rows={3} required placeholder="What you propose, indicative price and timeline" aria-label="Message" className="border border-input bg-background px-3 py-2 text-sm" />
+                      <button type="submit" disabled={busy} className="justify-self-start bg-primary px-4 py-2 text-sm font-medium text-primary-foreground disabled:opacity-60">
+                        Send response
+                      </button>
+                    </form>
+                  )}
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setRespondTo(respondTo === n.id ? null : n.id)}
+                  className="border border-primary px-4 py-2 text-sm font-medium text-primary transition-colors hover:bg-primary hover:text-primary-foreground"
+                >
+                  {respondTo === n.id ? "Cancel" : "I can help"}
+                </button>
+              </li>
+            ))}
+          </ul>
         )}
 
         <ul className="divide-y divide-border border-y border-border">
@@ -130,11 +251,21 @@ function Needs() {
               </div>
               <button
                 type="button"
-                onClick={() =>
-                  toast.success("Response started", {
-                    description: "Provider responses go live once provider accounts are enabled.",
+                onClick={() => {
+                  setBusy(true);
+                  submitCustomerRequest({
+                    source: "post_a_need",
+                    problem: `Provider interest in sample need: ${n.title}`,
+                    requirement: n.looking,
                   })
-                }
+                    .then(() =>
+                      toast.success("Interest recorded", {
+                        description: "Our team will get back to you with the requirement details.",
+                      }),
+                    )
+                    .catch((err: Error) => toast.error("Could not record", { description: err.message }))
+                    .finally(() => setBusy(false));
+                }}
                 className="border border-primary px-4 py-2 text-sm font-medium text-primary transition-colors hover:bg-primary hover:text-primary-foreground"
               >
                 I can help
@@ -172,6 +303,7 @@ function Input({
       </label>
       <input
         id={id}
+        name={id}
         placeholder={placeholder}
         className="w-full border border-input bg-background px-3 py-2.5 text-base outline-none focus:border-primary"
       />

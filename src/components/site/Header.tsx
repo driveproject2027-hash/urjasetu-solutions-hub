@@ -2,6 +2,8 @@ import { Link } from "@tanstack/react-router";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
 
+import { useSession } from "../../lib/useAuth";
+
 const nav = [
   { to: "/solutions", label: "Solutions" },
   { to: "/providers", label: "Providers" },
@@ -18,6 +20,7 @@ const nav = [
 
 export function Header() {
   const [open, setOpen] = useState(false);
+  const { session } = useSession();
 
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur">
@@ -46,8 +49,11 @@ export function Header() {
           >
             Join as Provider
           </Link>
-          <Link to="/contact" className="whitespace-nowrap text-sm text-foreground/80 hover:text-primary">
-            Sign In
+          <Link
+            to={session ? "/account" : "/auth"}
+            className="whitespace-nowrap text-sm text-foreground/80 hover:text-primary"
+          >
+            {session ? "My account" : "Sign In"}
           </Link>
         </div>
 
@@ -76,8 +82,12 @@ export function Header() {
                 {item.label}
               </Link>
             ))}
-            <Link to="/contact" onClick={() => setOpen(false)} className="border-b border-border/60 py-3 text-base">
-              Sign In
+            <Link
+              to={session ? "/account" : "/auth"}
+              onClick={() => setOpen(false)}
+              className="border-b border-border/60 py-3 text-base"
+            >
+              {session ? "My account" : "Sign In"}
             </Link>
             <Link
               to="/join-provider"

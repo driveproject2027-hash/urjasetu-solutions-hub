@@ -1,4 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
+import { toast } from "sonner";
+
+import { submitProviderApplication } from "../lib/db";
 import { PageHeader } from "../components/site/PageHeader";
 
 export const Route = createFileRoute("/join-network-partner")({
@@ -9,6 +13,8 @@ export const Route = createFileRoute("/join-network-partner")({
 });
 
 function JoinNetworkPartner() {
+  const [busy, setBusy] = useState(false);
+
   return (
     <>
       <PageHeader
@@ -27,33 +33,50 @@ function JoinNetworkPartner() {
           className="grid gap-6 md:grid-cols-2"
           onSubmit={(e) => {
             e.preventDefault();
-            // simple client-side confirmation for the stub
-            alert("Thank you — registration recorded (demo).");
+            const form = e.currentTarget;
+            const fd = new FormData(form);
+            const contact = String(fd.get("contact") ?? "");
+            setBusy(true);
+            submitProviderApplication({
+              organisation: String(fd.get("organisation") ?? "") || String(fd.get("name") ?? ""),
+              contact_person: String(fd.get("name") ?? ""),
+              email: contact.includes("@") ? contact : "",
+              phone: contact.includes("@") ? "" : contact,
+              location: String(fd.get("region") ?? ""),
+              provider_type: "network",
+              description: `Role: ${String(fd.get("role") ?? "")}`,
+            })
+              .then(() => {
+                form.reset();
+                toast.success("Registration submitted", { description: "Our team will review and get in touch." });
+              })
+              .catch((err: Error) => toast.error("Could not submit", { description: err.message }))
+              .finally(() => setBusy(false));
           }}
         >
           <div>
-            <label className="mb-1.5 block text-sm font-medium">Name</label>
-            <input className="w-full border border-input px-3 py-2.5" required />
+            <label htmlFor="np-name" className="mb-1.5 block text-sm font-medium">Name</label>
+            <input id="np-name" name="name" className="w-full border border-input px-3 py-2.5" required />
           </div>
           <div>
-            <label className="mb-1.5 block text-sm font-medium">Organisation</label>
-            <input className="w-full border border-input px-3 py-2.5" />
+            <label htmlFor="np-organisation" className="mb-1.5 block text-sm font-medium">Organisation</label>
+            <input id="np-organisation" name="organisation" className="w-full border border-input px-3 py-2.5" />
           </div>
           <div>
-            <label className="mb-1.5 block text-sm font-medium">Role</label>
-            <input className="w-full border border-input px-3 py-2.5" />
+            <label htmlFor="np-role" className="mb-1.5 block text-sm font-medium">Role</label>
+            <input id="np-role" name="role" className="w-full border border-input px-3 py-2.5" />
           </div>
           <div>
-            <label className="mb-1.5 block text-sm font-medium">Contact (phone or email)</label>
-            <input className="w-full border border-input px-3 py-2.5" required />
+            <label htmlFor="np-contact" className="mb-1.5 block text-sm font-medium">Contact (phone or email)</label>
+            <input id="np-contact" name="contact" className="w-full border border-input px-3 py-2.5" required />
           </div>
 
           <div className="md:col-span-2">
-            <label className="mb-1.5 block text-sm font-medium">Region / Districts you operate in</label>
-            <input className="w-full border border-input px-3 py-2.5" />
+            <label htmlFor="np-region" className="mb-1.5 block text-sm font-medium">Region / Districts you operate in</label>
+            <input id="np-region" name="region" className="w-full border border-input px-3 py-2.5" />
           </div>
 
-          <button type="submit" className="bg-primary px-6 py-3 text-sm font-medium text-primary-foreground">
+          <button type="submit" disabled={busy} className="bg-primary px-6 py-3 disabled:opacity-60 text-sm font-medium text-primary-foreground">
             Submit
           </button>
         </form>

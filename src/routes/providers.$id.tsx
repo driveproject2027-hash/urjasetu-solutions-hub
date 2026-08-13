@@ -1,6 +1,9 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { BadgeCheck, MapPin, Star } from "lucide-react";
+import { useState } from "react";
 import { toast } from "sonner";
+
+import { submitQuoteRequest } from "../lib/db";
 
 import { providers } from "../data/catalog";
 
@@ -29,6 +32,7 @@ export const Route = createFileRoute("/providers/$id")({
 
 function ProviderProfile() {
   const { provider } = Route.useLoaderData();
+  const [busy, setBusy] = useState(false);
 
   return (
     <article>
@@ -101,30 +105,53 @@ function ProviderProfile() {
             className="mt-5 space-y-4"
             onSubmit={(e) => {
               e.preventDefault();
-              toast.success("Quote request recorded", {
-                description: "Sending to providers will go live once accounts are enabled.",
-              });
+              const form = e.currentTarget;
+              const fd = new FormData(form);
+              const contact = String(fd.get("contact") ?? "");
+              setBusy(true);
+              submitQuoteRequest({
+                provider_ref: provider.name,
+                name: String(fd.get("name") ?? ""),
+                email: contact.includes("@") ? contact : "",
+                phone: contact.includes("@") ? "" : contact,
+                requirement: String(fd.get("requirement") ?? ""),
+              })
+                .then(() => {
+                  form.reset();
+                  toast.success("Quote request sent", {
+                    description: "The provider and our team can now see your requirement.",
+                  });
+                })
+                .catch((err: Error) => toast.error("Could not send", { description: err.message }))
+                .finally(() => setBusy(false));
             }}
           >
             <input
               required
+              name="name"
+              aria-label="Your name"
               placeholder="Your name"
               className="w-full border border-input bg-background px-3 py-2.5 text-base outline-none focus:border-primary"
             />
             <input
               required
+              name="contact"
+              aria-label="Phone or email"
               placeholder="Phone or email"
               className="w-full border border-input bg-background px-3 py-2.5 text-base outline-none focus:border-primary"
             />
             <textarea
               required
+              name="requirement"
+              aria-label="What problem are you trying to solve?"
               rows={4}
               placeholder="What problem are you trying to solve?"
               className="w-full border border-input bg-background px-3 py-2.5 text-base outline-none focus:border-primary"
             />
             <button
               type="submit"
-              className="w-full bg-primary px-5 py-3 text-sm font-medium text-primary-foreground hover:bg-forest-deep"
+              disabled={busy}
+              className="w-full bg-primary disabled:opacity-60 px-5 py-3 text-sm font-medium text-primary-foreground hover:bg-forest-deep"
             >
               Request quote
             </button>
