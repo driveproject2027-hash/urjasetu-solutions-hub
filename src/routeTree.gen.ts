@@ -14,6 +14,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as CalculatorRouteImport } from './routes/calculator'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as DriveRouteImport } from './routes/drive'
+import { Route as EventsRouteImport } from './routes/events'
 import { Route as FinancingRouteImport } from './routes/financing'
 import { Route as FindMySolutionRouteImport } from './routes/find-my-solution'
 import { Route as JoinNetworkPartnerRouteImport } from './routes/join-network-partner'
@@ -58,6 +59,11 @@ const ContactRoute = ContactRouteImport.update({
 const DriveRoute = DriveRouteImport.update({
   id: '/drive',
   path: '/drive',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EventsRoute = EventsRouteImport.update({
+  id: '/events',
+  path: '/events',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FinancingRoute = FinancingRouteImport.update({
@@ -167,6 +173,7 @@ export interface FileRoutesByFullPath {
   '/calculator': typeof CalculatorRoute
   '/contact': typeof ContactRoute
   '/drive': typeof DriveRoute
+  '/events': typeof EventsRoute
   '/financing': typeof FinancingRoute
   '/find-my-solution': typeof FindMySolutionRoute
   '/join-network-partner': typeof JoinNetworkPartnerRoute
@@ -194,6 +201,7 @@ export interface FileRoutesByTo {
   '/calculator': typeof CalculatorRoute
   '/contact': typeof ContactRoute
   '/drive': typeof DriveRoute
+  '/events': typeof EventsRoute
   '/financing': typeof FinancingRoute
   '/find-my-solution': typeof FindMySolutionRoute
   '/join-network-partner': typeof JoinNetworkPartnerRoute
@@ -218,6 +226,7 @@ export interface FileRoutesById {
   '/calculator': typeof CalculatorRoute
   '/contact': typeof ContactRoute
   '/drive': typeof DriveRoute
+  '/events': typeof EventsRoute
   '/financing': typeof FinancingRoute
   '/find-my-solution': typeof FindMySolutionRoute
   '/join-network-partner': typeof JoinNetworkPartnerRoute
@@ -247,6 +256,7 @@ export interface FileRouteTypes {
     | '/calculator'
     | '/contact'
     | '/drive'
+    | '/events'
     | '/financing'
     | '/find-my-solution'
     | '/join-network-partner'
@@ -274,6 +284,7 @@ export interface FileRouteTypes {
     | '/calculator'
     | '/contact'
     | '/drive'
+    | '/events'
     | '/financing'
     | '/find-my-solution'
     | '/join-network-partner'
@@ -297,6 +308,7 @@ export interface FileRouteTypes {
     | '/calculator'
     | '/contact'
     | '/drive'
+    | '/events'
     | '/financing'
     | '/find-my-solution'
     | '/join-network-partner'
@@ -325,6 +337,7 @@ export interface RootRouteChildren {
   CalculatorRoute: typeof CalculatorRoute
   ContactRoute: typeof ContactRoute
   DriveRoute: typeof DriveRoute
+  EventsRoute: typeof EventsRoute
   FinancingRoute: typeof FinancingRoute
   FindMySolutionRoute: typeof FindMySolutionRoute
   JoinNetworkPartnerRoute: typeof JoinNetworkPartnerRoute
@@ -373,6 +386,13 @@ declare module '@tanstack/react-router' {
       path: '/drive'
       fullPath: '/drive'
       preLoaderRoute: typeof DriveRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/events': {
+      id: '/events'
+      path: '/events'
+      fullPath: '/events'
+      preLoaderRoute: typeof EventsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/financing': {
@@ -581,6 +601,7 @@ const rootRouteChildren: RootRouteChildren = {
   CalculatorRoute: CalculatorRoute,
   ContactRoute: ContactRoute,
   DriveRoute: DriveRoute,
+  EventsRoute: EventsRoute,
   FinancingRoute: FinancingRoute,
   FindMySolutionRoute: FindMySolutionRoute,
   JoinNetworkPartnerRoute: JoinNetworkPartnerRoute,

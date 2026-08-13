@@ -1,16 +1,20 @@
 import { Link } from "@tanstack/react-router";
-import { Menu, X, ChevronDown } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { Menu, X } from "lucide-react";
+import { useState } from "react";
 
 const nav = [
   { to: "/solutions", label: "Solutions" },
   { to: "/providers", label: "Providers" },
-  { to: "/stories", label: "Business Stories" },
+  { to: "/find-my-solution", label: "Find My Solution" },
+  { to: "/stories", label: "Stories" },
   { to: "/needs", label: "Open Needs" },
   { to: "/opportunities", label: "Business Opportunities" },
   { to: "/resources", label: "Resources" },
+  { to: "/financing", label: "Finance" },
   { to: "/about", label: "About" },
+  { to: "/contact", label: "Contact Us" },
 ] as const;
+
 
 export function Header() {
   const [open, setOpen] = useState(false);
