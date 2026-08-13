@@ -90,10 +90,5 @@ export function Header() {
         </div>
       )}
     </header>
-
-          </nav>
-        </div>
-      )}
-    </header>
   );
 }
