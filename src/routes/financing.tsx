@@ -1,7 +1,8 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 
 import { PageHeader } from "../components/site/PageHeader";
 import { schemes } from "../data/catalog";
+
 
 export const Route = createFileRoute("/financing")({
   head: () => ({
