@@ -115,6 +115,18 @@ function Home() {
               height={1200}
               className="h-64 w-full object-cover md:h-full"
             />
+
+            {/* Story card below the image */}
+            <div className="mt-4 px-6 md:px-0">
+              <div className="max-w-md rounded-md border border-border bg-background p-4">
+                <p className="text-xs uppercase tracking-[0.14em] text-amber">Demo story</p>
+                <h3 className="mt-2 font-display text-lg font-semibold">“{lead.headline}”</h3>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  {lead.person} · {lead.role} · {lead.location}
+                </p>
+                <p className="mt-3 text-sm text-foreground/90">{lead.problem}</p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
