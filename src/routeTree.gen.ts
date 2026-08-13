@@ -10,33 +10,259 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as CalculatorRouteImport } from './routes/calculator'
+import { Route as FinancingRouteImport } from './routes/financing'
+import { Route as FindMySolutionRouteImport } from './routes/find-my-solution'
+import { Route as JoinProviderRouteImport } from './routes/join-provider'
+import { Route as NeedsRouteImport } from './routes/needs'
+import { Route as OpportunitiesRouteImport } from './routes/opportunities'
+import { Route as ProvidersRouteImport } from './routes/providers'
+import { Route as ResourcesRouteImport } from './routes/resources'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as SolutionsRouteImport } from './routes/solutions'
+import { Route as StoriesRouteImport } from './routes/stories'
+import { Route as ProvidersIndexRouteImport } from './routes/providers.index'
+import { Route as ProvidersIdRouteImport } from './routes/providers.$id'
+import { Route as SolutionsIndexRouteImport } from './routes/solutions.index'
+import { Route as SolutionsSlugRouteImport } from './routes/solutions.$slug'
+import { Route as StoriesIndexRouteImport } from './routes/stories.index'
+import { Route as StoriesSlugRouteImport } from './routes/stories.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CalculatorRoute = CalculatorRouteImport.update({
+  id: '/calculator',
+  path: '/calculator',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FinancingRoute = FinancingRouteImport.update({
+  id: '/financing',
+  path: '/financing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FindMySolutionRoute = FindMySolutionRouteImport.update({
+  id: '/find-my-solution',
+  path: '/find-my-solution',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JoinProviderRoute = JoinProviderRouteImport.update({
+  id: '/join-provider',
+  path: '/join-provider',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NeedsRoute = NeedsRouteImport.update({
+  id: '/needs',
+  path: '/needs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OpportunitiesRoute = OpportunitiesRouteImport.update({
+  id: '/opportunities',
+  path: '/opportunities',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProvidersRoute = ProvidersRouteImport.update({
+  id: '/providers',
+  path: '/providers',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResourcesRoute = ResourcesRouteImport.update({
+  id: '/resources',
+  path: '/resources',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SolutionsRoute = SolutionsRouteImport.update({
+  id: '/solutions',
+  path: '/solutions',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StoriesRoute = StoriesRouteImport.update({
+  id: '/stories',
+  path: '/stories',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProvidersIndexRoute = ProvidersIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ProvidersRoute,
+} as any)
+const ProvidersIdRoute = ProvidersIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => ProvidersRoute,
+} as any)
+const SolutionsIndexRoute = SolutionsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => SolutionsRoute,
+} as any)
+const SolutionsSlugRoute = SolutionsSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => SolutionsRoute,
+} as any)
+const StoriesIndexRoute = StoriesIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => StoriesRoute,
+} as any)
+const StoriesSlugRoute = StoriesSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => StoriesRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/calculator': typeof CalculatorRoute
+  '/financing': typeof FinancingRoute
+  '/find-my-solution': typeof FindMySolutionRoute
+  '/join-provider': typeof JoinProviderRoute
+  '/needs': typeof NeedsRoute
+  '/opportunities': typeof OpportunitiesRoute
+  '/providers': typeof ProvidersRouteWithChildren
+  '/resources': typeof ResourcesRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/solutions': typeof SolutionsRouteWithChildren
+  '/stories': typeof StoriesRouteWithChildren
+  '/providers/$id': typeof ProvidersIdRoute
+  '/solutions/$slug': typeof SolutionsSlugRoute
+  '/stories/$slug': typeof StoriesSlugRoute
+  '/providers/': typeof ProvidersIndexRoute
+  '/solutions/': typeof SolutionsIndexRoute
+  '/stories/': typeof StoriesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/calculator': typeof CalculatorRoute
+  '/financing': typeof FinancingRoute
+  '/find-my-solution': typeof FindMySolutionRoute
+  '/join-provider': typeof JoinProviderRoute
+  '/needs': typeof NeedsRoute
+  '/opportunities': typeof OpportunitiesRoute
+  '/resources': typeof ResourcesRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/providers/$id': typeof ProvidersIdRoute
+  '/solutions/$slug': typeof SolutionsSlugRoute
+  '/stories/$slug': typeof StoriesSlugRoute
+  '/providers': typeof ProvidersIndexRoute
+  '/solutions': typeof SolutionsIndexRoute
+  '/stories': typeof StoriesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/calculator': typeof CalculatorRoute
+  '/financing': typeof FinancingRoute
+  '/find-my-solution': typeof FindMySolutionRoute
+  '/join-provider': typeof JoinProviderRoute
+  '/needs': typeof NeedsRoute
+  '/opportunities': typeof OpportunitiesRoute
+  '/providers': typeof ProvidersRouteWithChildren
+  '/resources': typeof ResourcesRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/solutions': typeof SolutionsRouteWithChildren
+  '/stories': typeof StoriesRouteWithChildren
+  '/providers/$id': typeof ProvidersIdRoute
+  '/solutions/$slug': typeof SolutionsSlugRoute
+  '/stories/$slug': typeof StoriesSlugRoute
+  '/providers/': typeof ProvidersIndexRoute
+  '/solutions/': typeof SolutionsIndexRoute
+  '/stories/': typeof StoriesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/calculator'
+    | '/financing'
+    | '/find-my-solution'
+    | '/join-provider'
+    | '/needs'
+    | '/opportunities'
+    | '/providers'
+    | '/resources'
+    | '/sitemap.xml'
+    | '/solutions'
+    | '/stories'
+    | '/providers/$id'
+    | '/solutions/$slug'
+    | '/stories/$slug'
+    | '/providers/'
+    | '/solutions/'
+    | '/stories/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/about'
+    | '/calculator'
+    | '/financing'
+    | '/find-my-solution'
+    | '/join-provider'
+    | '/needs'
+    | '/opportunities'
+    | '/resources'
+    | '/sitemap.xml'
+    | '/providers/$id'
+    | '/solutions/$slug'
+    | '/stories/$slug'
+    | '/providers'
+    | '/solutions'
+    | '/stories'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/calculator'
+    | '/financing'
+    | '/find-my-solution'
+    | '/join-provider'
+    | '/needs'
+    | '/opportunities'
+    | '/providers'
+    | '/resources'
+    | '/sitemap.xml'
+    | '/solutions'
+    | '/stories'
+    | '/providers/$id'
+    | '/solutions/$slug'
+    | '/stories/$slug'
+    | '/providers/'
+    | '/solutions/'
+    | '/stories/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
+  CalculatorRoute: typeof CalculatorRoute
+  FinancingRoute: typeof FinancingRoute
+  FindMySolutionRoute: typeof FindMySolutionRoute
+  JoinProviderRoute: typeof JoinProviderRoute
+  NeedsRoute: typeof NeedsRoute
+  OpportunitiesRoute: typeof OpportunitiesRoute
+  ProvidersRoute: typeof ProvidersRouteWithChildren
+  ResourcesRoute: typeof ResourcesRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  SolutionsRoute: typeof SolutionsRouteWithChildren
+  StoriesRoute: typeof StoriesRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +274,190 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/calculator': {
+      id: '/calculator'
+      path: '/calculator'
+      fullPath: '/calculator'
+      preLoaderRoute: typeof CalculatorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/financing': {
+      id: '/financing'
+      path: '/financing'
+      fullPath: '/financing'
+      preLoaderRoute: typeof FinancingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/find-my-solution': {
+      id: '/find-my-solution'
+      path: '/find-my-solution'
+      fullPath: '/find-my-solution'
+      preLoaderRoute: typeof FindMySolutionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/join-provider': {
+      id: '/join-provider'
+      path: '/join-provider'
+      fullPath: '/join-provider'
+      preLoaderRoute: typeof JoinProviderRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/needs': {
+      id: '/needs'
+      path: '/needs'
+      fullPath: '/needs'
+      preLoaderRoute: typeof NeedsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/opportunities': {
+      id: '/opportunities'
+      path: '/opportunities'
+      fullPath: '/opportunities'
+      preLoaderRoute: typeof OpportunitiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/providers': {
+      id: '/providers'
+      path: '/providers'
+      fullPath: '/providers'
+      preLoaderRoute: typeof ProvidersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/resources': {
+      id: '/resources'
+      path: '/resources'
+      fullPath: '/resources'
+      preLoaderRoute: typeof ResourcesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/solutions': {
+      id: '/solutions'
+      path: '/solutions'
+      fullPath: '/solutions'
+      preLoaderRoute: typeof SolutionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/stories': {
+      id: '/stories'
+      path: '/stories'
+      fullPath: '/stories'
+      preLoaderRoute: typeof StoriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/providers/': {
+      id: '/providers/'
+      path: '/'
+      fullPath: '/providers/'
+      preLoaderRoute: typeof ProvidersIndexRouteImport
+      parentRoute: typeof ProvidersRoute
+    }
+    '/providers/$id': {
+      id: '/providers/$id'
+      path: '/$id'
+      fullPath: '/providers/$id'
+      preLoaderRoute: typeof ProvidersIdRouteImport
+      parentRoute: typeof ProvidersRoute
+    }
+    '/solutions/': {
+      id: '/solutions/'
+      path: '/'
+      fullPath: '/solutions/'
+      preLoaderRoute: typeof SolutionsIndexRouteImport
+      parentRoute: typeof SolutionsRoute
+    }
+    '/solutions/$slug': {
+      id: '/solutions/$slug'
+      path: '/$slug'
+      fullPath: '/solutions/$slug'
+      preLoaderRoute: typeof SolutionsSlugRouteImport
+      parentRoute: typeof SolutionsRoute
+    }
+    '/stories/': {
+      id: '/stories/'
+      path: '/'
+      fullPath: '/stories/'
+      preLoaderRoute: typeof StoriesIndexRouteImport
+      parentRoute: typeof StoriesRoute
+    }
+    '/stories/$slug': {
+      id: '/stories/$slug'
+      path: '/$slug'
+      fullPath: '/stories/$slug'
+      preLoaderRoute: typeof StoriesSlugRouteImport
+      parentRoute: typeof StoriesRoute
+    }
   }
 }
 
+interface ProvidersRouteChildren {
+  ProvidersIdRoute: typeof ProvidersIdRoute
+  ProvidersIndexRoute: typeof ProvidersIndexRoute
+}
+
+const ProvidersRouteChildren: ProvidersRouteChildren = {
+  ProvidersIdRoute: ProvidersIdRoute,
+  ProvidersIndexRoute: ProvidersIndexRoute,
+}
+
+const ProvidersRouteWithChildren = ProvidersRoute._addFileChildren(
+  ProvidersRouteChildren,
+)
+
+interface SolutionsRouteChildren {
+  SolutionsSlugRoute: typeof SolutionsSlugRoute
+  SolutionsIndexRoute: typeof SolutionsIndexRoute
+}
+
+const SolutionsRouteChildren: SolutionsRouteChildren = {
+  SolutionsSlugRoute: SolutionsSlugRoute,
+  SolutionsIndexRoute: SolutionsIndexRoute,
+}
+
+const SolutionsRouteWithChildren = SolutionsRoute._addFileChildren(
+  SolutionsRouteChildren,
+)
+
+interface StoriesRouteChildren {
+  StoriesSlugRoute: typeof StoriesSlugRoute
+  StoriesIndexRoute: typeof StoriesIndexRoute
+}
+
+const StoriesRouteChildren: StoriesRouteChildren = {
+  StoriesSlugRoute: StoriesSlugRoute,
+  StoriesIndexRoute: StoriesIndexRoute,
+}
+
+const StoriesRouteWithChildren =
+  StoriesRoute._addFileChildren(StoriesRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
+  CalculatorRoute: CalculatorRoute,
+  FinancingRoute: FinancingRoute,
+  FindMySolutionRoute: FindMySolutionRoute,
+  JoinProviderRoute: JoinProviderRoute,
+  NeedsRoute: NeedsRoute,
+  OpportunitiesRoute: OpportunitiesRoute,
+  ProvidersRoute: ProvidersRouteWithChildren,
+  ResourcesRoute: ResourcesRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
+  SolutionsRoute: SolutionsRouteWithChildren,
+  StoriesRoute: StoriesRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
