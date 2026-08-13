@@ -11,12 +11,16 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as FindMySolutionRouteImport } from './routes/find-my-solution'
+import { Route as NeedsRouteImport } from './routes/needs'
 import { Route as ProvidersRouteImport } from './routes/providers'
 import { Route as SolutionsRouteImport } from './routes/solutions'
+import { Route as StoriesRouteImport } from './routes/stories'
 import { Route as ProvidersIndexRouteImport } from './routes/providers.index'
 import { Route as ProvidersIdRouteImport } from './routes/providers.$id'
 import { Route as SolutionsIndexRouteImport } from './routes/solutions.index'
 import { Route as SolutionsSlugRouteImport } from './routes/solutions.$slug'
+import { Route as StoriesIndexRouteImport } from './routes/stories.index'
+import { Route as StoriesSlugRouteImport } from './routes/stories.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -28,6 +32,11 @@ const FindMySolutionRoute = FindMySolutionRouteImport.update({
   path: '/find-my-solution',
   getParentRoute: () => rootRouteImport,
 } as any)
+const NeedsRoute = NeedsRouteImport.update({
+  id: '/needs',
+  path: '/needs',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProvidersRoute = ProvidersRouteImport.update({
   id: '/providers',
   path: '/providers',
@@ -36,6 +45,11 @@ const ProvidersRoute = ProvidersRouteImport.update({
 const SolutionsRoute = SolutionsRouteImport.update({
   id: '/solutions',
   path: '/solutions',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StoriesRoute = StoriesRouteImport.update({
+  id: '/stories',
+  path: '/stories',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProvidersIndexRoute = ProvidersIndexRouteImport.update({
@@ -58,72 +72,106 @@ const SolutionsSlugRoute = SolutionsSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => SolutionsRoute,
 } as any)
+const StoriesIndexRoute = StoriesIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => StoriesRoute,
+} as any)
+const StoriesSlugRoute = StoriesSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => StoriesRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/find-my-solution': typeof FindMySolutionRoute
+  '/needs': typeof NeedsRoute
   '/providers': typeof ProvidersRouteWithChildren
   '/solutions': typeof SolutionsRouteWithChildren
+  '/stories': typeof StoriesRouteWithChildren
   '/providers/$id': typeof ProvidersIdRoute
   '/solutions/$slug': typeof SolutionsSlugRoute
+  '/stories/$slug': typeof StoriesSlugRoute
   '/providers/': typeof ProvidersIndexRoute
   '/solutions/': typeof SolutionsIndexRoute
+  '/stories/': typeof StoriesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/find-my-solution': typeof FindMySolutionRoute
+  '/needs': typeof NeedsRoute
   '/providers/$id': typeof ProvidersIdRoute
   '/solutions/$slug': typeof SolutionsSlugRoute
+  '/stories/$slug': typeof StoriesSlugRoute
   '/providers': typeof ProvidersIndexRoute
   '/solutions': typeof SolutionsIndexRoute
+  '/stories': typeof StoriesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/find-my-solution': typeof FindMySolutionRoute
+  '/needs': typeof NeedsRoute
   '/providers': typeof ProvidersRouteWithChildren
   '/solutions': typeof SolutionsRouteWithChildren
+  '/stories': typeof StoriesRouteWithChildren
   '/providers/$id': typeof ProvidersIdRoute
   '/solutions/$slug': typeof SolutionsSlugRoute
+  '/stories/$slug': typeof StoriesSlugRoute
   '/providers/': typeof ProvidersIndexRoute
   '/solutions/': typeof SolutionsIndexRoute
+  '/stories/': typeof StoriesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/find-my-solution'
+    | '/needs'
     | '/providers'
     | '/solutions'
+    | '/stories'
     | '/providers/$id'
     | '/solutions/$slug'
+    | '/stories/$slug'
     | '/providers/'
     | '/solutions/'
+    | '/stories/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/find-my-solution'
+    | '/needs'
     | '/providers/$id'
     | '/solutions/$slug'
+    | '/stories/$slug'
     | '/providers'
     | '/solutions'
+    | '/stories'
   id:
     | '__root__'
     | '/'
     | '/find-my-solution'
+    | '/needs'
     | '/providers'
     | '/solutions'
+    | '/stories'
     | '/providers/$id'
     | '/solutions/$slug'
+    | '/stories/$slug'
     | '/providers/'
     | '/solutions/'
+    | '/stories/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   FindMySolutionRoute: typeof FindMySolutionRoute
+  NeedsRoute: typeof NeedsRoute
   ProvidersRoute: typeof ProvidersRouteWithChildren
   SolutionsRoute: typeof SolutionsRouteWithChildren
+  StoriesRoute: typeof StoriesRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -142,6 +190,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FindMySolutionRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/needs': {
+      id: '/needs'
+      path: '/needs'
+      fullPath: '/needs'
+      preLoaderRoute: typeof NeedsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/providers': {
       id: '/providers'
       path: '/providers'
@@ -154,6 +209,13 @@ declare module '@tanstack/react-router' {
       path: '/solutions'
       fullPath: '/solutions'
       preLoaderRoute: typeof SolutionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/stories': {
+      id: '/stories'
+      path: '/stories'
+      fullPath: '/stories'
+      preLoaderRoute: typeof StoriesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/providers/': {
@@ -183,6 +245,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/solutions/$slug'
       preLoaderRoute: typeof SolutionsSlugRouteImport
       parentRoute: typeof SolutionsRoute
+    }
+    '/stories/': {
+      id: '/stories/'
+      path: '/'
+      fullPath: '/stories/'
+      preLoaderRoute: typeof StoriesIndexRouteImport
+      parentRoute: typeof StoriesRoute
+    }
+    '/stories/$slug': {
+      id: '/stories/$slug'
+      path: '/$slug'
+      fullPath: '/stories/$slug'
+      preLoaderRoute: typeof StoriesSlugRouteImport
+      parentRoute: typeof StoriesRoute
     }
   }
 }
@@ -215,11 +291,26 @@ const SolutionsRouteWithChildren = SolutionsRoute._addFileChildren(
   SolutionsRouteChildren,
 )
 
+interface StoriesRouteChildren {
+  StoriesSlugRoute: typeof StoriesSlugRoute
+  StoriesIndexRoute: typeof StoriesIndexRoute
+}
+
+const StoriesRouteChildren: StoriesRouteChildren = {
+  StoriesSlugRoute: StoriesSlugRoute,
+  StoriesIndexRoute: StoriesIndexRoute,
+}
+
+const StoriesRouteWithChildren =
+  StoriesRoute._addFileChildren(StoriesRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   FindMySolutionRoute: FindMySolutionRoute,
+  NeedsRoute: NeedsRoute,
   ProvidersRoute: ProvidersRouteWithChildren,
   SolutionsRoute: SolutionsRouteWithChildren,
+  StoriesRoute: StoriesRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
