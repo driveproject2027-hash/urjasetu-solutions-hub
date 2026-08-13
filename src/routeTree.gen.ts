@@ -10,9 +10,15 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as CalculatorRouteImport } from './routes/calculator'
+import { Route as FinancingRouteImport } from './routes/financing'
 import { Route as FindMySolutionRouteImport } from './routes/find-my-solution'
+import { Route as JoinProviderRouteImport } from './routes/join-provider'
 import { Route as NeedsRouteImport } from './routes/needs'
+import { Route as OpportunitiesRouteImport } from './routes/opportunities'
 import { Route as ProvidersRouteImport } from './routes/providers'
+import { Route as ResourcesRouteImport } from './routes/resources'
 import { Route as SolutionsRouteImport } from './routes/solutions'
 import { Route as StoriesRouteImport } from './routes/stories'
 import { Route as ProvidersIndexRouteImport } from './routes/providers.index'
@@ -27,9 +33,29 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CalculatorRoute = CalculatorRouteImport.update({
+  id: '/calculator',
+  path: '/calculator',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FinancingRoute = FinancingRouteImport.update({
+  id: '/financing',
+  path: '/financing',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FindMySolutionRoute = FindMySolutionRouteImport.update({
   id: '/find-my-solution',
   path: '/find-my-solution',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JoinProviderRoute = JoinProviderRouteImport.update({
+  id: '/join-provider',
+  path: '/join-provider',
   getParentRoute: () => rootRouteImport,
 } as any)
 const NeedsRoute = NeedsRouteImport.update({
@@ -37,9 +63,19 @@ const NeedsRoute = NeedsRouteImport.update({
   path: '/needs',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OpportunitiesRoute = OpportunitiesRouteImport.update({
+  id: '/opportunities',
+  path: '/opportunities',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProvidersRoute = ProvidersRouteImport.update({
   id: '/providers',
   path: '/providers',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResourcesRoute = ResourcesRouteImport.update({
+  id: '/resources',
+  path: '/resources',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SolutionsRoute = SolutionsRouteImport.update({
@@ -85,9 +121,15 @@ const StoriesSlugRoute = StoriesSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/calculator': typeof CalculatorRoute
+  '/financing': typeof FinancingRoute
   '/find-my-solution': typeof FindMySolutionRoute
+  '/join-provider': typeof JoinProviderRoute
   '/needs': typeof NeedsRoute
+  '/opportunities': typeof OpportunitiesRoute
   '/providers': typeof ProvidersRouteWithChildren
+  '/resources': typeof ResourcesRoute
   '/solutions': typeof SolutionsRouteWithChildren
   '/stories': typeof StoriesRouteWithChildren
   '/providers/$id': typeof ProvidersIdRoute
@@ -99,8 +141,14 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/calculator': typeof CalculatorRoute
+  '/financing': typeof FinancingRoute
   '/find-my-solution': typeof FindMySolutionRoute
+  '/join-provider': typeof JoinProviderRoute
   '/needs': typeof NeedsRoute
+  '/opportunities': typeof OpportunitiesRoute
+  '/resources': typeof ResourcesRoute
   '/providers/$id': typeof ProvidersIdRoute
   '/solutions/$slug': typeof SolutionsSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
@@ -111,9 +159,15 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/calculator': typeof CalculatorRoute
+  '/financing': typeof FinancingRoute
   '/find-my-solution': typeof FindMySolutionRoute
+  '/join-provider': typeof JoinProviderRoute
   '/needs': typeof NeedsRoute
+  '/opportunities': typeof OpportunitiesRoute
   '/providers': typeof ProvidersRouteWithChildren
+  '/resources': typeof ResourcesRoute
   '/solutions': typeof SolutionsRouteWithChildren
   '/stories': typeof StoriesRouteWithChildren
   '/providers/$id': typeof ProvidersIdRoute
@@ -127,9 +181,15 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/about'
+    | '/calculator'
+    | '/financing'
     | '/find-my-solution'
+    | '/join-provider'
     | '/needs'
+    | '/opportunities'
     | '/providers'
+    | '/resources'
     | '/solutions'
     | '/stories'
     | '/providers/$id'
@@ -141,8 +201,14 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/about'
+    | '/calculator'
+    | '/financing'
     | '/find-my-solution'
+    | '/join-provider'
     | '/needs'
+    | '/opportunities'
+    | '/resources'
     | '/providers/$id'
     | '/solutions/$slug'
     | '/stories/$slug'
@@ -152,9 +218,15 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/about'
+    | '/calculator'
+    | '/financing'
     | '/find-my-solution'
+    | '/join-provider'
     | '/needs'
+    | '/opportunities'
     | '/providers'
+    | '/resources'
     | '/solutions'
     | '/stories'
     | '/providers/$id'
@@ -167,9 +239,15 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
+  CalculatorRoute: typeof CalculatorRoute
+  FinancingRoute: typeof FinancingRoute
   FindMySolutionRoute: typeof FindMySolutionRoute
+  JoinProviderRoute: typeof JoinProviderRoute
   NeedsRoute: typeof NeedsRoute
+  OpportunitiesRoute: typeof OpportunitiesRoute
   ProvidersRoute: typeof ProvidersRouteWithChildren
+  ResourcesRoute: typeof ResourcesRoute
   SolutionsRoute: typeof SolutionsRouteWithChildren
   StoriesRoute: typeof StoriesRouteWithChildren
 }
@@ -183,11 +261,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/calculator': {
+      id: '/calculator'
+      path: '/calculator'
+      fullPath: '/calculator'
+      preLoaderRoute: typeof CalculatorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/financing': {
+      id: '/financing'
+      path: '/financing'
+      fullPath: '/financing'
+      preLoaderRoute: typeof FinancingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/find-my-solution': {
       id: '/find-my-solution'
       path: '/find-my-solution'
       fullPath: '/find-my-solution'
       preLoaderRoute: typeof FindMySolutionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/join-provider': {
+      id: '/join-provider'
+      path: '/join-provider'
+      fullPath: '/join-provider'
+      preLoaderRoute: typeof JoinProviderRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/needs': {
@@ -197,11 +303,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof NeedsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/opportunities': {
+      id: '/opportunities'
+      path: '/opportunities'
+      fullPath: '/opportunities'
+      preLoaderRoute: typeof OpportunitiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/providers': {
       id: '/providers'
       path: '/providers'
       fullPath: '/providers'
       preLoaderRoute: typeof ProvidersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/resources': {
+      id: '/resources'
+      path: '/resources'
+      fullPath: '/resources'
+      preLoaderRoute: typeof ResourcesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/solutions': {
@@ -306,9 +426,15 @@ const StoriesRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
+  CalculatorRoute: CalculatorRoute,
+  FinancingRoute: FinancingRoute,
   FindMySolutionRoute: FindMySolutionRoute,
+  JoinProviderRoute: JoinProviderRoute,
   NeedsRoute: NeedsRoute,
+  OpportunitiesRoute: OpportunitiesRoute,
   ProvidersRoute: ProvidersRouteWithChildren,
+  ResourcesRoute: ResourcesRoute,
   SolutionsRoute: SolutionsRouteWithChildren,
   StoriesRoute: StoriesRouteWithChildren,
 }
