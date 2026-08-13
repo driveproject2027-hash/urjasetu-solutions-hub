@@ -323,7 +323,7 @@ function Finder() {
                   email: String(fd.get("femail") ?? ""),
                   phone: String(fd.get("fphone") ?? ""),
                   location: answers.location,
-                  problem: answers.problem === "other" ? answers.problemOther || "Other" : answers.problem,
+                  problem: answers.problem,
                   solution_interest: recommendations.map((r) => r.name).join(", "),
                   budget: answers.budget,
                   details: { answers, recommendations: recommendations.map((r) => r.slug) },
