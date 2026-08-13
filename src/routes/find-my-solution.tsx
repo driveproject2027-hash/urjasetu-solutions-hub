@@ -5,6 +5,9 @@ import { z } from "zod";
 
 import { PageHeader } from "../components/site/PageHeader";
 import { problems, solutions, stories, type ProblemId } from "../data/catalog";
+import { ContactPrompt } from "../components/site/ContactPrompt";
+
+const CONTACT_EMAIL = "contact@urjasetu.org";
 
 const searchSchema = z.object({
   problem: z.string().optional(),
@@ -28,7 +31,9 @@ export const Route = createFileRoute("/find-my-solution")({
   component: Finder,
 });
 
+// Make "Other" highly visible by placing it first in the list
 const businessTypes = [
+  "Other",
   "Agriculture",
   "Food Processing",
   "Retail",
@@ -110,7 +115,13 @@ function Finder() {
               <div className="flex flex-wrap gap-2">
                 {businessTypes.map((b) => (
                   <Choice key={b} active={answers.businessType === b} onClick={() => set("businessType", b)}>
-                    {b}
+                    {b === "Other" ? (
+                      <span>
+                        Other — <span className="text-sm font-normal">Contact us</span>
+                      </span>
+                    ) : (
+                      b
+                    )}
                   </Choice>
                 ))}
               </div>
@@ -125,12 +136,17 @@ function Finder() {
             </Field>
             <Field label="Business stage">
               <div className="flex flex-wrap gap-2">
-                {["Existing business", "New business"].map((s) => (
-                  <Choice key={s} active={answers.stage === s} onClick={() => set("stage", s)}>
+                {['Existing business', 'New business', 'Other'].map((s) => (
+                  <Choice key={s} active={answers.stage === s} onClick={() => set('stage', s)}>
                     {s}
                   </Choice>
                 ))}
               </div>
+              {answers.stage === 'Other' && (
+                <div className="mt-3 text-sm text-muted-foreground">
+                  Can't find the right stage? <a href={`mailto:${CONTACT_EMAIL}`} className="text-primary underline">Contact us</a>.
+                </div>
+              )}
             </Field>
           </Step>
         )}
@@ -151,45 +167,61 @@ function Finder() {
                   <span className="mt-1 block text-sm text-muted-foreground">{p.blurb}</span>
                 </button>
               ))}
+
+              <button
+                type="button"
+                onClick={() => set("problem", "other")}
+                className={`border p-4 text-left transition-colors ${
+                  answers.problem === "other" ? "border-primary bg-ivory" : "border-border hover:border-primary/50"
+                }`}
+              >
+                <span className="block font-medium">Other</span>
+                <span className="mt-1 block text-sm text-muted-foreground">If your issue is not listed, contact us.</span>
+              </button>
             </div>
+            {answers.problem === "other" && (
+              <div className="mt-4">
+                <ContactPrompt email={CONTACT_EMAIL} />
+              </div>
+            )}
           </Step>
         )}
 
         {step === 2 && (
           <Step title="A few details about your situation">
-            {["energy-cost", "power-cuts", "diesel"].includes(answers.problem) && (
+            {['energy-cost', 'power-cuts', 'diesel'].includes(answers.problem) && (
               <Field label="Monthly electricity expense">
                 <Options
                   value={answers.bill}
                   onChange={(v) => set("bill", v)}
-                  items={["Under ₹5,000", "₹5,000–20,000", "₹20,000–75,000", "Above ₹75,000"]}
+                  items={["Under ₹5,000", "₹5,000–20,000", "₹20,000–75,000", "Above ₹75,000", "Other"]}
                 />
               </Field>
             )}
-            {["power-cuts", "diesel"].includes(answers.problem) && (
+            {['power-cuts', 'diesel'].includes(answers.problem) && (
               <Field label="How often does power fail?">
                 <Options
                   value={answers.outages}
                   onChange={(v) => set("outages", v)}
-                  items={["Rarely", "A few times a week", "Daily, under 2 hours", "Daily, more than 2 hours"]}
+                  items={["Rarely", "A few times a week", "Daily, under 2 hours", "Daily, more than 2 hours", "Other"]}
                 />
               </Field>
             )}
-            {answers.problem === "diesel" && (
+            {answers.problem === 'diesel' && (
               <Field label="Monthly diesel expense">
                 <Options
                   value={answers.diesel}
                   onChange={(v) => set("diesel", v)}
-                  items={["None", "Under ₹10,000", "₹10,000–50,000", "Above ₹50,000"]}
+                  items={["None", "Under ₹10,000", "₹10,000–50,000", "Above ₹50,000", "Other"]}
                 />
               </Field>
             )}
-            {["spoilage", "cooling"].includes(answers.problem) && (
+            {['spoilage', 'cooling'].includes(answers.problem) && (
               <Field label="How much do you need to store or cool?">
                 <Options
                   value={answers.storage}
                   onChange={(v) => set("storage", v)}
-                  items={["Under 500 kg / litres", "500 kg – 2 tonnes", "2–10 tonnes", "More than 10 tonnes"]}
+                  items={["Under 500 kg / litres", "500 kg – 2 tonnes", "2–10 tonnes", "More than 10 tonnes", "Other"]}
                 />
               </Field>
             )}
@@ -197,16 +229,24 @@ function Finder() {
               <Options
                 value={answers.hours}
                 onChange={(v) => set("hours", v)}
-                items={["Daytime only", "Extended into evening", "Round the clock"]}
+                items={["Daytime only", "Extended into evening", "Round the clock", "Other"]}
               />
             </Field>
             <Field label="Indicative budget">
               <Options
                 value={answers.budget}
                 onChange={(v) => set("budget", v)}
-                items={["Under ₹1 lakh", "₹1–3 lakh", "₹3–8 lakh", "Above ₹8 lakh", "Not decided"]}
+                items={["Under ₹1 lakh", "₹1–3 lakh", "₹3–8 lakh", "Above ₹8 lakh", "Not decided", "Other"]}
               />
             </Field>
+
+            {/* Show contact prompt if any 'Other' is selected in this step */}
+            {(answers.bill === 'Other' || answers.outages === 'Other' || answers.diesel === 'Other' ||
+              answers.storage === 'Other' || answers.hours === 'Other' || answers.budget === 'Other') && (
+              <div className="mt-4">
+                <ContactPrompt email={CONTACT_EMAIL} />
+              </div>
+            )}
           </Step>
         )}
 
@@ -217,6 +257,13 @@ function Finder() {
               Based on your answers. Every recommendation shows why it was suggested — confirm suitability with a
               provider site assessment.
             </p>
+
+            {answers.problem === 'other' && (
+              <div className="mt-6">
+                <ContactPrompt email={CONTACT_EMAIL} />
+              </div>
+            )}
+
             <div className="mt-8 space-y-6">
               {recommendations.map((r) => (
                 <article key={r.slug} className="border border-border bg-card p-6">
@@ -227,8 +274,8 @@ function Finder() {
                         r.verdict === "Highly suitable"
                           ? "text-primary"
                           : r.verdict === "Suitable"
-                            ? "text-foreground"
-                            : "text-muted-foreground"
+                          ? "text-foreground"
+                          : "text-muted-foreground"
                       }`}
                     >
                       {r.verdict}
@@ -348,12 +395,19 @@ function Options({
   onChange: (v: string) => void;
 }) {
   return (
-    <div className="flex flex-wrap gap-2">
-      {items.map((i) => (
-        <Choice key={i} active={value === i} onClick={() => onChange(i)}>
-          {i}
-        </Choice>
-      ))}
+    <div>
+      <div className="flex flex-wrap gap-2">
+        {items.map((i) => (
+          <Choice key={i} active={value === i} onClick={() => onChange(i)}>
+            {i}
+          </Choice>
+        ))}
+      </div>
+      {value === "Other" && (
+        <div className="mt-3">
+          <ContactPrompt email={CONTACT_EMAIL} />
+        </div>
+      )}
     </div>
   );
 }
