@@ -2,6 +2,8 @@ import { Link } from "@tanstack/react-router";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
 
+import { useSession } from "../../lib/useAuth";
+
 const nav = [
   { to: "/solutions", label: "Solutions" },
   { to: "/providers", label: "Providers" },
@@ -18,6 +20,7 @@ const nav = [
 
 export function Header() {
   const [open, setOpen] = useState(false);
+  const { session } = useSession();
 
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur">
