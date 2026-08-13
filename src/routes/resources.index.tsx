@@ -27,7 +27,7 @@ export const Route = createFileRoute("/resources/")({
 
 const exampleSearches = ["solar subsidy", "cold storage", "solar dryer", "PMEGP", "DRE financing", "battery storage"];
 
-type Hit = { title: string; summary: string; category: string; to: string };
+type Hit = { title: string; summary: string; category: string; slug: string };
 
 function ResourcesHub() {
   const [q, setQ] = useState("");
@@ -35,21 +35,21 @@ function ResourcesHub() {
   const index = useMemo<Hit[]>(() => {
     const items: Hit[] = [];
     for (const cat of resourceCategories) {
-      items.push({ title: cat.name, summary: cat.tagline, category: "Category", to: `/resources/${cat.slug}` });
+      items.push({ title: cat.name, summary: cat.tagline, category: "Category", slug: cat.slug });
       for (const a of cat.articles) {
         items.push({
           title: a.title,
           summary: `${a.summary} ${a.tags.join(" ")}`,
           category: cat.name,
-          to: `/resources/${cat.slug}`,
+          slug: cat.slug,
         });
       }
     }
     for (const s of solutions) {
-      items.push({ title: s.name, summary: s.summary, category: "DRE Technologies", to: `/resources/dre-technologies` });
+      items.push({ title: s.name, summary: s.summary, category: "DRE Technologies", slug: 'dre-technologies' });
     }
     for (const o of opportunities) {
-      items.push({ title: o.title, summary: o.opportunity, category: "Business Opportunities", to: `/resources/business-opportunities` });
+      items.push({ title: o.title, summary: o.opportunity, category: "Business Opportunities", slug: 'business-opportunities' });
     }
     return items;
   }, []);
@@ -102,8 +102,12 @@ function ResourcesHub() {
               ) : (
                 <ul className="divide-y divide-border">
                   {results.map((r, i) => (
-                    <li key={`${r.to}-${i}`}>
-                      <Link to={r.to} className="block p-4 hover:bg-ivory">
+                    <li key={`${r.slug}-${i}`}>
+                      <Link
+                        to="/resources/$category"
+                        params={{ category: r.slug }}
+                        className="block p-4 hover:bg-ivory"
+                      >
                         <p className="eyebrow">{r.category}</p>
                         <p className="mt-1 font-display font-semibold">{r.title}</p>
                       </Link>

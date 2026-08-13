@@ -142,7 +142,10 @@ function CategoryPage() {
                   params={{ slug: s.slug }}
                   className="font-display text-lg font-semibold hover:text-primary"
                 >
-                  {s.title}
+                  {s.headline}
+                  <span className="mt-1 block text-sm font-normal text-muted-foreground">
+                    {s.person} · {s.business} · {s.location}
+                  </span>
                 </Link>
               </li>
             ))}
