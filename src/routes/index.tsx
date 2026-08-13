@@ -107,6 +107,7 @@ function Home() {
               {t("hero.provider")} <ArrowRight className="size-3.5" />
             </Link>
           </div>
+
           <div className="relative -mx-5 md:mx-0">
             <img
               src={heroImg}
@@ -116,17 +117,25 @@ function Home() {
               className="h-64 w-full object-cover md:h-full"
             />
 
-            {/* Story card below the image */}
-            <div className="mt-4 px-6 md:px-0">
-              <div className="max-w-md rounded-md border border-border bg-background p-4">
+            {/* Story overlay on the image */}
+            <div className="absolute left-4 bottom-4 md:left-8 md:bottom-8 z-10">
+              <div className="max-w-md rounded-md border border-border bg-background/95 backdrop-blur p-4 shadow-md">
                 <p className="text-xs uppercase tracking-[0.14em] text-amber">Demo story</p>
                 <h3 className="mt-2 font-display text-lg font-semibold">“{lead.headline}”</h3>
                 <p className="mt-1 text-sm text-muted-foreground">
                   {lead.person} · {lead.role} · {lead.location}
                 </p>
                 <p className="mt-3 text-sm text-foreground/90">{lead.problem}</p>
+                <Link
+                  to="/find-my-solution"
+                  search={{ problem: lead.problemId, story: lead.slug }}
+                  className="mt-3 inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline"
+                >
+                  I have a similar problem <ArrowRight className="size-3" />
+                </Link>
               </div>
             </div>
+
           </div>
         </div>
       </section>
