@@ -117,18 +117,16 @@ function Home() {
               className="h-64 w-full object-cover md:h-full"
             />
 
-            {/* Story overlay on the image — make the whole card clickable to open the full story */}
+            {/* Story overlay on the image — semi-transparent background for better contrast */}
             <Link
               to="/stories/$slug"
               params={{ slug: lead.slug }}
-              className="absolute left-4 bottom-4 md:left-8 md:bottom-8 z-10 block max-w-md rounded-md border border-border bg-background/95 backdrop-blur p-4 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary"
+              className="absolute left-4 bottom-4 md:left-8 md:bottom-8 z-10 block max-w-md rounded-md border border-white/30 bg-white/60 backdrop-blur-md p-4 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary"
               aria-label={`Read story: ${lead.headline}`}
             >
               <p className="text-xs uppercase tracking-[0.14em] text-amber">Demo story</p>
-              <h3 className="mt-2 font-display text-lg font-semibold">“{lead.headline}”</h3>
-              <p className="mt-1 text-sm text-muted-foreground">
-                {lead.person} · {lead.role} · {lead.location}
-              </p>
+              <h3 className="mt-2 font-display text-lg font-semibold text-foreground">“{lead.headline}”</h3>
+              <p className="mt-1 text-sm text-muted-foreground">{lead.person} · {lead.role} · {lead.location}</p>
               <p className="mt-3 text-sm text-foreground/90">{lead.problem}</p>
 
               {/* Keep the secondary CTA but prevent it from bubbling to the overlay link */}
