@@ -14,7 +14,6 @@ export const requestSourceLabels: Record<string, string> = {
   post_a_need: "Post a Need",
   quote_request: "Request Quote",
   story_submission: "Story submission",
-  finance_helper: "Finance Helper",
 };
 
 export const providerStatuses = ["pending", "under_review", "approved", "rejected", "suspended"] as const;

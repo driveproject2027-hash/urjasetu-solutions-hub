@@ -152,21 +152,6 @@ function CategoryPage() {
           </ul>
         )}
 
-        {(category.slug === "government-schemes" || category.slug === "finance-funding") && (
-          <div className="mt-12 border border-border bg-ivory p-7">
-            <h2 className="font-display text-lg font-semibold">Not sure where to start?</h2>
-            <p className="mt-2 max-w-2xl text-base text-foreground/85">
-              The Finance Helper shortlists potentially relevant schemes and financing routes based on your business,
-              project and location — with what to check and where to verify it.
-            </p>
-            <Link
-              to="/resources/finance-helper"
-              className="mt-5 inline-block bg-primary px-5 py-3 text-sm font-medium text-primary-foreground hover:bg-forest-deep"
-            >
-              Find Financing Options
-            </Link>
-          </div>
-        )}
 
         {category.slug === "business-opportunities" && (
           <p className="mt-8 max-w-2xl text-sm text-muted-foreground">
