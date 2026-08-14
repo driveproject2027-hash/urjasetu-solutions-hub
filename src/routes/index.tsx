@@ -143,7 +143,7 @@ function Home() {
 
       {/* Problem-first grid */}
       <section className="border-b border-border">
-        <div className="container-page py-16 md:py-20">
+        <div className="container-page py-12 md:py-20">
           <div className="max-w-2xl">
             <h2 className="text-2xl font-semibold md:text-3xl">{t("problems.title")}</h2>
             <p className="mt-3 text-muted-foreground">{t("problems.sub")}</p>
@@ -192,7 +192,7 @@ function Home() {
 
       {/* Stories */}
       <section className="border-b border-border">
-        <div className="container-page py-16 md:py-20">
+        <div className="container-page py-12 md:py-20">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div className="max-w-xl">
               <h2 className="text-2xl font-semibold md:text-3xl">{t("stories.title")}</h2>
@@ -263,7 +263,7 @@ function Home() {
 
       {/* Solutions — asymmetric */}
       <section className="border-b border-border bg-ivory">
-        <div className="container-page py-16 md:py-20">
+        <div className="container-page py-12 md:py-20">
           <div className="grid gap-10 md:grid-cols-[1fr_1.2fr]">
             <div>
               <h2 className="text-2xl font-semibold md:text-3xl">Explore DRE solutions</h2>
@@ -303,7 +303,7 @@ function Home() {
 
       {/* Open needs */}
       <section className="border-b border-border">
-        <div className="container-page py-16 md:py-20">
+        <div className="container-page py-12 md:py-20">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
               <h2 className="text-2xl font-semibold md:text-3xl">{t("needs.title")}</h2>
@@ -317,7 +317,7 @@ function Home() {
           </div>
           <ul className="mt-8 divide-y divide-border border-y border-border">
             {openNeeds.slice(0, 3).map((n) => (
-              <li key={n.id} className="flex flex-wrap items-center justify-between gap-4 py-5">
+              <li key={n.id} className="flex flex-col items-start gap-3 py-5 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-4">
                 <div>
                   <h3 className="font-medium">{n.title}</h3>
                   <p className="mt-1 text-sm text-muted-foreground">
@@ -338,7 +338,7 @@ function Home() {
 
       {/* Calculator + opportunities */}
       <section className="border-b border-border bg-ivory">
-        <div className="container-page grid gap-12 py-16 md:grid-cols-2 md:py-20">
+        <div className="container-page grid gap-10 py-12 md:grid-cols-2 md:py-20">
           <div>
             <h2 className="text-2xl font-semibold md:text-3xl">What could solar look like for your business?</h2>
             <p className="mt-3 text-muted-foreground">
@@ -354,7 +354,7 @@ function Home() {
           </div>
           <div>
             <h2 className="text-2xl font-semibold md:text-3xl">Start a DRE business</h2>
-            <ul className="mt-5 grid grid-cols-2 gap-x-6 gap-y-2 text-sm">
+            <ul className="mt-5 grid grid-cols-1 gap-x-6 gap-y-2 text-sm sm:grid-cols-2">
               {opportunities.map((o) => (
                 <li key={o.slug}>
                   <Link to="/opportunities" className="hover:text-primary">
@@ -372,7 +372,7 @@ function Home() {
 
       {/* Providers + DRIVE */}
       <section className="border-b border-border">
-        <div className="container-page grid gap-12 py-16 md:grid-cols-2 md:py-20">
+        <div className="container-page grid gap-10 py-12 md:grid-cols-2 md:py-20">
           <div>
             <h2 className="text-2xl font-semibold md:text-3xl">Find DRE providers</h2>
             <p className="mt-3 text-muted-foreground">
@@ -382,7 +382,7 @@ function Home() {
               Browse the provider directory →
             </Link>
           </div>
-          <div className="border-l border-border pl-8">
+          <div className="border-t border-border pt-8 md:border-l md:border-t-0 md:pl-8 md:pt-0">
             <p className="eyebrow">Institutional</p>
             <h2 className="mt-3 text-xl font-semibold">The DRIVE initiative</h2>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
@@ -398,7 +398,7 @@ function Home() {
 
       {/* CTA block */}
       <section className="bg-primary text-primary-foreground">
-        <div className="container-page flex flex-wrap items-center justify-between gap-6 py-14">
+        <div className="container-page flex flex-col items-start gap-6 py-12 md:flex-row md:flex-wrap md:items-center md:justify-between md:py-14">
           <div>
             <h2 className="text-2xl font-semibold md:text-3xl">Don't start with technology. Start with the problem.</h2>
             <p className="mt-2 max-w-xl text-primary-foreground/80">
