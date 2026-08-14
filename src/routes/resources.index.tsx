@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { PageHeader } from "../components/site/PageHeader";
 import { resourceCategories } from "../data/resources";
 import { solutions, opportunities, stories } from "../data/catalog";
-import solarImg from "../assets/solutions-solar.jpg";
+
 
 export const Route = createFileRoute("/resources/")({
   head: () => ({
@@ -121,30 +121,6 @@ function ResourcesHub() {
       </PageHeader>
 
       <div className="container-page py-12">
-        <div className="grid gap-8 border border-border bg-ivory p-7 md:grid-cols-[1.4fr_1fr] md:items-center">
-          <div>
-            <p className="eyebrow">Tool</p>
-            <h2 className="mt-2 font-display text-2xl font-semibold">Finance Helper</h2>
-            <p className="mt-2 max-w-xl text-base text-foreground/85">
-              Answer a few questions about your business and project, and see which schemes and financing routes may be
-              worth investigating — with what to check and where to verify it.
-            </p>
-            <Link
-              to="/resources/finance-helper"
-              className="mt-5 inline-block bg-primary px-5 py-3 text-sm font-medium text-primary-foreground hover:bg-forest-deep"
-            >
-              Find Financing Options
-            </Link>
-          </div>
-          <img
-            src={solarImg}
-            alt="Rooftop solar installation on a small industrial building in India"
-            loading="lazy"
-            width={800}
-            height={600}
-            className="h-48 w-full object-cover"
-          />
-        </div>
 
         <h2 className="mt-16 text-2xl font-semibold">Browse the knowledge centre</h2>
         <div className="mt-8 grid gap-px border border-border bg-border md:grid-cols-2 lg:grid-cols-3">
