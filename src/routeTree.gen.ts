@@ -34,7 +34,6 @@ import { Route as ProvidersIndexRouteImport } from './routes/providers.index'
 import { Route as ProvidersIdRouteImport } from './routes/providers.$id'
 import { Route as ResourcesIndexRouteImport } from './routes/resources.index'
 import { Route as ResourcesCategoryRouteImport } from './routes/resources.$category'
-import { Route as ResourcesFinanceHelperRouteImport } from './routes/resources.finance-helper'
 import { Route as SolutionsIndexRouteImport } from './routes/solutions.index'
 import { Route as SolutionsSlugRouteImport } from './routes/solutions.$slug'
 import { Route as StoriesIndexRouteImport } from './routes/stories.index'
@@ -164,11 +163,6 @@ const ResourcesCategoryRoute = ResourcesCategoryRouteImport.update({
   path: '/$category',
   getParentRoute: () => ResourcesRoute,
 } as any)
-const ResourcesFinanceHelperRoute = ResourcesFinanceHelperRouteImport.update({
-  id: '/finance-helper',
-  path: '/finance-helper',
-  getParentRoute: () => ResourcesRoute,
-} as any)
 const SolutionsIndexRoute = SolutionsIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -213,7 +207,6 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AuthenticatedAdminRoute
   '/providers/$id': typeof ProvidersIdRoute
   '/resources/$category': typeof ResourcesCategoryRoute
-  '/resources/finance-helper': typeof ResourcesFinanceHelperRoute
   '/solutions/$slug': typeof SolutionsSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
   '/providers/': typeof ProvidersIndexRoute
@@ -240,7 +233,6 @@ export interface FileRoutesByTo {
   '/admin': typeof AuthenticatedAdminRoute
   '/providers/$id': typeof ProvidersIdRoute
   '/resources/$category': typeof ResourcesCategoryRoute
-  '/resources/finance-helper': typeof ResourcesFinanceHelperRoute
   '/solutions/$slug': typeof SolutionsSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
   '/providers': typeof ProvidersIndexRoute
@@ -273,7 +265,6 @@ export interface FileRoutesById {
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/providers/$id': typeof ProvidersIdRoute
   '/resources/$category': typeof ResourcesCategoryRoute
-  '/resources/finance-helper': typeof ResourcesFinanceHelperRoute
   '/solutions/$slug': typeof SolutionsSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
   '/providers/': typeof ProvidersIndexRoute
@@ -306,7 +297,6 @@ export interface FileRouteTypes {
     | '/admin'
     | '/providers/$id'
     | '/resources/$category'
-    | '/resources/finance-helper'
     | '/solutions/$slug'
     | '/stories/$slug'
     | '/providers/'
@@ -333,7 +323,6 @@ export interface FileRouteTypes {
     | '/admin'
     | '/providers/$id'
     | '/resources/$category'
-    | '/resources/finance-helper'
     | '/solutions/$slug'
     | '/stories/$slug'
     | '/providers'
@@ -365,7 +354,6 @@ export interface FileRouteTypes {
     | '/_authenticated/admin'
     | '/providers/$id'
     | '/resources/$category'
-    | '/resources/finance-helper'
     | '/solutions/$slug'
     | '/stories/$slug'
     | '/providers/'
@@ -573,13 +561,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResourcesCategoryRouteImport
       parentRoute: typeof ResourcesRoute
     }
-    '/resources/finance-helper': {
-      id: '/resources/finance-helper'
-      path: '/finance-helper'
-      fullPath: '/resources/finance-helper'
-      preLoaderRoute: typeof ResourcesFinanceHelperRouteImport
-      parentRoute: typeof ResourcesRoute
-    }
     '/solutions/': {
       id: '/solutions/'
       path: '/'
@@ -640,13 +621,11 @@ const ProvidersRouteWithChildren = ProvidersRoute._addFileChildren(
 
 interface ResourcesRouteChildren {
   ResourcesCategoryRoute: typeof ResourcesCategoryRoute
-  ResourcesFinanceHelperRoute: typeof ResourcesFinanceHelperRoute
   ResourcesIndexRoute: typeof ResourcesIndexRoute
 }
 
 const ResourcesRouteChildren: ResourcesRouteChildren = {
   ResourcesCategoryRoute: ResourcesCategoryRoute,
-  ResourcesFinanceHelperRoute: ResourcesFinanceHelperRoute,
   ResourcesIndexRoute: ResourcesIndexRoute,
 }
 
