@@ -114,33 +114,30 @@ function Home() {
               alt="A woman entrepreneur running a solar-powered stitching unit in rural India"
               width={1408}
               height={1200}
-              className="h-64 w-full object-cover md:h-full"
+              className="h-56 w-full object-cover sm:h-72 md:h-full"
             />
 
-            {/* Story overlay on the image — semi-transparent background for better contrast */}
+            {/* Story overlay — inline below the image on mobile, floating on the image from md up */}
             <Link
               to="/stories/$slug"
               params={{ slug: lead.slug }}
-              className="absolute left-4 bottom-4 md:left-8 md:bottom-8 z-10 block max-w-md rounded-md border border-white/30 bg-white/60 backdrop-blur-md p-4 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary"
+              className="block border-b border-border bg-ivory px-5 py-5 md:absolute md:bottom-8 md:left-8 md:z-10 md:max-w-md md:rounded-md md:border md:border-white/30 md:bg-white/70 md:p-4 md:shadow-md md:backdrop-blur-md md:hover:shadow-lg"
               aria-label={`Read story: ${lead.headline}`}
             >
               <p className="text-xs uppercase tracking-[0.14em] text-amber">Demo story</p>
-              <h3 className="mt-2 font-display text-lg font-semibold text-foreground">“{lead.headline}”</h3>
+              <h3 className="mt-2 font-display text-base font-semibold leading-snug text-foreground md:text-lg">
+                “{lead.headline}”
+              </h3>
               <p className="mt-1 text-sm text-muted-foreground">{lead.person} · {lead.role} · {lead.location}</p>
               <p className="mt-3 text-sm text-foreground/90">{lead.problem}</p>
 
-              {/* Keep the secondary CTA but prevent it from bubbling to the overlay link */}
-              <Link
-                to="/find-my-solution"
-                search={{ problem: lead.problemId, story: lead.slug }}
-                className="mt-3 inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline"
-                onClick={(e: React.MouseEvent) => e.stopPropagation()}
-              >
+              <span className="mt-3 inline-flex items-center gap-2 text-sm font-medium text-primary">
                 I have a similar problem <ArrowRight className="size-3" />
-              </Link>
+              </span>
             </Link>
 
           </div>
+
         </div>
       </section>
 
