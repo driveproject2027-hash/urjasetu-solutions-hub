@@ -9,13 +9,13 @@ import { solutions, opportunities, stories } from "../data/catalog";
 export const Route = createFileRoute("/resources/")({
   head: () => ({
     meta: [
-      { title: "Resources — DRE knowledge centre | UrjaSetu" },
+      { title: "Resources — DRE knowledge centre | UrjaSethu" },
       {
         name: "description",
         content:
           "Guides, government schemes, financing resources, DRE technologies, business opportunities and ecosystem insights for Indian businesses exploring decentralised renewable energy.",
       },
-      { property: "og:title", content: "Resources — UrjaSetu knowledge centre" },
+      { property: "og:title", content: "Resources — UrjaSethu knowledge centre" },
       {
         property: "og:description",
         content: "Understand DRE. Find the right support. Make better decisions.",
@@ -147,7 +147,7 @@ function ResourcesHub() {
         </div>
 
         <p className="mt-10 max-w-2xl text-sm text-muted-foreground">
-          UrjaSetu does not process applications, confirm eligibility or provide financial advice. Scheme summaries are
+          UrjaSethu does not process applications, confirm eligibility or provide financial advice. Scheme summaries are
           for orientation only — always verify current details with the official source.
         </p>
       </div>

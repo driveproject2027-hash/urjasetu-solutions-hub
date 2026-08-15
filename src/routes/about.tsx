@@ -5,13 +5,13 @@ import { PageHeader } from "../components/site/PageHeader";
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "About UrjaSetu and the DRIVE initiative" },
+      { title: "About UrjaSethu and the DRIVE initiative" },
       {
         name: "description",
         content:
-          "UrjaSetu is a decentralised renewable energy platform for Indian businesses, developed under DRIVE — Decentralised Renewable Energy Innovation for Vibrant Enterprises.",
+          "UrjaSethu is a decentralised renewable energy platform for Indian businesses, developed under DRIVE — Decentralised Renewable Energy Innovation for Vibrant Enterprises.",
       },
-      { property: "og:title", content: "About UrjaSetu and DRIVE" },
+      { property: "og:title", content: "About UrjaSethu and DRIVE" },
       {
         property: "og:description",
         content: "A DRE marketplace built around real business problems, not technology catalogues.",
@@ -27,7 +27,7 @@ function About() {
       <PageHeader
         eyebrow="About"
         title="A platform built around the business problem, not the technology."
-        intro="UrjaSetu exists so that a business owner can describe what is going wrong and end up with a suitable solution, a credible provider and a project that actually gets done."
+        intro="UrjaSethu exists so that a business owner can describe what is going wrong and end up with a suitable solution, a credible provider and a project that actually gets done."
       />
 
       <div className="container-page grid gap-12 py-12 lg:grid-cols-[1.4fr_1fr]">
@@ -51,12 +51,12 @@ function About() {
             <h2 className="text-xl font-semibold">About DRIVE</h2>
             <p className="mt-3 leading-relaxed text-foreground/85">
               DRIVE — Decentralised Renewable Energy Innovation for Vibrant Enterprises — is the initiative under
-              which UrjaSetu is developed. DRIVE works on strengthening the ecosystem for decentralised renewable
+              which UrjaSethu is developed. DRIVE works on strengthening the ecosystem for decentralised renewable
               energy in Indian enterprises: awareness, technology matching, enterprise development and financing
               linkages.
             </p>
             <p className="mt-3 leading-relaxed text-foreground/85">
-              UrjaSetu is designed to stand on its own as a platform. DRIVE supports it; it does not define it.
+              UrjaSethu is designed to stand on its own as a platform. DRIVE supports it; it does not define it.
             </p>
           </section>
           <section>

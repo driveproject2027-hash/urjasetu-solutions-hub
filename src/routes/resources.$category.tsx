@@ -12,15 +12,15 @@ export const Route = createFileRoute("/resources/$category")({
   },
   head: ({ loaderData }) => {
     if (!loaderData) {
-      return { meta: [{ title: "Resource not found — UrjaSetu" }, { name: "robots", content: "noindex" }] };
+      return { meta: [{ title: "Resource not found — UrjaSethu" }, { name: "robots", content: "noindex" }] };
     }
     const { category } = loaderData;
     const description = `${category.tagline} ${category.intro}`.slice(0, 155);
     return {
       meta: [
-        { title: `${category.name} — Resources | UrjaSetu` },
+        { title: `${category.name} — Resources | UrjaSethu` },
         { name: "description", content: description },
-        { property: "og:title", content: `${category.name} — UrjaSetu Resources` },
+        { property: "og:title", content: `${category.name} — UrjaSethu Resources` },
         { property: "og:description", content: description },
       ],
     };

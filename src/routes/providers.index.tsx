@@ -9,13 +9,13 @@ import { providers, solutions } from "../data/catalog";
 export const Route = createFileRoute("/providers/")({
   head: () => ({
     meta: [
-      { title: "Find DRE Providers — UrjaSetu" },
+      { title: "Find DRE Providers — UrjaSethu" },
       {
         name: "description",
         content:
           "Search verified decentralised renewable energy providers by technology, industry, location and service area.",
       },
-      { property: "og:title", content: "Find DRE Providers — UrjaSetu" },
+      { property: "og:title", content: "Find DRE Providers — UrjaSethu" },
       { property: "og:description", content: "A directory of DRE installers, manufacturers and service providers." },
     ],
   }),

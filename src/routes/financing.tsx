@@ -7,13 +7,13 @@ import { schemes } from "../data/catalog";
 export const Route = createFileRoute("/financing")({
   head: () => ({
     meta: [
-      { title: "Financing & Support for DRE Investments — UrjaSetu" },
+      { title: "Financing & Support for DRE Investments — UrjaSethu" },
       {
         name: "description",
         content:
           "Schemes referenced in the DRIVE material — MSE GIFT, MSE SPICE, PMFME, PMEGP and ZED — that may support Indian MSMEs adopting renewable energy.",
       },
-      { property: "og:title", content: "Financing & Support — UrjaSetu" },
+      { property: "og:title", content: "Financing & Support — UrjaSethu" },
       { property: "og:description", content: "Government schemes that may support DRE adoption by MSMEs." },
     ],
   }),
@@ -39,7 +39,7 @@ function Financing() {
           ))}
         </ul>
         <p className="mt-8 max-w-2xl text-sm text-muted-foreground">
-          UrjaSetu does not process applications, guarantee eligibility or provide financial advice. Scheme details
+          UrjaSethu does not process applications, guarantee eligibility or provide financial advice. Scheme details
           shown here are summaries for orientation only.
         </p>
       </div>

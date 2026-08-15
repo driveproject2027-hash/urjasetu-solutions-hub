@@ -13,16 +13,16 @@ const EMAIL = "hello@urjasethu.dev";
 export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
-      { title: "Contact UrjaSetu — Talk to a DRE expert" },
+      { title: "Contact UrjaSethu — Talk to a DRE expert" },
       {
         name: "description",
         content:
           "Call us or share a few details about your renewable energy requirement and we will connect you with the right domain-specific expert.",
       },
-      { property: "og:title", content: "Contact UrjaSetu" },
+      { property: "og:title", content: "Contact UrjaSethu" },
       {
         property: "og:description",
-        content: "Reach the UrjaSetu team by phone, or send a short enquiry about your DRE requirement.",
+        content: "Reach the UrjaSethu team by phone, or send a short enquiry about your DRE requirement.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },

@@ -22,13 +22,13 @@ import { t } from "../lib/i18n";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "UrjaSetu — Find the right DRE solution for your business" },
+      { title: "UrjaSethu — Find the right DRE solution for your business" },
       {
         name: "description",
         content:
-          "UrjaSetu connects Indian businesses with decentralised renewable energy solutions and verified providers. Start with your problem, get a recommendation, compare providers.",
+          "UrjaSethu connects Indian businesses with decentralised renewable energy solutions and verified providers. Start with your problem, get a recommendation, compare providers.",
       },
-      { property: "og:title", content: "UrjaSetu — DRE Solutions & Business Platform" },
+      { property: "og:title", content: "UrjaSethu — DRE Solutions & Business Platform" },
       {
         property: "og:description",
         content:
@@ -174,7 +174,7 @@ function Home() {
       {/* Journey */}
       <section className="bg-forest-deep text-ivory">
         <div className="container-page py-14">
-          <p className="text-[0.72rem] uppercase tracking-[0.14em] text-ivory/60">How UrjaSetu works</p>
+          <p className="text-[0.72rem] uppercase tracking-[0.14em] text-ivory/60">How UrjaSethu works</p>
           <h2 className="mt-3 max-w-2xl text-2xl font-semibold md:text-3xl">
             One path, from a real problem to a completed project.
           </h2>
@@ -386,7 +386,7 @@ function Home() {
             <p className="eyebrow">Institutional</p>
             <h2 className="mt-3 text-xl font-semibold">The DRIVE initiative</h2>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-              UrjaSetu is developed under DRIVE — Decentralised Renewable Energy Innovation for Vibrant
+              UrjaSethu is developed under DRIVE — Decentralised Renewable Energy Innovation for Vibrant
               Enterprises — an initiative supporting MSMEs and rural enterprises to adopt clean energy.
             </p>
             <Link to="/about" className="mt-5 inline-block text-sm font-medium text-primary hover:underline">

@@ -12,13 +12,13 @@ import { fetchPublishedStories, submitStory } from "../lib/db";
 export const Route = createFileRoute("/stories/")({
   head: () => ({
     meta: [
-      { title: "Business Stories — real problems, real DRE journeys | UrjaSetu" },
+      { title: "Business Stories — real problems, real DRE journeys | UrjaSethu" },
       {
         name: "description",
         content:
           "Indian business owners describe the problem they faced, what they needed, and the decentralised renewable energy journey that followed.",
       },
-      { property: "og:title", content: "Business Stories — UrjaSetu" },
+      { property: "og:title", content: "Business Stories — UrjaSethu" },
       { property: "og:description", content: "Every DRE journey starts with a real problem." },
     ],
   }),

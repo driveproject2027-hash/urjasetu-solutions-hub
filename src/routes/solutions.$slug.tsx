@@ -10,14 +10,14 @@ export const Route = createFileRoute("/solutions/$slug")({
   },
   head: ({ loaderData }) => {
     if (!loaderData) {
-      return { meta: [{ title: "Solution unavailable — UrjaSetu" }, { name: "robots", content: "noindex" }] };
+      return { meta: [{ title: "Solution unavailable — UrjaSethu" }, { name: "robots", content: "noindex" }] };
     }
     const { solution } = loaderData;
     return {
       meta: [
-        { title: `${solution.name} — DRE Solutions | UrjaSetu` },
+        { title: `${solution.name} — DRE Solutions | UrjaSethu` },
         { name: "description", content: solution.summary },
-        { property: "og:title", content: `${solution.name} — UrjaSetu` },
+        { property: "og:title", content: `${solution.name} — UrjaSethu` },
         { property: "og:description", content: solution.summary },
       ],
     };

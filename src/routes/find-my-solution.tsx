@@ -21,13 +21,13 @@ export const Route = createFileRoute("/find-my-solution")({
   validateSearch: searchSchema,
   head: () => ({
     meta: [
-      { title: "Find My Solution — UrjaSetu" },
+      { title: "Find My Solution — UrjaSethu" },
       {
         name: "description",
         content:
           "Answer a few questions about your business and the problem you face. Get explainable DRE recommendations and matching providers.",
       },
-      { property: "og:title", content: "Find My Solution — UrjaSetu" },
+      { property: "og:title", content: "Find My Solution — UrjaSethu" },
       { property: "og:description", content: "Start with the problem. We'll help you find the technology." },
     ],
   }),

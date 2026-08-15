@@ -11,14 +11,14 @@ export const Route = createFileRoute("/auth")({
   ssr: false,
   head: () => ({
     meta: [
-      { title: "Sign in to UrjaSetu" },
+      { title: "Sign in to UrjaSethu" },
       {
         name: "description",
         content:
-          "Sign in or create an UrjaSetu account to track your enquiries, provider applications and quote requests.",
+          "Sign in or create an UrjaSethu account to track your enquiries, provider applications and quote requests.",
       },
-      { property: "og:title", content: "Sign in to UrjaSetu" },
-      { property: "og:description", content: "Access your UrjaSetu enquiries, applications and quotes." },
+      { property: "og:title", content: "Sign in to UrjaSethu" },
+      { property: "og:description", content: "Access your UrjaSethu enquiries, applications and quotes." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -84,7 +84,7 @@ function AuthPage() {
       <PageHeader
         eyebrow="Account"
         title={mode === "signin" ? "Sign in" : "Create an account"}
-        intro="An account lets you track the enquiries, applications and quote requests you submit through UrjaSetu."
+        intro="An account lets you track the enquiries, applications and quote requests you submit through UrjaSethu."
       />
       <div className="container-page max-w-md py-12">
         <form onSubmit={onSubmit} className="space-y-4">

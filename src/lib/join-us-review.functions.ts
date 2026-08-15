@@ -20,7 +20,7 @@ const STATUS_MESSAGES: Record<string, string> = {
   pending: 'Your registration has been received and is waiting to be reviewed by our team.',
   under_review: 'Our team is currently reviewing the details you submitted.',
   approved:
-    'Your organisation is now listed on UrjaSetu and can receive customer enquiries and quote requests.',
+    'Your organisation is now listed on UrjaSethu and can receive customer enquiries and quote requests.',
   rejected:
     'After review, we are unable to list your organisation at this time. You are welcome to reapply with updated details.',
   suspended:

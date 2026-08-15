@@ -5,13 +5,13 @@ import { PageHeader } from "../components/site/PageHeader";
 export const Route = createFileRoute("/join-us/")({
   head: () => ({
     meta: [
-      { title: "Join Us — Solution, Finance & Network Partners | UrjaSetu" },
+      { title: "Join Us — Solution, Finance & Network Partners | UrjaSethu" },
       {
         name: "description",
         content:
-          "Register on UrjaSetu as a DRE solution provider, a finance provider or a network partner. Each partner type has its own onboarding form.",
+          "Register on UrjaSethu as a DRE solution provider, a finance provider or a network partner. Each partner type has its own onboarding form.",
       },
-      { property: "og:title", content: "Join UrjaSetu" },
+      { property: "og:title", content: "Join UrjaSethu" },
       {
         property: "og:description",
         content: "Three ways to join the DRE marketplace: solution provider, finance provider or network partner.",
@@ -50,7 +50,7 @@ function JoinUs() {
     <>
       <PageHeader
         eyebrow="Join us"
-        title="Three ways to be part of the UrjaSetu network"
+        title="Three ways to be part of the UrjaSethu network"
         intro="Choose the role that fits your organisation. Each one has its own registration form, because what we need to verify is different in each case."
       />
 

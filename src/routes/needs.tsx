@@ -9,13 +9,13 @@ import { fetchPublicNeeds, submitCustomerRequest, submitNeedResponse, submitOpen
 export const Route = createFileRoute("/needs")({
   head: () => ({
     meta: [
-      { title: "Open Needs — what businesses are looking for | UrjaSetu" },
+      { title: "Open Needs — what businesses are looking for | UrjaSethu" },
       {
         name: "description",
         content:
           "Active requirements posted by Indian businesses looking for decentralised renewable energy solutions. Providers can respond directly.",
       },
-      { property: "og:title", content: "Open Needs — UrjaSetu" },
+      { property: "og:title", content: "Open Needs — UrjaSethu" },
       { property: "og:description", content: "Real demand from businesses. Providers respond with proposals." },
     ],
   }),

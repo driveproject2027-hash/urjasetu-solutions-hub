@@ -6,13 +6,13 @@ import { PageHeader } from "../components/site/PageHeader";
 export const Route = createFileRoute("/calculator")({
   head: () => ({
     meta: [
-      { title: "Solar Business Calculator — indicative estimates | UrjaSetu" },
+      { title: "Solar Business Calculator — indicative estimates | UrjaSethu" },
       {
         name: "description",
         content:
           "Estimate an indicative solar system size, monthly generation, savings, investment and payback for your business. Approximate figures only.",
       },
-      { property: "og:title", content: "Solar Business Calculator — UrjaSetu" },
+      { property: "og:title", content: "Solar Business Calculator — UrjaSethu" },
       { property: "og:description", content: "What could solar look like for your business?" },
     ],
   }),

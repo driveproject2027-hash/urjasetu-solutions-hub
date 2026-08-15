@@ -34,7 +34,7 @@ export function Footer() {
     <footer className="mt-24 border-t border-border bg-ink text-ivory">
       <div className="container-page grid gap-10 py-14 md:grid-cols-4">
         <div>
-          <p className="font-display text-lg font-bold">UrjaSetu</p>
+          <p className="font-display text-lg font-bold">UrjaSethu</p>
           <p className="mt-2 max-w-xs text-sm text-ivory/70">
             A platform where Indian businesses start with a real problem and find the decentralised renewable
             energy solution and provider that fits.

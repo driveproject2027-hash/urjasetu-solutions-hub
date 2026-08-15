@@ -15,12 +15,12 @@ export const Route = createFileRoute("/stories/$slug")({
   },
   head: ({ loaderData }) => {
     if (!loaderData) {
-      return { meta: [{ title: "Story unavailable — UrjaSetu" }, { name: "robots", content: "noindex" }] };
+      return { meta: [{ title: "Story unavailable — UrjaSethu" }, { name: "robots", content: "noindex" }] };
     }
     const { story } = loaderData;
     return {
       meta: [
-        { title: `“${story.headline}” — Business Story | UrjaSetu` },
+        { title: `“${story.headline}” — Business Story | UrjaSethu` },
         { name: "description", content: story.problem },
         { property: "og:title", content: story.headline },
         { property: "og:description", content: story.problem },

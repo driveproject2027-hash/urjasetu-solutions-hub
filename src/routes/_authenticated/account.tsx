@@ -53,7 +53,7 @@ function Account() {
 
   return (
     <>
-      <PageHeader eyebrow="Account" title="Your UrjaSetu activity" intro={email ?? ""}>
+      <PageHeader eyebrow="Account" title="Your UrjaSethu activity" intro={email ?? ""}>
         <div className="flex flex-wrap gap-4">
           {isAdmin && (
             <Link to="/admin" className="bg-primary px-5 py-3 text-sm font-medium text-primary-foreground hover:bg-forest-deep">
