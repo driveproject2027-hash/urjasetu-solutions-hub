@@ -75,3 +75,14 @@ const brandMark = {
   color: '#1f4634',
   margin: '0 0 20px',
 }
+const codeStyle = {
+  fontFamily: "'Manrope', Helvetica, Arial, sans-serif",
+  fontSize: '30px',
+  letterSpacing: '6px',
+  color: '#1f4634',
+  backgroundColor: '#f7f4ec',
+  border: '1px solid #e6dcc7',
+  padding: '16px 20px',
+  textAlign: 'center' as const,
+  margin: '0 0 20px',
+}
