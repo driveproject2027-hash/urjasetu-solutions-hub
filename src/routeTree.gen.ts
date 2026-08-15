@@ -21,6 +21,7 @@ import { Route as FinancingRouteImport } from './routes/financing'
 import { Route as FindMySolutionRouteImport } from './routes/find-my-solution'
 import { Route as JoinNetworkPartnerRouteImport } from './routes/join-network-partner'
 import { Route as JoinProviderRouteImport } from './routes/join-provider'
+import { Route as JoinUsRouteImport } from './routes/join-us'
 import { Route as NeedsRouteImport } from './routes/needs'
 import { Route as OpportunitiesRouteImport } from './routes/opportunities'
 import { Route as ProvidersRouteImport } from './routes/providers'
@@ -96,6 +97,11 @@ const JoinNetworkPartnerRoute = JoinNetworkPartnerRouteImport.update({
 const JoinProviderRoute = JoinProviderRouteImport.update({
   id: '/join-provider',
   path: '/join-provider',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JoinUsRoute = JoinUsRouteImport.update({
+  id: '/join-us',
+  path: '/join-us',
   getParentRoute: () => rootRouteImport,
 } as any)
 const NeedsRoute = NeedsRouteImport.update({
@@ -196,6 +202,7 @@ export interface FileRoutesByFullPath {
   '/find-my-solution': typeof FindMySolutionRoute
   '/join-network-partner': typeof JoinNetworkPartnerRoute
   '/join-provider': typeof JoinProviderRoute
+  '/join-us': typeof JoinUsRoute
   '/needs': typeof NeedsRoute
   '/opportunities': typeof OpportunitiesRoute
   '/providers': typeof ProvidersRouteWithChildren
@@ -226,6 +233,7 @@ export interface FileRoutesByTo {
   '/find-my-solution': typeof FindMySolutionRoute
   '/join-network-partner': typeof JoinNetworkPartnerRoute
   '/join-provider': typeof JoinProviderRoute
+  '/join-us': typeof JoinUsRoute
   '/needs': typeof NeedsRoute
   '/opportunities': typeof OpportunitiesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -254,6 +262,7 @@ export interface FileRoutesById {
   '/find-my-solution': typeof FindMySolutionRoute
   '/join-network-partner': typeof JoinNetworkPartnerRoute
   '/join-provider': typeof JoinProviderRoute
+  '/join-us': typeof JoinUsRoute
   '/needs': typeof NeedsRoute
   '/opportunities': typeof OpportunitiesRoute
   '/providers': typeof ProvidersRouteWithChildren
@@ -286,6 +295,7 @@ export interface FileRouteTypes {
     | '/find-my-solution'
     | '/join-network-partner'
     | '/join-provider'
+    | '/join-us'
     | '/needs'
     | '/opportunities'
     | '/providers'
@@ -316,6 +326,7 @@ export interface FileRouteTypes {
     | '/find-my-solution'
     | '/join-network-partner'
     | '/join-provider'
+    | '/join-us'
     | '/needs'
     | '/opportunities'
     | '/sitemap.xml'
@@ -343,6 +354,7 @@ export interface FileRouteTypes {
     | '/find-my-solution'
     | '/join-network-partner'
     | '/join-provider'
+    | '/join-us'
     | '/needs'
     | '/opportunities'
     | '/providers'
@@ -375,6 +387,7 @@ export interface RootRouteChildren {
   FindMySolutionRoute: typeof FindMySolutionRoute
   JoinNetworkPartnerRoute: typeof JoinNetworkPartnerRoute
   JoinProviderRoute: typeof JoinProviderRoute
+  JoinUsRoute: typeof JoinUsRoute
   NeedsRoute: typeof NeedsRoute
   OpportunitiesRoute: typeof OpportunitiesRoute
   ProvidersRoute: typeof ProvidersRouteWithChildren
@@ -468,6 +481,13 @@ declare module '@tanstack/react-router' {
       path: '/join-provider'
       fullPath: '/join-provider'
       preLoaderRoute: typeof JoinProviderRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/join-us': {
+      id: '/join-us'
+      path: '/join-us'
+      fullPath: '/join-us'
+      preLoaderRoute: typeof JoinUsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/needs': {
@@ -673,6 +693,7 @@ const rootRouteChildren: RootRouteChildren = {
   FindMySolutionRoute: FindMySolutionRoute,
   JoinNetworkPartnerRoute: JoinNetworkPartnerRoute,
   JoinProviderRoute: JoinProviderRoute,
+  JoinUsRoute: JoinUsRoute,
   NeedsRoute: NeedsRoute,
   OpportunitiesRoute: OpportunitiesRoute,
   ProvidersRoute: ProvidersRouteWithChildren,
