@@ -27,7 +27,7 @@ type AnyRow = {
 
 const tabs = [
   "Overview",
-  "Providers",
+  "Join Us submissions",
   "Customer requests",
   "Stories",
   "Open needs",
@@ -116,7 +116,7 @@ function AdminPage() {
         </nav>
 
         {tab === "Overview" && <Overview onJump={setTab} />}
-        {tab === "Providers" && <Providers />}
+        {tab === "Join Us submissions" && <Providers />}
         {tab === "Customer requests" && <CustomerRequests />}
         {tab === "Stories" && <Stories />}
         {tab === "Open needs" && <Needs />}
@@ -225,7 +225,7 @@ function Overview({ onJump }: { onJump: (t: Tab) => void }) {
   }, []);
 
   const jumpFor: Record<string, Tab> = {
-    "New provider applications": "Providers",
+    "New provider applications": "Join Us submissions",
     "Pending customer requests": "Customer requests",
     "Open needs": "Open needs",
     "New quote requests": "Quotes",
