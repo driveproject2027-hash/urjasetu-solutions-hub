@@ -7,7 +7,7 @@ import { submitCustomerRequest } from "../lib/db";
 import { PageHeader } from "../components/site/PageHeader";
 
 // Update these with the official contact details.
-const PHONE = "[ADD OFFICIAL PHONE NUMBER HERE]";
+const PHONE = "8499883525";
 const EMAIL = "hello@urjasethu.dev";
 
 export const Route = createFileRoute("/contact")({
