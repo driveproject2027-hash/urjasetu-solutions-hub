@@ -15,6 +15,7 @@ import {
   storyStatuses,
 } from "../../lib/db";
 import { useIsAdmin } from "../../lib/useAuth";
+import { updateJoinUsStatus } from "@/lib/join-us-review.functions";
 
 export const Route = createFileRoute("/_authenticated/admin")({
   component: AdminPage,
@@ -302,6 +303,24 @@ function parseDetails(description: string) {
       return { label, value };
     })
     .filter((v): v is { label: string; value: string } => v !== null);
+}
+
+async function saveProviderStatus(id: string, status: string, reload: () => void) {
+  try {
+    const result = await updateJoinUsStatus({ data: { id, status } });
+    const note =
+      result.notified === "sent"
+        ? ` · applicant notified at ${result.recipient ?? "their email"}`
+        : result.notified === "suppressed"
+          ? " · applicant could not be emailed (address blocked)"
+          : result.notified === "failed"
+            ? " · email notification failed"
+            : "";
+    toast.success(`Status updated to ${statusLabel(status)}${note}`);
+    reload();
+  } catch (e) {
+    toast.error(e instanceof Error ? e.message : "Update failed");
+  }
 }
 
 function Providers() {
