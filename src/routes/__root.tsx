@@ -81,13 +81,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "UrjaSetu — DRE Solutions & Business Platform" },
+      { title: "UrjaSethu — DRE Solutions & Business Platform" },
       {
         name: "description",
         content:
-          "UrjaSetu helps Indian businesses start with a real problem and find the right decentralised renewable energy solution and provider.",
+          "UrjaSethu helps Indian businesses start with a real problem and find the right decentralised renewable energy solution and provider.",
       },
-      { property: "og:site_name", content: "UrjaSetu" },
+      { property: "og:site_name", content: "UrjaSethu" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],

@@ -6,13 +6,13 @@ import { opportunities } from "../data/catalog";
 export const Route = createFileRoute("/opportunities")({
   head: () => ({
     meta: [
-      { title: "Start a DRE Business — Business Opportunities | UrjaSetu" },
+      { title: "Start a DRE Business — Business Opportunities | UrjaSethu" },
       {
         name: "description",
         content:
           "Enterprise opportunities in decentralised renewable energy: solar drying, cold storage, service centres, e-mobility, waste-to-fuel and textile clusters.",
       },
-      { property: "og:title", content: "Start a DRE Business — UrjaSetu" },
+      { property: "og:title", content: "Start a DRE Business — UrjaSethu" },
       { property: "og:description", content: "Enterprise opportunities in decentralised renewable energy." },
     ],
   }),

@@ -26,7 +26,7 @@ export function Header() {
     <header className="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur">
       <div className="container-page flex h-16 items-center justify-between gap-6">
         <Link to="/" className="flex items-baseline">
-          <span className="font-display text-xl font-bold tracking-tight text-primary">UrjaSetu</span>
+          <span className="font-display text-xl font-bold tracking-tight text-primary">UrjaSethu</span>
         </Link>
 
         <nav className="hidden items-center gap-5 xl:flex" aria-label="Primary">

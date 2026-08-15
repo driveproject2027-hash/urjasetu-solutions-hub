@@ -82,7 +82,7 @@ function AdminPage() {
         <PageHeader
           eyebrow="Admin"
           title="You do not have access to this area"
-          intro="The admin dashboard is limited to UrjaSetu administrators."
+          intro="The admin dashboard is limited to UrjaSethu administrators."
         />
         <div className="container-page py-12">
           <Link to="/" className="text-sm font-medium text-primary underline">
@@ -97,7 +97,7 @@ function AdminPage() {
     <>
       <PageHeader
         eyebrow="Admin"
-        title="UrjaSetu administration"
+        title="UrjaSethu administration"
         intro="Review applications, route customer requests to the right kind of provider and manage published content."
       />
       <div className="container-page py-10">

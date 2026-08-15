@@ -82,16 +82,16 @@ const Email = ({
 }: JoinUsStatusProps) => (
   <Html lang="en" dir="ltr">
     <Head />
-    <Preview>{`Your UrjaSetu registration is now ${statusLabel ?? 'updated'}`}</Preview>
+    <Preview>{`Your UrjaSethu registration is now ${statusLabel ?? 'updated'}`}</Preview>
     <Body style={main}>
       <Container style={container}>
-        <Text style={brand}>UrjaSetu</Text>
+        <Text style={brand}>UrjaSethu</Text>
         <Heading style={heading}>Your registration has been reviewed</Heading>
         <Text style={paragraph}>
           {contactPerson ? `Dear ${contactPerson},` : 'Hello,'}
         </Text>
         <Text style={paragraph}>
-          Thank you for registering{organisation ? ` ${organisation}` : ''} on UrjaSetu
+          Thank you for registering{organisation ? ` ${organisation}` : ''} on UrjaSethu
           {pathLabel ? ` as a ${pathLabel}` : ''}. Our team has updated the status of your
           application.
         </Text>
@@ -117,7 +117,7 @@ const Email = ({
         </Text>
 
         <Hr style={hr} />
-        <Text style={footer}>UrjaSetu — Decentralised Renewable Energy marketplace for Indian MSMEs.</Text>
+        <Text style={footer}>UrjaSethu — Decentralised Renewable Energy marketplace for Indian MSMEs.</Text>
         <Text style={footer}>Supported by the DRIVE initiative.</Text>
       </Container>
     </Body>
@@ -127,7 +127,7 @@ const Email = ({
 export const template = {
   component: Email,
   subject: (data: Record<string, unknown>) =>
-    `UrjaSetu registration update: ${String(data['statusLabel'] ?? 'reviewed')}`,
+    `UrjaSethu registration update: ${String(data['statusLabel'] ?? 'reviewed')}`,
   displayName: 'Join Us review status update',
   previewData: {
     organisation: 'Surya Agro Solutions',

@@ -9,13 +9,13 @@ import { submitProviderApplication } from "../lib/db";
 export const Route = createFileRoute("/join-us/network-partner")({
   head: () => ({
     meta: [
-      { title: "Register as a Network Partner — UrjaSetu" },
+      { title: "Register as a Network Partner — UrjaSethu" },
       {
         name: "description",
         content:
-          "NGOs, FPOs, clusters, incubators and local facilitators can register as UrjaSetu network partners and connect enterprises to decentralised renewable energy.",
+          "NGOs, FPOs, clusters, incubators and local facilitators can register as UrjaSethu network partners and connect enterprises to decentralised renewable energy.",
       },
-      { property: "og:title", content: "Register as a Network Partner — UrjaSetu" },
+      { property: "og:title", content: "Register as a Network Partner — UrjaSethu" },
       { property: "og:description", content: "Help local enterprises find the right DRE solution and support." },
     ],
   }),

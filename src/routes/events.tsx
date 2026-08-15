@@ -22,13 +22,13 @@ type EventItem = {
 export const Route = createFileRoute("/events")({
   head: () => ({
     meta: [
-      { title: "Events & Awareness — UrjaSetu" },
+      { title: "Events & Awareness — UrjaSethu" },
       {
         name: "description",
         content:
           "Upcoming awareness programmes, workshops, DRE events and enterprise engagements organised under the DRIVE initiative.",
       },
-      { property: "og:title", content: "Events & Awareness — UrjaSetu" },
+      { property: "og:title", content: "Events & Awareness — UrjaSethu" },
       {
         property: "og:description",
         content: "Workshops, awareness programmes and enterprise engagements on decentralised renewable energy.",

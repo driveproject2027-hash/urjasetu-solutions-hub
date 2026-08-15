@@ -9,13 +9,13 @@ import { submitProviderApplication } from "../lib/db";
 export const Route = createFileRoute("/join-us/finance-provider")({
   head: () => ({
     meta: [
-      { title: "Register as a Finance Provider — UrjaSetu" },
+      { title: "Register as a Finance Provider — UrjaSethu" },
       {
         name: "description",
         content:
-          "Banks, NBFCs, cooperatives and leasing companies can register on UrjaSetu to finance MSME investments in decentralised renewable energy.",
+          "Banks, NBFCs, cooperatives and leasing companies can register on UrjaSethu to finance MSME investments in decentralised renewable energy.",
       },
-      { property: "og:title", content: "Register as a Finance Provider — UrjaSetu" },
+      { property: "og:title", content: "Register as a Finance Provider — UrjaSethu" },
       { property: "og:description", content: "Reach MSMEs seeking finance for renewable energy assets." },
     ],
   }),
@@ -152,7 +152,7 @@ function FinanceProviderForm() {
           <TextArea label="Anything else we should know" name="notes" rows={4} className="md:col-span-2" />
 
           <p className="text-xs text-muted-foreground md:col-span-2">
-            UrjaSetu does not process loan applications or guarantee eligibility. If your offering does not fit these
+            UrjaSethu does not process loan applications or guarantee eligibility. If your offering does not fit these
             fields,{" "}
             <Link to="/contact" className="text-primary hover:underline">
               contact us

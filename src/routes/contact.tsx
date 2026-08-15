@@ -7,22 +7,22 @@ import { submitCustomerRequest } from "../lib/db";
 import { PageHeader } from "../components/site/PageHeader";
 
 // Update these with the official contact details.
-const PHONE = "[ADD OFFICIAL PHONE NUMBER HERE]";
+const PHONE = "8499883525";
 const EMAIL = "hello@urjasethu.dev";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
-      { title: "Contact UrjaSetu — Talk to a DRE expert" },
+      { title: "Contact UrjaSethu — Talk to a DRE expert" },
       {
         name: "description",
         content:
           "Call us or share a few details about your renewable energy requirement and we will connect you with the right domain-specific expert.",
       },
-      { property: "og:title", content: "Contact UrjaSetu" },
+      { property: "og:title", content: "Contact UrjaSethu" },
       {
         property: "og:description",
-        content: "Reach the UrjaSetu team by phone, or send a short enquiry about your DRE requirement.",
+        content: "Reach the UrjaSethu team by phone, or send a short enquiry about your DRE requirement.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
@@ -47,7 +47,9 @@ function Contact() {
         <aside className="space-y-6">
           <div className="border border-border bg-ivory p-6">
             <p className="eyebrow">Call us</p>
-            <p className="mt-3 font-display text-2xl font-semibold text-primary">{PHONE}</p>
+            <a href={`tel:${PHONE}`} className="mt-3 block font-display text-2xl font-semibold text-primary">
+              {PHONE}
+            </a>
             <p className="mt-2 text-sm text-muted-foreground">
               Monday to Saturday. If we miss your call, leave a message and we will call back.
             </p>

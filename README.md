@@ -1,4 +1,4 @@
-# UrjaSetu Solutions Hub
+# UrjaSethu Solutions Hub
 
 # IMPORTANT — BEFORE MODIFYING THE APPLICATION
 
@@ -50,7 +50,7 @@ Recreate the Wix experience natively in the existing Lovable application.
 
 The final application must be a real full-stack web application, not a static visual prototype. FINAL PROMPT — BUILD A HUMAN-CENTERED DRE MARKETPLACE
 
-You are refining an existing web application called UrjaSetu.
+You are refining an existing web application called UrjaSethu.
 
 This is NOT a request to create another generic AI-generated SaaS website.
 
@@ -64,7 +64,7 @@ DRIVE — Decentralised Renewable Energy Innovation for Vibrant Enterprises
 
 Do not make the website look like a DRIVE project information portal.
 
-UrjaSetu should feel like an independent DRE ecosystem/platform where:
+UrjaSethu should feel like an independent DRE ecosystem/platform where:
 
 Businesses find solutions
 
@@ -280,11 +280,11 @@ Photography should feel documentary/editorial.
 
 5. BRAND POSITIONING
 
-Keep UrjaSetu as the platform identity.
+Keep UrjaSethu as the platform identity.
 
 Use:
 
-UrjaSetu
+UrjaSethu
 
 DRE Solutions & Business Platform
 
@@ -306,7 +306,7 @@ The platform should still make sense if DRIVE eventually ends or expands into an
 
 Create a clean mature navigation.
 
-UrjaSetu
+UrjaSethu
 
 Solutions
 

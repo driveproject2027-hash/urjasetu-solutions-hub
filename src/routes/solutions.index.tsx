@@ -6,13 +6,13 @@ import { solutions } from "../data/catalog";
 export const Route = createFileRoute("/solutions/")({
   head: () => ({
     meta: [
-      { title: "Explore DRE Solutions — UrjaSetu" },
+      { title: "Explore DRE Solutions — UrjaSethu" },
       {
         name: "description",
         content:
           "Solar PV, solar plus battery, cold chain, solar drying, processing, e-mobility, pumps and waste-to-fuel — matched to real business problems.",
       },
-      { property: "og:title", content: "Explore DRE Solutions — UrjaSetu" },
+      { property: "og:title", content: "Explore DRE Solutions — UrjaSethu" },
       {
         property: "og:description",
         content: "Decentralised renewable energy solutions for Indian MSMEs and rural enterprises.",

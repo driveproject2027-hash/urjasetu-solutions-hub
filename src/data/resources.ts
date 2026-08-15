@@ -96,7 +96,7 @@ export const resourceCategories: ResourceCategory[] = [
     name: "Government Schemes",
     tagline: "Support programmes relevant to MSMEs and DRE adoption.",
     intro:
-      "These summaries are for orientation only. Scheme rules, eligibility and support levels change. UrjaSetu does not process applications or confirm eligibility.",
+      "These summaries are for orientation only. Scheme rules, eligibility and support levels change. UrjaSethu does not process applications or confirm eligibility.",
     articles: [
       {
         slug: "mse-gift",
@@ -237,7 +237,7 @@ export const resourceCategories: ResourceCategory[] = [
     name: "GAME & DRIVE",
     tagline: "The ecosystem behind the platform.",
     intro:
-      "UrjaSetu is the platform. DRIVE is an initiative working on decentralised renewable energy for enterprise productivity. GAME is a separate entrepreneurship organisation active in the wider ecosystem.",
+      "UrjaSethu is the platform. DRIVE is an initiative working on decentralised renewable energy for enterprise productivity. GAME is a separate entrepreneurship organisation active in the wider ecosystem.",
     articles: [
       {
         slug: "what-is-drive",
@@ -246,8 +246,8 @@ export const resourceCategories: ResourceCategory[] = [
         tags: ["drive", "ecosystem"],
         body: [
           { heading: "The idea", text: "DRIVE works on the link between energy access and enterprise productivity: what changes for a small business when power becomes reliable and affordable." },
-          { heading: "How it shows up here", text: "The solution categories, opportunity outlines and scheme references on UrjaSetu draw on DRIVE material about DRE-linked livelihoods." },
-          { heading: "Relationship to UrjaSetu", text: "DRIVE is a supporting initiative. UrjaSetu is the platform businesses and providers use." },
+          { heading: "How it shows up here", text: "The solution categories, opportunity outlines and scheme references on UrjaSethu draw on DRIVE material about DRE-linked livelihoods." },
+          { heading: "Relationship to UrjaSethu", text: "DRIVE is a supporting initiative. UrjaSethu is the platform businesses and providers use." },
         ],
       },
       {
@@ -258,7 +258,7 @@ export const resourceCategories: ResourceCategory[] = [
         body: [
           { heading: "What it does", text: "GAME (Global Alliance for Mass Entrepreneurship) works on mass entrepreneurship in India — access to finance, market linkages and enabling policy." },
           { heading: "Why it appears here", text: "Entrepreneurship support and DRE adoption overlap: many DRE opportunities are, first of all, small businesses." },
-          { heading: "An important distinction", text: "GAME is not presented here as the owner or operator of UrjaSetu. Any specific programme, funding or support should be described only where an official source states it." },
+          { heading: "An important distinction", text: "GAME is not presented here as the owner or operator of UrjaSethu. Any specific programme, funding or support should be described only where an official source states it." },
         ],
       },
       {
@@ -270,7 +270,7 @@ export const resourceCategories: ResourceCategory[] = [
           { heading: "Early-stage support", text: "Advice on sizing, demand assessment and business planning often decides whether a DRE enterprise survives its first year." },
           { heading: "Entrepreneurship support", text: "Training, mentoring, cluster networks and market linkages provided by ecosystem organisations and state agencies." },
           { heading: "Financing pathways", text: "Government schemes, concessional lenders, asset finance and — for enterprises that intend to scale — grant or seed capital from programmes." },
-          { heading: "On claims", text: "UrjaSetu does not claim that any particular organisation funds any particular enterprise. Specific support is stated only where an official source confirms it." },
+          { heading: "On claims", text: "UrjaSethu does not claim that any particular organisation funds any particular enterprise. Specific support is stated only where an official source confirms it." },
         ],
       },
       {

@@ -33,12 +33,12 @@ export const Route = createFileRoute("/drive")({
       {
         name: "description",
         content:
-          "DRIVE is the initiative supporting UrjaSetu — strengthening decentralised renewable energy adoption among Indian enterprises through awareness, matching and financing linkages.",
+          "DRIVE is the initiative supporting UrjaSethu — strengthening decentralised renewable energy adoption among Indian enterprises through awareness, matching and financing linkages.",
       },
       { property: "og:title", content: "About DRIVE" },
       {
         property: "og:description",
-        content: "The initiative behind UrjaSetu: purpose, partners, approach and impact.",
+        content: "The initiative behind UrjaSethu: purpose, partners, approach and impact.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
@@ -84,7 +84,7 @@ function Drive() {
             <h2 className="text-xl font-semibold">Purpose</h2>
             <p className="mt-3 leading-relaxed text-foreground/85">
               To make decentralised renewable energy a practical, financeable choice for micro, small and medium
-              enterprises — starting from the business problem rather than the technology catalogue. UrjaSetu is the
+              enterprises — starting from the business problem rather than the technology catalogue. UrjaSethu is the
               platform through which this happens; DRIVE supports it.
             </p>
           </section>
@@ -142,7 +142,7 @@ function Drive() {
         <aside className="space-y-4 border-t border-border pt-6 lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0">
           <h2 className="text-sm font-semibold uppercase tracking-[0.12em] text-muted-foreground">Related</h2>
           <Link to="/about" className="block font-medium hover:text-primary">
-            About UrjaSetu →
+            About UrjaSethu →
           </Link>
           <Link to="/events" className="block font-medium hover:text-primary">
             Events &amp; awareness →

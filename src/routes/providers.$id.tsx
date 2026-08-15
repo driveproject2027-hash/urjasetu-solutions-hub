@@ -15,14 +15,14 @@ export const Route = createFileRoute("/providers/$id")({
   },
   head: ({ loaderData }) => {
     if (!loaderData) {
-      return { meta: [{ title: "Provider unavailable — UrjaSetu" }, { name: "robots", content: "noindex" }] };
+      return { meta: [{ title: "Provider unavailable — UrjaSethu" }, { name: "robots", content: "noindex" }] };
     }
     const { provider } = loaderData;
     return {
       meta: [
-        { title: `${provider.name} — DRE provider in ${provider.city} | UrjaSetu` },
+        { title: `${provider.name} — DRE provider in ${provider.city} | UrjaSethu` },
         { name: "description", content: provider.about },
-        { property: "og:title", content: `${provider.name} — UrjaSetu` },
+        { property: "og:title", content: `${provider.name} — UrjaSethu` },
         { property: "og:description", content: provider.about },
       ],
     };
