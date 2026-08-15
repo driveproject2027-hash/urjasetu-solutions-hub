@@ -454,8 +454,9 @@ function Providers() {
                   <StatusSelect
                     value={str(r, "status")}
                     options={providerStatuses}
-                    onChange={(v) => void saveStatus("provider_applications", r.id, v, reload)}
+                    onChange={(v) => void saveProviderStatus(r.id, v, reload)}
                   />
+
                   <AdminNotes table="provider_applications" row={r} reload={reload} />
                 </div>
               </li>
