@@ -47,7 +47,9 @@ function Contact() {
         <aside className="space-y-6">
           <div className="border border-border bg-ivory p-6">
             <p className="eyebrow">Call us</p>
-            <p className="mt-3 font-display text-2xl font-semibold text-primary">{PHONE}</p>
+            <a href={`tel:${PHONE}`} className="mt-3 block font-display text-2xl font-semibold text-primary">
+              {PHONE}
+            </a>
             <p className="mt-2 text-sm text-muted-foreground">
               Monday to Saturday. If we miss your call, leave a message and we will call back.
             </p>
