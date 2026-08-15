@@ -288,17 +288,61 @@ function RecentEnquiries() {
 
 /* ---------- providers ---------- */
 
+const typeFilters = ["all", "solution", "finance", "network"] as const;
+
+function parseDetails(description: string) {
+  return description
+    .split("\n")
+    .map((line) => {
+      const i = line.indexOf(":");
+      if (i === -1) return null;
+      const label = line.slice(0, i).trim();
+      const value = line.slice(i + 1).trim();
+      if (!label || !value) return null;
+      return { label, value };
+    })
+    .filter((v): v is { label: string; value: string } => v !== null);
+}
+
 function Providers() {
   const { rows, reload } = useTable("provider_applications", "applied_at");
   const [filter, setFilter] = useState<string>("all");
+  const [status, setStatus] = useState<string>("all");
+  const [q, setQ] = useState("");
+  const [open, setOpen] = useState<string | null>(null);
 
   if (!rows) return <Empty label="Loading…" />;
-  const visible = filter === "all" ? rows : rows.filter((r) => str(r, "provider_type") === filter);
+
+  const term = q.trim().toLowerCase();
+  const visible = rows.filter((r) => {
+    if (filter !== "all" && str(r, "provider_type") !== filter) return false;
+    if (status !== "all" && str(r, "status") !== status) return false;
+    if (!term) return true;
+    return ["organisation", "contact_person", "email", "phone", "location", "services", "description"].some((k) =>
+      str(r, k).toLowerCase().includes(term),
+    );
+  });
+
+  const countBy = (predicate: (r: AnyRow) => boolean) => rows.filter(predicate).length;
 
   return (
-    <Panel title="Provider onboarding" count={rows.length}>
-      <div className="mb-4 flex flex-wrap gap-2">
-        {["all", "solution", "finance", "network"].map((f) => (
+    <Panel title="Join Us submissions" count={rows.length}>
+      <div className="mb-6 grid gap-px border border-border bg-border sm:grid-cols-2 lg:grid-cols-4">
+        {[
+          ["Awaiting review", countBy((r) => ["pending", "under_review"].includes(str(r, "status")))],
+          ["Solution providers", countBy((r) => str(r, "provider_type") === "solution")],
+          ["Finance providers", countBy((r) => str(r, "provider_type") === "finance")],
+          ["Network partners", countBy((r) => str(r, "provider_type") === "network")],
+        ].map(([label, value]) => (
+          <div key={String(label)} className="bg-background p-4">
+            <div className="font-display text-2xl font-semibold text-primary">{value}</div>
+            <div className="mt-1 text-xs text-muted-foreground">{label}</div>
+          </div>
+        ))}
+      </div>
+
+      <div className="mb-4 flex flex-wrap items-center gap-2">
+        {typeFilters.map((f) => (
           <button
             key={f}
             type="button"
@@ -308,47 +352,122 @@ function Providers() {
             {f === "all" ? "All types" : providerTypeLabels[f as "solution"]}
           </button>
         ))}
+        <select
+          value={status}
+          onChange={(e) => setStatus(e.target.value)}
+          aria-label="Filter by review status"
+          className="border border-input bg-background px-2 py-1.5 text-sm"
+        >
+          <option value="all">All statuses</option>
+          {providerStatuses.map((s) => (
+            <option key={s} value={s}>
+              {statusLabel(s)}
+            </option>
+          ))}
+        </select>
+        <input
+          value={q}
+          onChange={(e) => setQ(e.target.value)}
+          placeholder="Search organisation, contact, location…"
+          aria-label="Search submissions"
+          className="min-w-56 flex-1 border border-input bg-background px-3 py-1.5 text-sm"
+        />
       </div>
+
+      <p className="mb-2 text-xs text-muted-foreground">
+        Showing {visible.length} of {rows.length} submissions
+      </p>
+
       {visible.length === 0 ? (
-        <Empty />
+        <Empty label="No submissions match these filters." />
       ) : (
         <ul className="divide-y divide-border border-y border-border">
-          {visible.map((r) => (
-            <li key={r.id} className="grid gap-3 py-5 lg:grid-cols-[1fr_auto]">
-              <div>
-                <div className="flex flex-wrap items-center gap-3">
-                  <h3 className="font-display text-lg font-semibold">{str(r, "organisation")}</h3>
-                  <span className="border border-border px-2 py-0.5 text-xs text-muted-foreground">
-                    {providerTypeLabels[str(r, "provider_type") as "solution"] ?? str(r, "provider_type")}
-                  </span>
+          {visible.map((r) => {
+            const services = String(r["services"] ?? "")
+              .replace(/[{}"]/g, "")
+              .split(",")
+              .map((s) => s.trim())
+              .filter(Boolean);
+            const details = parseDetails(str(r, "description"));
+            const isOpen = open === r.id;
+            return (
+              <li key={r.id} className="grid gap-4 py-5 lg:grid-cols-[1fr_18rem]">
+                <div>
+                  <div className="flex flex-wrap items-center gap-3">
+                    <h3 className="font-display text-lg font-semibold">{str(r, "organisation")}</h3>
+                    <span className="border border-border px-2 py-0.5 text-xs text-muted-foreground">
+                      {providerTypeLabels[str(r, "provider_type") as "solution"] ?? str(r, "provider_type")}
+                    </span>
+                    <span className="border border-primary/40 px-2 py-0.5 text-xs text-primary">
+                      {statusLabel(str(r, "status"))}
+                    </span>
+                  </div>
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    {[str(r, "contact_person"), str(r, "email"), str(r, "phone"), str(r, "location")]
+                      .filter(Boolean)
+                      .join(" · ")}
+                  </p>
+                  {str(r, "website") && (
+                    <p className="mt-1 text-sm">
+                      <a href={str(r, "website")} target="_blank" rel="noreferrer" className="text-primary underline">
+                        {str(r, "website")}
+                      </a>
+                    </p>
+                  )}
+                  {services.length > 0 && (
+                    <ul className="mt-2 flex flex-wrap gap-1.5">
+                      {services.map((s) => (
+                        <li key={s} className="border border-border px-2 py-0.5 text-xs text-foreground/80">
+                          {s}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                  <p className="mt-2 text-xs text-muted-foreground">
+                    Applied {new Date(str(r, "applied_at")).toLocaleDateString()}
+                    {str(r, "admin_notes") && " · has internal notes"}
+                  </p>
+
+                  {details.length > 0 && (
+                    <>
+                      <button
+                        type="button"
+                        onClick={() => setOpen(isOpen ? null : r.id)}
+                        className="mt-2 text-xs font-medium text-primary underline"
+                      >
+                        {isOpen ? "Hide submitted answers" : `View submitted answers (${details.length})`}
+                      </button>
+                      {isOpen && (
+                        <dl className="mt-3 grid max-w-2xl gap-x-6 gap-y-2 border border-border p-4 text-sm sm:grid-cols-2">
+                          {details.map((d) => (
+                            <div key={d.label}>
+                              <dt className="text-xs uppercase tracking-wide text-muted-foreground">{d.label}</dt>
+                              <dd className="text-foreground/90">{d.value}</dd>
+                            </div>
+                          ))}
+                        </dl>
+                      )}
+                    </>
+                  )}
                 </div>
-                <p className="mt-1 text-sm text-muted-foreground">
-                  {str(r, "contact_person")} · {str(r, "email")} · {str(r, "phone")} · {str(r, "location")}
-                </p>
-                {str(r, "website") && <p className="mt-1 text-sm">{str(r, "website")}</p>}
-                <p className="mt-2 max-w-2xl text-sm text-foreground/85">{str(r, "description")}</p>
-                <p className="mt-1 text-xs text-muted-foreground">
-                  Applied {new Date(str(r, "applied_at")).toLocaleDateString()}
-                </p>
-              </div>
-              <div className="flex flex-col items-start gap-2 lg:items-end">
-                <StatusSelect
-                  value={str(r, "status")}
-                  options={providerStatuses}
-                  onChange={(v) => void saveStatus("provider_applications", r.id, v, reload)}
-                />
-                <AdminNotes table="provider_applications" row={r} reload={reload} />
-              </div>
-            </li>
-          ))}
+                <div className="flex flex-col items-start gap-2">
+                  <StatusSelect
+                    value={str(r, "status")}
+                    options={providerStatuses}
+                    onChange={(v) => void saveStatus("provider_applications", r.id, v, reload)}
+                  />
+                  <AdminNotes table="provider_applications" row={r} reload={reload} />
+                </div>
+              </li>
+            );
+          })}
         </ul>
       )}
-      <p className="mt-4 text-xs text-muted-foreground">
-        Only approved providers appear in the public directory.
-      </p>
+      <p className="mt-4 text-xs text-muted-foreground">Only approved providers appear in the public directory.</p>
     </Panel>
   );
 }
+
 
 function AdminNotes({ table, row, reload }: { table: string; row: AnyRow; reload: () => void }) {
   const [notes, setNotes] = useState(str(row, "admin_notes"));
