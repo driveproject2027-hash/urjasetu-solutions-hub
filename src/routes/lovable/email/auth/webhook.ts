@@ -9,7 +9,7 @@ import { EmailChangeEmail } from '@/lib/email-templates/email-change'
 import { ReauthenticationEmail } from '@/lib/email-templates/reauthentication'
 
 // Configuration
-const SITE_NAME = "dre-hub-india"
+const SITE_NAME = "UrjaSetu"
 const SENDER_DOMAIN = "notify.urjasethu.dev"
 const ROOT_DOMAIN = "urjasethu.dev"
 const FROM_DOMAIN = "urjasethu.dev"

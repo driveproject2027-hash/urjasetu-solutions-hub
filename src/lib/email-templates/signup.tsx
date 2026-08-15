@@ -30,6 +30,7 @@ export const SignupEmail = ({
     <Preview>Confirm your email for {siteName}</Preview>
     <Body style={main}>
       <Container style={container}>
+        <Text style={brandMark}>UrjaSetu</Text>
         <Heading style={h1}>Confirm your email</Heading>
         <Text style={text}>
           Thanks for signing up for{' '}
@@ -58,27 +59,43 @@ export const SignupEmail = ({
 
 export default SignupEmail
 
-const main = { backgroundColor: '#ffffff', fontFamily: 'Arial, sans-serif' }
-const container = { padding: '20px 25px' }
+const main = {
+  backgroundColor: '#ffffff',
+  fontFamily: "'DM Sans', Helvetica, Arial, sans-serif",
+  color: '#16233a',
+}
+const container = { maxWidth: '560px', margin: '0 auto', padding: '32px 28px' }
 const h1 = {
-  fontSize: '22px',
-  fontWeight: 'bold' as const,
-  color: '#000000',
-  margin: '0 0 20px',
+  fontFamily: "'Manrope', Helvetica, Arial, sans-serif",
+  fontSize: '24px',
+  lineHeight: '1.25',
+  fontWeight: 600 as const,
+  color: '#16233a',
+  margin: '0 0 16px',
 }
 const text = {
-  fontSize: '14px',
-  color: '#55575d',
-  lineHeight: '1.5',
-  margin: '0 0 25px',
+  fontSize: '15px',
+  color: '#16233a',
+  lineHeight: '1.6',
+  margin: '0 0 20px',
 }
-const link = { color: 'inherit', textDecoration: 'underline' }
+const link = { color: '#1f4634', textDecoration: 'underline' }
 const button = {
-  backgroundColor: '#000000',
+  backgroundColor: '#1f4634',
   color: '#ffffff',
-  fontSize: '14px',
-  borderRadius: '8px',
-  padding: '12px 20px',
+  fontFamily: "'Manrope', Helvetica, Arial, sans-serif",
+  fontSize: '15px',
+  borderRadius: '0px',
+  padding: '13px 24px',
   textDecoration: 'none',
+  display: 'inline-block',
 }
-const footer = { fontSize: '12px', color: '#999999', margin: '30px 0 0' }
+const footer = { fontSize: '12px', color: '#5b6472', lineHeight: '1.6', margin: '28px 0 0', borderTop: '1px solid #e6dcc7', paddingTop: '14px' }
+const brandMark = {
+  fontFamily: "'Manrope', Helvetica, Arial, sans-serif",
+  fontSize: '13px',
+  letterSpacing: '2px',
+  textTransform: 'uppercase' as const,
+  color: '#1f4634',
+  margin: '0 0 20px',
+}
