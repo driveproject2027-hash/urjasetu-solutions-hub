@@ -21,6 +21,7 @@ import { Route as FinancingRouteImport } from './routes/financing'
 import { Route as FindMySolutionRouteImport } from './routes/find-my-solution'
 import { Route as JoinNetworkPartnerRouteImport } from './routes/join-network-partner'
 import { Route as JoinProviderRouteImport } from './routes/join-provider'
+import { Route as JoinUsRouteImport } from './routes/join-us'
 import { Route as NeedsRouteImport } from './routes/needs'
 import { Route as OpportunitiesRouteImport } from './routes/opportunities'
 import { Route as ProvidersRouteImport } from './routes/providers'
@@ -30,6 +31,10 @@ import { Route as SolutionsRouteImport } from './routes/solutions'
 import { Route as StoriesRouteImport } from './routes/stories'
 import { Route as AuthenticatedAccountRouteImport } from './routes/_authenticated/account'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
+import { Route as JoinUsIndexRouteImport } from './routes/join-us.index'
+import { Route as JoinUsFinanceProviderRouteImport } from './routes/join-us.finance-provider'
+import { Route as JoinUsNetworkPartnerRouteImport } from './routes/join-us.network-partner'
+import { Route as JoinUsSolutionProviderRouteImport } from './routes/join-us.solution-provider'
 import { Route as ProvidersIndexRouteImport } from './routes/providers.index'
 import { Route as ProvidersIdRouteImport } from './routes/providers.$id'
 import { Route as ResourcesIndexRouteImport } from './routes/resources.index'
@@ -98,6 +103,11 @@ const JoinProviderRoute = JoinProviderRouteImport.update({
   path: '/join-provider',
   getParentRoute: () => rootRouteImport,
 } as any)
+const JoinUsRoute = JoinUsRouteImport.update({
+  id: '/join-us',
+  path: '/join-us',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const NeedsRoute = NeedsRouteImport.update({
   id: '/needs',
   path: '/needs',
@@ -142,6 +152,26 @@ const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   id: '/admin',
   path: '/admin',
   getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const JoinUsIndexRoute = JoinUsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => JoinUsRoute,
+} as any)
+const JoinUsFinanceProviderRoute = JoinUsFinanceProviderRouteImport.update({
+  id: '/finance-provider',
+  path: '/finance-provider',
+  getParentRoute: () => JoinUsRoute,
+} as any)
+const JoinUsNetworkPartnerRoute = JoinUsNetworkPartnerRouteImport.update({
+  id: '/network-partner',
+  path: '/network-partner',
+  getParentRoute: () => JoinUsRoute,
+} as any)
+const JoinUsSolutionProviderRoute = JoinUsSolutionProviderRouteImport.update({
+  id: '/solution-provider',
+  path: '/solution-provider',
+  getParentRoute: () => JoinUsRoute,
 } as any)
 const ProvidersIndexRoute = ProvidersIndexRouteImport.update({
   id: '/',
@@ -196,6 +226,7 @@ export interface FileRoutesByFullPath {
   '/find-my-solution': typeof FindMySolutionRoute
   '/join-network-partner': typeof JoinNetworkPartnerRoute
   '/join-provider': typeof JoinProviderRoute
+  '/join-us': typeof JoinUsRouteWithChildren
   '/needs': typeof NeedsRoute
   '/opportunities': typeof OpportunitiesRoute
   '/providers': typeof ProvidersRouteWithChildren
@@ -205,10 +236,14 @@ export interface FileRoutesByFullPath {
   '/stories': typeof StoriesRouteWithChildren
   '/account': typeof AuthenticatedAccountRoute
   '/admin': typeof AuthenticatedAdminRoute
+  '/join-us/finance-provider': typeof JoinUsFinanceProviderRoute
+  '/join-us/network-partner': typeof JoinUsNetworkPartnerRoute
+  '/join-us/solution-provider': typeof JoinUsSolutionProviderRoute
   '/providers/$id': typeof ProvidersIdRoute
   '/resources/$category': typeof ResourcesCategoryRoute
   '/solutions/$slug': typeof SolutionsSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
+  '/join-us/': typeof JoinUsIndexRoute
   '/providers/': typeof ProvidersIndexRoute
   '/resources/': typeof ResourcesIndexRoute
   '/solutions/': typeof SolutionsIndexRoute
@@ -231,10 +266,14 @@ export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/account': typeof AuthenticatedAccountRoute
   '/admin': typeof AuthenticatedAdminRoute
+  '/join-us/finance-provider': typeof JoinUsFinanceProviderRoute
+  '/join-us/network-partner': typeof JoinUsNetworkPartnerRoute
+  '/join-us/solution-provider': typeof JoinUsSolutionProviderRoute
   '/providers/$id': typeof ProvidersIdRoute
   '/resources/$category': typeof ResourcesCategoryRoute
   '/solutions/$slug': typeof SolutionsSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
+  '/join-us': typeof JoinUsIndexRoute
   '/providers': typeof ProvidersIndexRoute
   '/resources': typeof ResourcesIndexRoute
   '/solutions': typeof SolutionsIndexRoute
@@ -254,6 +293,7 @@ export interface FileRoutesById {
   '/find-my-solution': typeof FindMySolutionRoute
   '/join-network-partner': typeof JoinNetworkPartnerRoute
   '/join-provider': typeof JoinProviderRoute
+  '/join-us': typeof JoinUsRouteWithChildren
   '/needs': typeof NeedsRoute
   '/opportunities': typeof OpportunitiesRoute
   '/providers': typeof ProvidersRouteWithChildren
@@ -263,10 +303,14 @@ export interface FileRoutesById {
   '/stories': typeof StoriesRouteWithChildren
   '/_authenticated/account': typeof AuthenticatedAccountRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
+  '/join-us/finance-provider': typeof JoinUsFinanceProviderRoute
+  '/join-us/network-partner': typeof JoinUsNetworkPartnerRoute
+  '/join-us/solution-provider': typeof JoinUsSolutionProviderRoute
   '/providers/$id': typeof ProvidersIdRoute
   '/resources/$category': typeof ResourcesCategoryRoute
   '/solutions/$slug': typeof SolutionsSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
+  '/join-us/': typeof JoinUsIndexRoute
   '/providers/': typeof ProvidersIndexRoute
   '/resources/': typeof ResourcesIndexRoute
   '/solutions/': typeof SolutionsIndexRoute
@@ -286,6 +330,7 @@ export interface FileRouteTypes {
     | '/find-my-solution'
     | '/join-network-partner'
     | '/join-provider'
+    | '/join-us'
     | '/needs'
     | '/opportunities'
     | '/providers'
@@ -295,10 +340,14 @@ export interface FileRouteTypes {
     | '/stories'
     | '/account'
     | '/admin'
+    | '/join-us/finance-provider'
+    | '/join-us/network-partner'
+    | '/join-us/solution-provider'
     | '/providers/$id'
     | '/resources/$category'
     | '/solutions/$slug'
     | '/stories/$slug'
+    | '/join-us/'
     | '/providers/'
     | '/resources/'
     | '/solutions/'
@@ -321,10 +370,14 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/account'
     | '/admin'
+    | '/join-us/finance-provider'
+    | '/join-us/network-partner'
+    | '/join-us/solution-provider'
     | '/providers/$id'
     | '/resources/$category'
     | '/solutions/$slug'
     | '/stories/$slug'
+    | '/join-us'
     | '/providers'
     | '/resources'
     | '/solutions'
@@ -343,6 +396,7 @@ export interface FileRouteTypes {
     | '/find-my-solution'
     | '/join-network-partner'
     | '/join-provider'
+    | '/join-us'
     | '/needs'
     | '/opportunities'
     | '/providers'
@@ -352,10 +406,14 @@ export interface FileRouteTypes {
     | '/stories'
     | '/_authenticated/account'
     | '/_authenticated/admin'
+    | '/join-us/finance-provider'
+    | '/join-us/network-partner'
+    | '/join-us/solution-provider'
     | '/providers/$id'
     | '/resources/$category'
     | '/solutions/$slug'
     | '/stories/$slug'
+    | '/join-us/'
     | '/providers/'
     | '/resources/'
     | '/solutions/'
@@ -375,6 +433,7 @@ export interface RootRouteChildren {
   FindMySolutionRoute: typeof FindMySolutionRoute
   JoinNetworkPartnerRoute: typeof JoinNetworkPartnerRoute
   JoinProviderRoute: typeof JoinProviderRoute
+  JoinUsRoute: typeof JoinUsRouteWithChildren
   NeedsRoute: typeof NeedsRoute
   OpportunitiesRoute: typeof OpportunitiesRoute
   ProvidersRoute: typeof ProvidersRouteWithChildren
@@ -470,6 +529,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof JoinProviderRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/join-us': {
+      id: '/join-us'
+      path: '/join-us'
+      fullPath: '/join-us'
+      preLoaderRoute: typeof JoinUsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/needs': {
       id: '/needs'
       path: '/needs'
@@ -532,6 +598,34 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin'
       preLoaderRoute: typeof AuthenticatedAdminRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/join-us/': {
+      id: '/join-us/'
+      path: '/'
+      fullPath: '/join-us/'
+      preLoaderRoute: typeof JoinUsIndexRouteImport
+      parentRoute: typeof JoinUsRoute
+    }
+    '/join-us/finance-provider': {
+      id: '/join-us/finance-provider'
+      path: '/finance-provider'
+      fullPath: '/join-us/finance-provider'
+      preLoaderRoute: typeof JoinUsFinanceProviderRouteImport
+      parentRoute: typeof JoinUsRoute
+    }
+    '/join-us/network-partner': {
+      id: '/join-us/network-partner'
+      path: '/network-partner'
+      fullPath: '/join-us/network-partner'
+      preLoaderRoute: typeof JoinUsNetworkPartnerRouteImport
+      parentRoute: typeof JoinUsRoute
+    }
+    '/join-us/solution-provider': {
+      id: '/join-us/solution-provider'
+      path: '/solution-provider'
+      fullPath: '/join-us/solution-provider'
+      preLoaderRoute: typeof JoinUsSolutionProviderRouteImport
+      parentRoute: typeof JoinUsRoute
     }
     '/providers/': {
       id: '/providers/'
@@ -605,6 +699,23 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
+interface JoinUsRouteChildren {
+  JoinUsFinanceProviderRoute: typeof JoinUsFinanceProviderRoute
+  JoinUsNetworkPartnerRoute: typeof JoinUsNetworkPartnerRoute
+  JoinUsSolutionProviderRoute: typeof JoinUsSolutionProviderRoute
+  JoinUsIndexRoute: typeof JoinUsIndexRoute
+}
+
+const JoinUsRouteChildren: JoinUsRouteChildren = {
+  JoinUsFinanceProviderRoute: JoinUsFinanceProviderRoute,
+  JoinUsNetworkPartnerRoute: JoinUsNetworkPartnerRoute,
+  JoinUsSolutionProviderRoute: JoinUsSolutionProviderRoute,
+  JoinUsIndexRoute: JoinUsIndexRoute,
+}
+
+const JoinUsRouteWithChildren =
+  JoinUsRoute._addFileChildren(JoinUsRouteChildren)
+
 interface ProvidersRouteChildren {
   ProvidersIdRoute: typeof ProvidersIdRoute
   ProvidersIndexRoute: typeof ProvidersIndexRoute
@@ -673,6 +784,7 @@ const rootRouteChildren: RootRouteChildren = {
   FindMySolutionRoute: FindMySolutionRoute,
   JoinNetworkPartnerRoute: JoinNetworkPartnerRoute,
   JoinProviderRoute: JoinProviderRoute,
+  JoinUsRoute: JoinUsRouteWithChildren,
   NeedsRoute: NeedsRoute,
   OpportunitiesRoute: OpportunitiesRoute,
   ProvidersRoute: ProvidersRouteWithChildren,

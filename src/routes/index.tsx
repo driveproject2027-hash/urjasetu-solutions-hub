@@ -101,7 +101,7 @@ function Home() {
               </Link>
             </div>
             <Link
-              to="/join-provider"
+              to="/join-us"
               className="mt-6 inline-flex items-center gap-1 text-sm text-primary underline-offset-4 hover:underline"
             >
               {t("hero.provider")} <ArrowRight className="size-3.5" />

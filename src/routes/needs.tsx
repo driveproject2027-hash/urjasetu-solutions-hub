@@ -276,7 +276,7 @@ function Needs() {
 
         <p className="mt-8 text-sm text-muted-foreground">
           Are you a provider?{" "}
-          <Link to="/join-provider" className="text-primary hover:underline">
+          <Link to="/join-us" className="text-primary hover:underline">
             Join the platform
           </Link>{" "}
           to respond to these needs.

@@ -15,7 +15,7 @@ const columns = [
     links: [
       { to: "/stories", label: "Business Stories" },
       { to: "/opportunities", label: "Business Opportunities" },
-      { to: "/join-provider", label: "Join as Provider" },
+      { to: "/join-us", label: "Join Us" },
     ],
   },
   {

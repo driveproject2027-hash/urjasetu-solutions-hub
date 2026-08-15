@@ -44,10 +44,10 @@ export function Header() {
 
         <div className="hidden items-center gap-4 xl:flex">
           <Link
-            to="/join-provider"
+            to="/join-us"
             className="whitespace-nowrap border border-primary bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-forest-deep"
           >
-            Join as Provider
+            Join Us
           </Link>
           <Link
             to={session ? "/account" : "/auth"}
@@ -90,11 +90,11 @@ export function Header() {
               {session ? "My account" : "Sign In"}
             </Link>
             <Link
-              to="/join-provider"
+              to="/join-us"
               onClick={() => setOpen(false)}
               className="my-3 bg-primary px-4 py-3 text-center text-base font-medium text-primary-foreground"
             >
-              Join as Provider
+              Join Us
             </Link>
           </nav>
         </div>

@@ -81,7 +81,7 @@ function About() {
             Find my solution →
           </Link>
 
-          <Link to="/join-provider" className="block font-medium hover:text-primary">
+          <Link to="/join-us" className="block font-medium hover:text-primary">
             Join as a provider →
           </Link>
           <Link to="/needs" className="block font-medium hover:text-primary">
