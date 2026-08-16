@@ -57,3 +57,21 @@ export async function handlePublicSubmission(rawInput: unknown, userId: string |
   }
   return { ok: true as const }
 }
+
+/**
+ * Resolves the caller's user id from the bearer token when present.
+ * The client never supplies a user id directly.
+ */
+export async function resolveOptionalUser(authHeader: string | undefined): Promise<string | null> {
+  if (!authHeader?.startsWith('Bearer ')) return null
+  const token = authHeader.slice(7)
+  if (token.split('.').length !== 3) return null
+  try {
+    const { data, error } = await supabaseAdmin.auth.getClaims(token)
+    if (error || !data?.claims?.sub) return null
+    return String(data.claims.sub)
+  } catch (error) {
+    console.error('[public-forms] token check failed', error)
+    return null
+  }
+}
