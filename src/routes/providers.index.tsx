@@ -106,6 +106,31 @@ function ProvidersIndex() {
         intro="Installers, manufacturers and service providers working with Indian MSMEs and rural enterprises. All listings shown are demo data."
       />
 
+      <div className="border-b border-border bg-ivory">
+        <nav className="container-page flex flex-wrap gap-2 py-4" aria-label="Partner type">
+          {typeTabs.map((t) => {
+            const count = t.value === "all" ? undefined : typeCounts[t.value];
+            return (
+              <button
+                key={t.value}
+                type="button"
+                onClick={() => setProviderType(t.value)}
+                aria-pressed={providerType === t.value}
+                className={`border px-3 py-1.5 text-sm ${
+                  providerType === t.value
+                    ? "border-primary bg-primary text-primary-foreground"
+                    : "border-border hover:border-primary/60"
+                }`}
+              >
+                {t.label}
+                {count !== undefined && <span className="ml-2 text-xs opacity-70">{count}</span>}
+              </button>
+            );
+          })}
+        </nav>
+      </div>
+
+
       <div className="container-page grid gap-10 py-12 lg:grid-cols-[16rem_1fr]">
         <aside className="space-y-6">
           <div>
