@@ -396,6 +396,30 @@ export type Database = {
           },
         ]
       }
+      rate_limit_hits: {
+        Row: {
+          bucket: string
+          created_at: string
+          id: number
+          outcome: string
+          subject: string
+        }
+        Insert: {
+          bucket: string
+          created_at?: string
+          id?: number
+          outcome?: string
+          subject: string
+        }
+        Update: {
+          bucket?: string
+          created_at?: string
+          id?: number
+          outcome?: string
+          subject?: string
+        }
+        Relationships: []
+      }
       resources: {
         Row: {
           body: string | null
