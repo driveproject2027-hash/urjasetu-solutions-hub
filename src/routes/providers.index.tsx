@@ -259,7 +259,10 @@ function ProvidersIndex() {
                 </div>
               </li>
             ))}
-          </ul>
+              </ul>
+            </>
+          )}
+
         </div>
       </div>
     </>
