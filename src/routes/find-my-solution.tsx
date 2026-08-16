@@ -9,6 +9,7 @@ import { submitCustomerRequest } from "../lib/db";
 import { PageHeader } from "../components/site/PageHeader";
 import { problems, solutions, stories, type ProblemId } from "../data/catalog";
 import { ContactPrompt } from "../components/site/ContactPrompt";
+import { userMessage } from "../lib/user-error";
 
 const CONTACT_EMAIL = "contact@urjasetu.org";
 
@@ -334,7 +335,7 @@ function Finder() {
                       description: "We will connect you with the right domain expert.",
                     });
                   })
-                  .catch((err: Error) => toast.error("Could not send", { description: err.message }))
+                  .catch((err: unknown) => toast.error("Could not send", { description: userMessage(err) }))
                   .finally(() => setSaving(false));
               }}
             >

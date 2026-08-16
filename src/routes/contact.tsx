@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { submitCustomerRequest } from "../lib/db";
 
 import { PageHeader } from "../components/site/PageHeader";
+import { userMessage } from "../lib/user-error";
 
 // Update these with the official contact details.
 const PHONE = "8499883525";
@@ -98,8 +99,8 @@ function Contact() {
                   problem: String(fd.get("message") ?? ""),
                 })
                   .then(() => setSent(true))
-                  .catch((err: Error) =>
-                    toast.error("Could not send your enquiry", { description: err.message }),
+                  .catch((err: unknown) =>
+                    toast.error("Could not send your enquiry", { description: userMessage(err) }),
                   )
                   .finally(() => setBusy(false));
               }}

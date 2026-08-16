@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { submitQuoteRequest } from "../lib/db";
 
 import { providers } from "../data/catalog";
+import { userMessage } from "../lib/user-error";
 
 export const Route = createFileRoute("/providers/$id")({
   loader: ({ params }) => {
@@ -122,7 +123,7 @@ function ProviderProfile() {
                     description: "The provider and our team can now see your requirement.",
                   });
                 })
-                .catch((err: Error) => toast.error("Could not send", { description: err.message }))
+                .catch((err: unknown) => toast.error("Could not send", { description: userMessage(err) }))
                 .finally(() => setBusy(false));
             }}
           >

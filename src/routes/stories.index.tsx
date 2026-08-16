@@ -8,6 +8,7 @@ import storyDryer from "../assets/story-dryer.jpg";
 import storyTextile from "../assets/hero-textile.jpg";
 import { problems, stories } from "../data/catalog";
 import { fetchPublishedStories, submitStory } from "../lib/db";
+import { userMessage } from "../lib/user-error";
 
 export const Route = createFileRoute("/stories/")({
   head: () => ({
@@ -108,7 +109,7 @@ function StoriesIndex() {
                     setShowForm(false);
                     toast.success("Story submitted", { description: "Our team will review it before publishing." });
                   })
-                  .catch((err: Error) => toast.error("Could not submit", { description: err.message }))
+                  .catch((err: unknown) => toast.error("Could not submit", { description: userMessage(err) }))
                   .finally(() => setBusy(false));
               }}
             >

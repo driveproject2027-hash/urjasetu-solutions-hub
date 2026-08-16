@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { PageHeader } from "../components/site/PageHeader";
 import { CheckboxGroup, Field, JoinSteps, SubmitRow, TextArea } from "../components/site/FormField";
 import { submitProviderApplication } from "../lib/db";
+import { userMessage } from "../lib/user-error";
 
 export const Route = createFileRoute("/join-us/network-partner")({
   head: () => ({
@@ -91,7 +92,7 @@ function NetworkPartnerForm() {
                 });
                 form.reset();
               })
-              .catch((err: Error) => toast.error("Could not submit", { description: err.message }))
+              .catch((err: unknown) => toast.error("Could not submit", { description: userMessage(err) }))
               .finally(() => setBusy(false));
           }}
         >
