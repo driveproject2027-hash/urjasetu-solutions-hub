@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { BadgeCheck, MapPin, Search, Star } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 
-import { fetchApprovedProviders, providerTypeLabels } from "../lib/db";
+import { fetchApprovedProviders, providerTypeLabels, type ProviderType } from "../lib/db";
 import { PageHeader } from "../components/site/PageHeader";
 import { providers, solutions } from "../data/catalog";
 
@@ -32,8 +32,28 @@ type ApprovedProvider = {
   description: string | null;
 };
 
+const typeTabs: Array<{ value: ProviderType | "all"; label: string; blurb: string }> = [
+  { value: "all", label: "All partners", blurb: "Everyone listed on UrjaSethu." },
+  {
+    value: "solution",
+    label: "Solution providers",
+    blurb: "Installers, manufacturers and O&M teams delivering DRE equipment on the ground.",
+  },
+  {
+    value: "finance",
+    label: "Finance providers",
+    blurb: "NBFCs, banks, cooperatives and funds that lend against DRE assets.",
+  },
+  {
+    value: "network",
+    label: "Network partners",
+    blurb: "FPOs, incubators, associations and NGOs that aggregate demand and support enterprises.",
+  },
+];
+
 function ProvidersIndex() {
   const [approved, setApproved] = useState<ApprovedProvider[]>([]);
+  const [providerType, setProviderType] = useState<ProviderType | "all">("all");
   const [query, setQuery] = useState("");
   const [tech, setTech] = useState("");
   const [state, setState] = useState("");
@@ -44,6 +64,17 @@ function ProvidersIndex() {
       .then((rows) => setApproved((rows ?? []) as unknown as ApprovedProvider[]))
       .catch(() => undefined);
   }, []);
+
+  const activeTab = typeTabs.find((t) => t.value === providerType) ?? typeTabs[0]!;
+  const approvedForType =
+    providerType === "all" ? approved : approved.filter((a) => a.provider_type === providerType);
+  const showSolutionDirectory = providerType === "all" || providerType === "solution";
+  const typeCounts = {
+    solution: approved.filter((a) => a.provider_type === "solution").length,
+    finance: approved.filter((a) => a.provider_type === "finance").length,
+    network: approved.filter((a) => a.provider_type === "network").length,
+  };
+
 
   const techs = [...new Set(solutions.map((s) => s.name))];
   const states = [...new Set(providers.map((p) => p.state))];
