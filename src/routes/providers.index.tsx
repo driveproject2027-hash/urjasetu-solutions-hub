@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { BadgeCheck, MapPin, Search, Star } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 
-import { fetchApprovedProviders, providerTypeLabels } from "../lib/db";
+import { fetchApprovedProviders, providerTypeLabels, type ProviderType } from "../lib/db";
 import { PageHeader } from "../components/site/PageHeader";
 import { providers, solutions } from "../data/catalog";
 
@@ -32,8 +32,28 @@ type ApprovedProvider = {
   description: string | null;
 };
 
+const typeTabs: Array<{ value: ProviderType | "all"; label: string; blurb: string }> = [
+  { value: "all", label: "All partners", blurb: "Everyone listed on UrjaSethu." },
+  {
+    value: "solution",
+    label: "Solution providers",
+    blurb: "Installers, manufacturers and O&M teams delivering DRE equipment on the ground.",
+  },
+  {
+    value: "finance",
+    label: "Finance providers",
+    blurb: "NBFCs, banks, cooperatives and funds that lend against DRE assets.",
+  },
+  {
+    value: "network",
+    label: "Network partners",
+    blurb: "FPOs, incubators, associations and NGOs that aggregate demand and support enterprises.",
+  },
+];
+
 function ProvidersIndex() {
   const [approved, setApproved] = useState<ApprovedProvider[]>([]);
+  const [providerType, setProviderType] = useState<ProviderType | "all">("all");
   const [query, setQuery] = useState("");
   const [tech, setTech] = useState("");
   const [state, setState] = useState("");
@@ -44,6 +64,17 @@ function ProvidersIndex() {
       .then((rows) => setApproved((rows ?? []) as unknown as ApprovedProvider[]))
       .catch(() => undefined);
   }, []);
+
+  const activeTab = typeTabs.find((t) => t.value === providerType) ?? typeTabs[0]!;
+  const approvedForType =
+    providerType === "all" ? approved : approved.filter((a) => a.provider_type === providerType);
+  const showSolutionDirectory = providerType === "all" || providerType === "solution";
+  const typeCounts = {
+    solution: approved.filter((a) => a.provider_type === "solution").length,
+    finance: approved.filter((a) => a.provider_type === "finance").length,
+    network: approved.filter((a) => a.provider_type === "network").length,
+  };
+
 
   const techs = [...new Set(solutions.map((s) => s.name))];
   const states = [...new Set(providers.map((p) => p.state))];
@@ -74,6 +105,31 @@ function ProvidersIndex() {
         title="Find DRE providers"
         intro="Installers, manufacturers and service providers working with Indian MSMEs and rural enterprises. All listings shown are demo data."
       />
+
+      <div className="border-b border-border bg-ivory">
+        <nav className="container-page flex flex-wrap gap-2 py-4" aria-label="Partner type">
+          {typeTabs.map((t) => {
+            const count = t.value === "all" ? undefined : typeCounts[t.value];
+            return (
+              <button
+                key={t.value}
+                type="button"
+                onClick={() => setProviderType(t.value)}
+                aria-pressed={providerType === t.value}
+                className={`border px-3 py-1.5 text-sm ${
+                  providerType === t.value
+                    ? "border-primary bg-primary text-primary-foreground"
+                    : "border-border hover:border-primary/60"
+                }`}
+              >
+                {t.label}
+                {count !== undefined && <span className="ml-2 text-xs opacity-70">{count}</span>}
+              </button>
+            );
+          })}
+        </nav>
+      </div>
+
 
       <div className="container-page grid gap-10 py-12 lg:grid-cols-[16rem_1fr]">
         <aside className="space-y-6">
@@ -140,16 +196,20 @@ function ProvidersIndex() {
         </aside>
 
         <div>
-          {approved.length > 0 && (
+          <p className="mb-6 border-l-2 border-primary pl-4 text-sm text-muted-foreground">{activeTab.blurb}</p>
+
+          {approvedForType.length > 0 && (
             <section className="mb-10">
-              <h2 className="mb-3 font-display text-xl font-semibold">Verified platform providers</h2>
+              <h2 className="mb-3 font-display text-xl font-semibold">
+                {providerType === "all" ? "Verified platform partners" : `Verified ${activeTab.label.toLowerCase()}`}
+              </h2>
               <ul className="divide-y divide-border border-y border-border">
-                {approved.map((a) => (
+                {approvedForType.map((a) => (
                   <li key={a.id} className="py-5">
                     <div className="flex flex-wrap items-center gap-3">
                       <h3 className="font-display text-lg font-semibold">{a.organisation}</h3>
                       <span className="border border-border px-2 py-0.5 text-xs text-muted-foreground">
-                        {providerTypeLabels[a.provider_type as "solution"] ?? a.provider_type}
+                        {providerTypeLabels[a.provider_type as ProviderType] ?? a.provider_type}
                       </span>
                     </div>
                     <p className="mt-1 text-sm text-muted-foreground">{a.location}</p>
@@ -169,9 +229,19 @@ function ProvidersIndex() {
               </ul>
             </section>
           )}
-          <p className="mb-4 text-sm text-muted-foreground">{results.length} providers</p>
-          <ul className="divide-y divide-border border-y border-border">
-            {results.map((p) => (
+
+          {!showSolutionDirectory && approvedForType.length === 0 && (
+            <p className="border-y border-border py-8 text-sm text-muted-foreground">
+              No {activeTab.label.toLowerCase()} are listed yet. Organisations of this kind can apply through Join Us
+              and appear here once verified.
+            </p>
+          )}
+
+          {showSolutionDirectory && (
+            <>
+              <p className="mb-4 text-sm text-muted-foreground">{results.length} solution providers</p>
+              <ul className="divide-y divide-border border-y border-border">
+                {results.map((p) => (
               <li key={p.id} className="py-6">
                 <div className="flex flex-wrap items-start justify-between gap-4">
                   <div>
@@ -228,7 +298,10 @@ function ProvidersIndex() {
                 </div>
               </li>
             ))}
-          </ul>
+              </ul>
+            </>
+          )}
+
         </div>
       </div>
     </>
