@@ -5,7 +5,20 @@ import { toast } from "sonner";
 import { PageHeader } from "../components/site/PageHeader";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
+import { checkAuthThrottle } from "../lib/public-forms.functions";
 import { useSession } from "../lib/useAuth";
+
+// Auth providers can return provider-specific detail; keep user-facing copy generic.
+function authMessage(error: unknown): string {
+  const raw = error instanceof Error ? error.message.toLowerCase() : "";
+  if (raw.includes("invalid login")) return "Incorrect email or password.";
+  if (raw.includes("already registered")) return "An account with this email already exists.";
+  if (raw.includes("email not confirmed")) return "Please confirm your email address first.";
+  if (raw.includes("password")) return "Password does not meet the minimum requirements.";
+  if (raw.includes("rate") || raw.includes("too many")) return "Too many attempts. Please try again later.";
+  return "We could not complete that request. Please try again.";
+}
+
 
 export const Route = createFileRoute("/auth")({
   ssr: false,
