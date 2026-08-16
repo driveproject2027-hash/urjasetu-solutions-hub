@@ -1,5 +1,16 @@
 import { supabase } from "@/integrations/supabase/client";
 
+import { submitPublicForm } from "./public-forms.functions";
+import {
+  customerRequestSchema,
+  needResponseSchema,
+  openNeedSchema,
+  providerApplicationSchema,
+  quoteRequestSchema,
+  storySubmissionSchema,
+} from "./validation";
+import type { PublicFormInput } from "./validation";
+
 export type ProviderType = "solution" | "finance" | "network";
 
 export const providerTypeLabels: Record<ProviderType, string> = {
@@ -26,19 +37,10 @@ export function statusLabel(value: string) {
   return value.replace(/_/g, " ").replace(/^\w/, (c) => c.toUpperCase());
 }
 
-type Row = Record<string, unknown>;
-
-async function insertRow(table: string, row: Row) {
-  // Casts are needed because the generated types use exactOptionalPropertyTypes.
-  const { error } = await (supabase.from(table as never) as never as {
-    insert: (v: Row) => Promise<{ error: { message: string } | null }>;
-  }).insert(row);
-  if (error) throw error;
-}
-
-async function currentUserId() {
-  const { data } = await supabase.auth.getUser();
-  return data.user?.id ?? null;
+// Public writes go through a validated, rate-limited server endpoint. The
+// browser has no direct insert rights on these tables.
+async function submit(form: PublicFormInput["form"], payload: unknown) {
+  await submitPublicForm({ data: { form, payload } as PublicFormInput });
 }
 
 export type CustomerRequestInput = {
@@ -57,8 +59,7 @@ export type CustomerRequestInput = {
 };
 
 export async function submitCustomerRequest(input: CustomerRequestInput) {
-  const user_id = await currentUserId();
-  await insertRow("customer_requests", { ...input, user_id });
+  await submit("customer_request", customerRequestSchema.parse(input));
 }
 
 export async function submitProviderApplication(input: {
@@ -72,8 +73,7 @@ export async function submitProviderApplication(input: {
   website?: string;
   description?: string;
 }) {
-  const user_id = await currentUserId();
-  await insertRow("provider_applications", { ...input, user_id });
+  await submit("provider_application", providerApplicationSchema.parse(input));
 }
 
 export async function submitOpenNeed(input: {
@@ -86,8 +86,7 @@ export async function submitOpenNeed(input: {
   timeline?: string;
   contact_email?: string;
 }) {
-  const user_id = await currentUserId();
-  await insertRow("open_needs", { ...input, user_id });
+  await submit("open_need", openNeedSchema.parse(input));
 }
 
 export async function submitNeedResponse(input: {
@@ -96,8 +95,7 @@ export async function submitNeedResponse(input: {
   contact_email?: string;
   message: string;
 }) {
-  const user_id = await currentUserId();
-  await insertRow("need_responses", { ...input, user_id });
+  await submit("need_response", needResponseSchema.parse(input));
 }
 
 export async function submitQuoteRequest(input: {
@@ -109,8 +107,7 @@ export async function submitQuoteRequest(input: {
   requirement?: string;
   message?: string;
 }) {
-  const user_id = await currentUserId();
-  await insertRow("quote_requests", { ...input, user_id });
+  await submit("quote_request", quoteRequestSchema.parse(input));
 }
 
 export async function submitStory(input: {
@@ -123,8 +120,7 @@ export async function submitStory(input: {
   outcome?: string;
   contact_email?: string;
 }) {
-  const user_id = await currentUserId();
-  await insertRow("story_submissions", { ...input, user_id });
+  await submit("story_submission", storySubmissionSchema.parse(input));
 }
 
 export async function fetchApprovedProviders(type?: ProviderType) {
