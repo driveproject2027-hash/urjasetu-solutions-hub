@@ -5,7 +5,20 @@ import { toast } from "sonner";
 import { PageHeader } from "../components/site/PageHeader";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
+import { checkAuthThrottle } from "../lib/public-forms.functions";
 import { useSession } from "../lib/useAuth";
+
+// Auth providers can return provider-specific detail; keep user-facing copy generic.
+function authMessage(error: unknown): string {
+  const raw = error instanceof Error ? error.message.toLowerCase() : "";
+  if (raw.includes("invalid login")) return "Incorrect email or password.";
+  if (raw.includes("already registered")) return "An account with this email already exists.";
+  if (raw.includes("email not confirmed")) return "Please confirm your email address first.";
+  if (raw.includes("password")) return "Password does not meet the minimum requirements.";
+  if (raw.includes("rate") || raw.includes("too many")) return "Too many attempts. Please try again later.";
+  return "We could not complete that request. Please try again.";
+}
+
 
 export const Route = createFileRoute("/auth")({
   ssr: false,
@@ -42,7 +55,16 @@ function AuthPage() {
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     setBusy(true);
+    const action = mode === "signup" ? "signup" : "signin";
     try {
+      const gate = await checkAuthThrottle({ data: { action, email, outcome: "attempt" } });
+      if (!gate.allowed) {
+        toast.error("Too many attempts", {
+          description: `Please wait about ${Math.ceil(gate.retryAfterSeconds / 60) || 1} minute(s) before trying again.`,
+        });
+        return;
+      }
+
       if (mode === "signup") {
         const { error } = await supabase.auth.signUp({
           email,
@@ -53,19 +75,23 @@ function AuthPage() {
           },
         });
         if (error) throw error;
+        void checkAuthThrottle({ data: { action, email, outcome: "success" } });
         toast.success("Account created", { description: "You can now sign in." });
         setMode("signin");
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
+        void checkAuthThrottle({ data: { action, email, outcome: "success" } });
         void navigate({ to: "/account" });
       }
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Something went wrong");
+      void checkAuthThrottle({ data: { action, email, outcome: "failure" } });
+      toast.error(authMessage(err));
     } finally {
       setBusy(false);
     }
   }
+
 
   async function onGoogle() {
     const result = await lovable.auth.signInWithOAuth("google", {

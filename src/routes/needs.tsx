@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { PageHeader } from "../components/site/PageHeader";
 import { openNeeds } from "../data/catalog";
 import { fetchPublicNeeds, submitCustomerRequest, submitNeedResponse, submitOpenNeed } from "../lib/db";
+import { userMessage } from "../lib/user-error";
 
 export const Route = createFileRoute("/needs")({
   head: () => ({
@@ -96,7 +97,7 @@ function Needs() {
                     description: "Our team reviews it before publishing to providers.",
                   });
                 })
-                .catch((err: Error) => toast.error("Could not post", { description: err.message }))
+                .catch((err: unknown) => toast.error("Could not post", { description: userMessage(err) }))
                 .finally(() => setBusy(false));
             }}
           >
@@ -193,7 +194,7 @@ function Needs() {
                               description: "The business and our team can now see your proposal.",
                             });
                           })
-                          .catch((err: Error) => toast.error("Could not send", { description: err.message }))
+                          .catch((err: unknown) => toast.error("Could not send", { description: userMessage(err) }))
                           .finally(() => setBusy(false));
                       }}
                     >
@@ -263,7 +264,7 @@ function Needs() {
                         description: "Our team will get back to you with the requirement details.",
                       }),
                     )
-                    .catch((err: Error) => toast.error("Could not record", { description: err.message }))
+                    .catch((err: unknown) => toast.error("Could not record", { description: userMessage(err) }))
                     .finally(() => setBusy(false));
                 }}
                 className="border border-primary px-4 py-2 text-sm font-medium text-primary transition-colors hover:bg-primary hover:text-primary-foreground"
