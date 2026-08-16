@@ -171,16 +171,20 @@ function ProvidersIndex() {
         </aside>
 
         <div>
-          {approved.length > 0 && (
+          <p className="mb-6 border-l-2 border-primary pl-4 text-sm text-muted-foreground">{activeTab.blurb}</p>
+
+          {approvedForType.length > 0 && (
             <section className="mb-10">
-              <h2 className="mb-3 font-display text-xl font-semibold">Verified platform providers</h2>
+              <h2 className="mb-3 font-display text-xl font-semibold">
+                {providerType === "all" ? "Verified platform partners" : `Verified ${activeTab.label.toLowerCase()}`}
+              </h2>
               <ul className="divide-y divide-border border-y border-border">
-                {approved.map((a) => (
+                {approvedForType.map((a) => (
                   <li key={a.id} className="py-5">
                     <div className="flex flex-wrap items-center gap-3">
                       <h3 className="font-display text-lg font-semibold">{a.organisation}</h3>
                       <span className="border border-border px-2 py-0.5 text-xs text-muted-foreground">
-                        {providerTypeLabels[a.provider_type as "solution"] ?? a.provider_type}
+                        {providerTypeLabels[a.provider_type as ProviderType] ?? a.provider_type}
                       </span>
                     </div>
                     <p className="mt-1 text-sm text-muted-foreground">{a.location}</p>
@@ -200,9 +204,19 @@ function ProvidersIndex() {
               </ul>
             </section>
           )}
-          <p className="mb-4 text-sm text-muted-foreground">{results.length} providers</p>
-          <ul className="divide-y divide-border border-y border-border">
-            {results.map((p) => (
+
+          {!showSolutionDirectory && approvedForType.length === 0 && (
+            <p className="border-y border-border py-8 text-sm text-muted-foreground">
+              No {activeTab.label.toLowerCase()} are listed yet. Organisations of this kind can apply through Join Us
+              and appear here once verified.
+            </p>
+          )}
+
+          {showSolutionDirectory && (
+            <>
+              <p className="mb-4 text-sm text-muted-foreground">{results.length} solution providers</p>
+              <ul className="divide-y divide-border border-y border-border">
+                {results.map((p) => (
               <li key={p.id} className="py-6">
                 <div className="flex flex-wrap items-start justify-between gap-4">
                   <div>
