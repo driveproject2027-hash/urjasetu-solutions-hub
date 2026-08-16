@@ -5,6 +5,12 @@ import { getRequestHeader } from '@tanstack/react-start/server'
 import { supabaseAdmin } from '@/integrations/supabase/client.server'
 import { ipHashSalt, type RateLimitRule } from './security-config.server'
 
+// rate_limit_hits is server-only and intentionally absent from the generated
+// Data API types, so reach it through an untyped view of the admin client.
+const admin = () => supabaseAdmin as unknown as {
+  from: (table: string) => any
+}
+
 export class RateLimitError extends Error {
   retryAfterSeconds: number
   constructor(retryAfterSeconds: number) {
@@ -37,7 +43,7 @@ export async function hashSubject(value: string): Promise<string> {
 
 async function countHits(bucket: string, subject: string, windowSeconds: number, outcome?: string) {
   const since = new Date(Date.now() - windowSeconds * 1000).toISOString()
-  let query = supabaseAdmin
+  let query = admin()
     .from('rate_limit_hits')
     .select('id', { count: 'exact', head: true })
     .eq('bucket', bucket)
@@ -54,7 +60,7 @@ async function countHits(bucket: string, subject: string, windowSeconds: number,
 }
 
 export async function recordHit(bucket: string, subject: string, outcome = 'hit') {
-  const { error } = await supabaseAdmin
+  const { error } = await admin()
     .from('rate_limit_hits')
     .insert({ bucket, subject, outcome })
   if (error) console.error('[rate-limit] insert failed', error)
@@ -75,7 +81,7 @@ export async function failureCount(bucket: string, subject: string, windowSecond
 }
 
 export async function clearFailures(bucket: string, subject: string) {
-  const { error } = await supabaseAdmin
+  const { error } = await admin()
     .from('rate_limit_hits')
     .delete()
     .eq('bucket', bucket)
