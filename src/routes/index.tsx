@@ -55,23 +55,29 @@ const homeFaqs = [
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "UrjaSethu — Find the right DRE solution for your business" },
+      { title: "Decentralised Renewable Energy Solutions for Businesses in India | UrjaSethu" },
       {
         name: "description",
         content:
-          "UrjaSethu connects Indian businesses with decentralised renewable energy solutions and verified providers. Start with your problem, get a recommendation, compare providers.",
+          "UrjaSethu connects Indian businesses with decentralised renewable energy (DRE) solutions, verified providers, finance providers and network partners. Start with your problem, get a recommendation, compare providers.",
       },
-      { property: "og:title", content: "UrjaSethu — DRE Solutions & Business Platform" },
+      { property: "og:title", content: "Decentralised Renewable Energy Solutions for Indian Businesses" },
       {
         property: "og:description",
         content:
-          "Start with the problem. Discover suitable renewable-energy solutions and connect with providers across India.",
+          "Start with the problem. Find suitable DRE solutions, verified providers and financing routes across India.",
       },
       { property: "og:url", content: "https://urjasethu.dev/" },
       { property: "og:image", content: "https://urjasethu.dev/og-image.jpg" },
       { name: "twitter:image", content: "https://urjasethu.dev/og-image.jpg" },
     ],
     links: [{ rel: "canonical", href: "https://urjasethu.dev/" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify(faqLd(homeFaqs.map((f) => ({ question: f.question, answer: f.answer })))),
+      },
+    ],
   }),
   component: Home,
 });
