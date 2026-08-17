@@ -1,4 +1,10 @@
 User-agent: *
 Allow: /
 
-Sitemap: /sitemap.xml
+Disallow: /admin
+Disallow: /admin/
+Disallow: /account
+Disallow: /auth
+Disallow: /lovable/
+
+Sitemap: https://urjasethu.dev/sitemap.xml
