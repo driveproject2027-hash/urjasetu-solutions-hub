@@ -7,6 +7,9 @@ import { statusLabel, requestSourceLabels } from "../../lib/db";
 import { useIsAdmin } from "../../lib/useAuth";
 
 export const Route = createFileRoute("/_authenticated/account")({
+  head: () => ({
+    meta: [{ title: "Your account — UrjaSethu" }, { name: "robots", content: "noindex, nofollow" }],
+  }),
   component: Account,
 });
 

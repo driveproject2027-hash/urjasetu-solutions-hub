@@ -25,6 +25,7 @@ export const Route = createFileRoute("/auth")({
   head: () => ({
     meta: [
       { title: "Sign in to UrjaSethu" },
+      { name: "robots", content: "noindex, nofollow" },
       {
         name: "description",
         content:
