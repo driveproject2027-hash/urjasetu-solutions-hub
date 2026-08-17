@@ -18,6 +18,7 @@ import storyTextile from "../assets/hero-textile.jpg";
 import solarImg from "../assets/solutions-solar.jpg";
 import { openNeeds, opportunities, problems, solutions, stories } from "../data/catalog";
 import { t } from "../lib/i18n";
+import { faqLd } from "../lib/seo";
 
 const homeFaqs = [
   {
