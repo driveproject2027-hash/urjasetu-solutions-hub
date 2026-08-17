@@ -3,7 +3,9 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import storyCold from "../assets/story-cold.jpg";
 import storyDryer from "../assets/story-dryer.jpg";
 import storyTextile from "../assets/hero-textile.jpg";
+import { Breadcrumbs } from "../components/site/Breadcrumbs";
 import { solutions, stories } from "../data/catalog";
+import { OG_IMAGE, absoluteUrl, breadcrumbLd } from "../lib/seo";
 
 const images: Record<string, string> = { textile: storyTextile, dryer: storyDryer, cold: storyCold };
 
@@ -25,6 +27,22 @@ export const Route = createFileRoute("/stories/$slug")({
         { property: "og:title", content: story.headline },
         { property: "og:description", content: story.problem },
         { property: "og:type", content: "article" },
+        { property: "og:url", content: absoluteUrl(`/stories/${story.slug}`) },
+        { property: "og:image", content: OG_IMAGE },
+        { name: "twitter:image", content: OG_IMAGE },
+      ],
+      links: [{ rel: "canonical", href: absoluteUrl(`/stories/${story.slug}`) }],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify(
+            breadcrumbLd([
+              { name: "Home", path: "/" },
+              { name: "Business Stories", path: "/stories" },
+              { name: story.headline, path: `/stories/${story.slug}` },
+            ]),
+          ),
+        },
       ],
     };
   },

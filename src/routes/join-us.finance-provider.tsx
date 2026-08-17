@@ -18,7 +18,11 @@ export const Route = createFileRoute("/join-us/finance-provider")({
       },
       { property: "og:title", content: "Register as a Finance Provider — UrjaSethu" },
       { property: "og:description", content: "Reach MSMEs seeking finance for renewable energy assets." },
+      { property: "og:url", content: "https://urjasethu.dev/join-us/finance-provider" },
+      { property: "og:image", content: "https://urjasethu.dev/og-image.jpg" },
+      { name: "twitter:image", content: "https://urjasethu.dev/og-image.jpg" },
     ],
+    links: [{ rel: "canonical", href: "https://urjasethu.dev/join-us/finance-provider" }],
   }),
   component: FinanceProviderForm,
 });

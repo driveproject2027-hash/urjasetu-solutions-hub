@@ -18,7 +18,11 @@ export const Route = createFileRoute("/needs")({
       },
       { property: "og:title", content: "Open Needs — UrjaSethu" },
       { property: "og:description", content: "Real demand from businesses. Providers respond with proposals." },
+      { property: "og:url", content: "https://urjasethu.dev/needs" },
+      { property: "og:image", content: "https://urjasethu.dev/og-image.jpg" },
+      { name: "twitter:image", content: "https://urjasethu.dev/og-image.jpg" },
     ],
+    links: [{ rel: "canonical", href: "https://urjasethu.dev/needs" }],
   }),
   component: Needs,
 });

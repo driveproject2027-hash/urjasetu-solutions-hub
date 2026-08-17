@@ -16,7 +16,11 @@ export const Route = createFileRoute("/about")({
         property: "og:description",
         content: "A DRE marketplace built around real business problems, not technology catalogues.",
       },
+      { property: "og:url", content: "https://urjasethu.dev/about" },
+      { property: "og:image", content: "https://urjasethu.dev/og-image.jpg" },
+      { name: "twitter:image", content: "https://urjasethu.dev/og-image.jpg" },
     ],
+    links: [{ rel: "canonical", href: "https://urjasethu.dev/about" }],
   }),
   component: About,
 });

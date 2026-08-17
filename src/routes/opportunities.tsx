@@ -14,7 +14,11 @@ export const Route = createFileRoute("/opportunities")({
       },
       { property: "og:title", content: "Start a DRE Business — UrjaSethu" },
       { property: "og:description", content: "Enterprise opportunities in decentralised renewable energy." },
+      { property: "og:url", content: "https://urjasethu.dev/opportunities" },
+      { property: "og:image", content: "https://urjasethu.dev/og-image.jpg" },
+      { name: "twitter:image", content: "https://urjasethu.dev/og-image.jpg" },
     ],
+    links: [{ rel: "canonical", href: "https://urjasethu.dev/opportunities" }],
   }),
   component: Opportunities,
 });

@@ -14,6 +14,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Header } from "../components/site/Header";
 import { Footer } from "../components/site/Footer";
 import { Toaster } from "../components/ui/sonner";
+import { organizationLd, webSiteLd } from "../lib/seo";
 
 
 function NotFoundComponent() {
@@ -100,6 +101,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: "https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=DM+Sans:wght@400;500;700&display=swap",
       },
       { rel: "icon", type: "image/png", href: "/favicon.png" },
+    ],
+    scripts: [
+      { type: "application/ld+json", children: JSON.stringify(organizationLd()) },
+      { type: "application/ld+json", children: JSON.stringify(webSiteLd()) },
     ],
   }),
   shellComponent: RootShell,

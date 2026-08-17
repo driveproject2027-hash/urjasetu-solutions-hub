@@ -7,15 +7,19 @@ import { schemes } from "../data/catalog";
 export const Route = createFileRoute("/financing")({
   head: () => ({
     meta: [
-      { title: "Financing & Support for DRE Investments — UrjaSethu" },
+      { title: "Renewable Energy Financing in India for Businesses | UrjaSethu" },
       {
         name: "description",
         content:
-          "Schemes referenced in the DRIVE material — MSE GIFT, MSE SPICE, PMFME, PMEGP and ZED — that may support Indian MSMEs adopting renewable energy.",
+          "How Indian businesses and MSMEs can finance decentralised renewable energy projects, plus support schemes such as MSE GIFT, MSE SPICE, PMFME, PMEGP and ZED.",
       },
-      { property: "og:title", content: "Financing & Support — UrjaSethu" },
+      { property: "og:title", content: "Renewable Energy Financing in India — UrjaSethu" },
       { property: "og:description", content: "Government schemes that may support DRE adoption by MSMEs." },
+      { property: "og:url", content: "https://urjasethu.dev/financing" },
+      { property: "og:image", content: "https://urjasethu.dev/og-image.jpg" },
+      { name: "twitter:image", content: "https://urjasethu.dev/og-image.jpg" },
     ],
+    links: [{ rel: "canonical", href: "https://urjasethu.dev/financing" }],
   }),
   component: Financing,
 });

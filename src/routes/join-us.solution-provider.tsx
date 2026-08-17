@@ -19,7 +19,11 @@ export const Route = createFileRoute("/join-us/solution-provider")({
       },
       { property: "og:title", content: "Register as a DRE Solution Provider — UrjaSethu" },
       { property: "og:description", content: "Reach businesses actively looking for renewable energy solutions." },
+      { property: "og:url", content: "https://urjasethu.dev/join-us/solution-provider" },
+      { property: "og:image", content: "https://urjasethu.dev/og-image.jpg" },
+      { name: "twitter:image", content: "https://urjasethu.dev/og-image.jpg" },
     ],
+    links: [{ rel: "canonical", href: "https://urjasethu.dev/join-us/solution-provider" }],
   }),
   component: SolutionProviderForm,
 });
