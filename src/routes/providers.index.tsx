@@ -9,7 +9,7 @@ import { providers, solutions } from "../data/catalog";
 export const Route = createFileRoute("/providers/")({
   head: () => ({
     meta: [
-      { title: "Find DRE Providers — UrjaSethu" },
+      { title: "DRE Solution, Finance & Network Providers in India | UrjaSethu" },
       {
         name: "description",
         content:

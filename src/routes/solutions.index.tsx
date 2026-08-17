@@ -6,7 +6,7 @@ import { solutions } from "../data/catalog";
 export const Route = createFileRoute("/solutions/")({
   head: () => ({
     meta: [
-      { title: "Explore DRE Solutions — UrjaSethu" },
+      { title: "DRE Solutions for Indian Businesses — Solar, Cold Chain & More | UrjaSethu" },
       {
         name: "description",
         content:

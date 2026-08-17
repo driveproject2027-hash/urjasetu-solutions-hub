@@ -9,7 +9,7 @@ import { solutions, opportunities, stories } from "../data/catalog";
 export const Route = createFileRoute("/resources/")({
   head: () => ({
     meta: [
-      { title: "Resources — DRE knowledge centre | UrjaSethu" },
+      { title: "Decentralised Renewable Energy Guides & Schemes | UrjaSethu Resources" },
       {
         name: "description",
         content:

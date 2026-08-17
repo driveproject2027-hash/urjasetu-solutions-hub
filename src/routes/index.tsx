@@ -155,6 +155,8 @@ function Home() {
             <img
               src={heroImg}
               alt="A woman entrepreneur running a solar-powered stitching unit in rural India"
+              fetchPriority="high"
+              decoding="async"
               width={1408}
               height={1200}
               className="h-56 w-full object-cover sm:h-72 md:h-full"
