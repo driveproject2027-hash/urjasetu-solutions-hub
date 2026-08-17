@@ -1,6 +1,8 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 
+import { Breadcrumbs } from "../components/site/Breadcrumbs";
 import { openNeeds, providers, solutions, stories } from "../data/catalog";
+import { OG_IMAGE, SITE_URL, absoluteUrl, breadcrumbLd } from "../lib/seo";
 
 export const Route = createFileRoute("/solutions/$slug")({
   loader: ({ params }) => {
@@ -13,12 +15,42 @@ export const Route = createFileRoute("/solutions/$slug")({
       return { meta: [{ title: "Solution unavailable — UrjaSethu" }, { name: "robots", content: "noindex" }] };
     }
     const { solution } = loaderData;
+    const url = absoluteUrl(`/solutions/${solution.slug}`);
     return {
       meta: [
         { title: `${solution.name} — DRE Solutions | UrjaSethu` },
         { name: "description", content: solution.summary },
         { property: "og:title", content: `${solution.name} — UrjaSethu` },
         { property: "og:description", content: solution.summary },
+        { property: "og:url", content: url },
+        { property: "og:image", content: OG_IMAGE },
+        { name: "twitter:image", content: OG_IMAGE },
+      ],
+      links: [{ rel: "canonical", href: url }],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify(
+            breadcrumbLd([
+              { name: "Home", path: "/" },
+              { name: "DRE Solutions", path: "/solutions" },
+              { name: solution.name, path: `/solutions/${solution.slug}` },
+            ]),
+          ),
+        },
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Service",
+            name: solution.name,
+            serviceType: solution.category,
+            description: solution.summary,
+            areaServed: "IN",
+            url,
+            provider: { "@type": "Organization", name: "UrjaSethu", url: `${SITE_URL}/` },
+          }),
+        },
       ],
     };
   },
@@ -35,7 +67,14 @@ function SolutionPage() {
     <article>
       <header className="border-b border-border bg-ivory">
         <div className="container-page py-14 md:py-20">
-          <p className="eyebrow">{solution.category}</p>
+          <Breadcrumbs
+            items={[
+              { name: "Home", path: "/" },
+              { name: "DRE Solutions", path: "/solutions" },
+              { name: solution.name },
+            ]}
+          />
+          <p className="eyebrow mt-4">{solution.category}</p>
           <h1 className="mt-3 text-3xl font-semibold md:text-[2.6rem]">{solution.name}</h1>
           <p className="mt-4 max-w-2xl text-lg text-muted-foreground">{solution.summary}</p>
           <div className="mt-8 flex flex-wrap gap-3">

@@ -5,7 +5,9 @@ import { toast } from "sonner";
 
 import { submitQuoteRequest } from "../lib/db";
 
+import { Breadcrumbs } from "../components/site/Breadcrumbs";
 import { providers } from "../data/catalog";
+import { OG_IMAGE, absoluteUrl, breadcrumbLd } from "../lib/seo";
 import { userMessage } from "../lib/user-error";
 
 export const Route = createFileRoute("/providers/$id")({
@@ -25,6 +27,22 @@ export const Route = createFileRoute("/providers/$id")({
         { name: "description", content: provider.about },
         { property: "og:title", content: `${provider.name} — UrjaSethu` },
         { property: "og:description", content: provider.about },
+        { property: "og:url", content: absoluteUrl(`/providers/${provider.id}`) },
+        { property: "og:image", content: OG_IMAGE },
+        { name: "twitter:image", content: OG_IMAGE },
+      ],
+      links: [{ rel: "canonical", href: absoluteUrl(`/providers/${provider.id}`) }],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify(
+            breadcrumbLd([
+              { name: "Home", path: "/" },
+              { name: "Providers", path: "/providers" },
+              { name: provider.name, path: `/providers/${provider.id}` },
+            ]),
+          ),
+        },
       ],
     };
   },
@@ -39,7 +57,10 @@ function ProviderProfile() {
     <article>
       <header className="border-b border-border bg-ivory">
         <div className="container-page py-14">
-          <div className="flex items-center gap-3">
+          <Breadcrumbs
+            items={[{ name: "Home", path: "/" }, { name: "Providers", path: "/providers" }, { name: provider.name }]}
+          />
+          <div className="mt-4 flex items-center gap-3">
             <h1 className="text-3xl font-semibold md:text-4xl">{provider.name}</h1>
             {provider.verified && (
               <span className="inline-flex items-center gap-1 text-sm font-medium text-primary">

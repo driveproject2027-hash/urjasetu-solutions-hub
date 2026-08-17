@@ -1,7 +1,9 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 
 import { PageHeader } from "../components/site/PageHeader";
+import { Breadcrumbs } from "../components/site/Breadcrumbs";
 import { resourceCategories } from "../data/resources";
+import { OG_IMAGE, absoluteUrl, breadcrumbLd } from "../lib/seo";
 import { solutions, opportunities, stories } from "../data/catalog";
 
 export const Route = createFileRoute("/resources/$category")({
@@ -22,6 +24,22 @@ export const Route = createFileRoute("/resources/$category")({
         { name: "description", content: description },
         { property: "og:title", content: `${category.name} — UrjaSethu Resources` },
         { property: "og:description", content: description },
+        { property: "og:url", content: absoluteUrl(`/resources/${category.slug}`) },
+        { property: "og:image", content: OG_IMAGE },
+        { name: "twitter:image", content: OG_IMAGE },
+      ],
+      links: [{ rel: "canonical", href: absoluteUrl(`/resources/${category.slug}`) }],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify(
+            breadcrumbLd([
+              { name: "Home", path: "/" },
+              { name: "Resources", path: "/resources" },
+              { name: category.name, path: `/resources/${category.slug}` },
+            ]),
+          ),
+        },
       ],
     };
   },
@@ -34,6 +52,9 @@ function CategoryPage() {
   return (
     <>
       <PageHeader eyebrow="Resources" title={category.name} intro={category.intro}>
+        <Breadcrumbs
+          items={[{ name: "Home", path: "/" }, { name: "Resources", path: "/resources" }, { name: category.name }]}
+        />
         <Link to="/resources" className="text-sm text-primary underline underline-offset-4">
           Back to all resources
         </Link>
