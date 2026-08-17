@@ -399,6 +399,32 @@ function Home() {
         </div>
       </section>
 
+      {/* Common questions — plain answers for people and answer engines */}
+      <section className="border-b border-border bg-ivory">
+        <div className="container-page py-12 md:py-20">
+          <h2 className="text-2xl font-semibold md:text-3xl">Common questions about UrjaSethu and DRE</h2>
+          <dl className="mt-8 grid gap-x-12 gap-y-8 md:grid-cols-2">
+            {homeFaqs.map((f) => (
+              <div key={f.question}>
+                <dt className="font-display text-base font-semibold">{f.question}</dt>
+                <dd className="mt-2 text-sm leading-relaxed text-foreground/85">{f.answer}</dd>
+              </div>
+            ))}
+          </dl>
+          <p className="mt-8 text-sm text-muted-foreground">
+            More background in the{" "}
+            <Link to="/resources" className="text-primary underline underline-offset-4">
+              DRE knowledge centre
+            </Link>
+            , or read about{" "}
+            <Link to="/financing" className="text-primary underline underline-offset-4">
+              financing options for renewable energy projects
+            </Link>
+            .
+          </p>
+        </div>
+      </section>
+
       {/* CTA block */}
       <section className="bg-primary text-primary-foreground">
         <div className="container-page flex flex-col items-start gap-6 py-12 md:flex-row md:flex-wrap md:items-center md:justify-between md:py-14">
