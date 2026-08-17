@@ -17,7 +17,11 @@ export const Route = createFileRoute("/providers/")({
       },
       { property: "og:title", content: "Find DRE Providers — UrjaSethu" },
       { property: "og:description", content: "A directory of DRE installers, manufacturers and service providers." },
+      { property: "og:url", content: "https://urjasethu.dev/providers" },
+      { property: "og:image", content: "https://urjasethu.dev/og-image.jpg" },
+      { name: "twitter:image", content: "https://urjasethu.dev/og-image.jpg" },
     ],
+    links: [{ rel: "canonical", href: "https://urjasethu.dev/providers" }],
   }),
   component: ProvidersIndex,
 });

@@ -30,7 +30,11 @@ export const Route = createFileRoute("/find-my-solution")({
       },
       { property: "og:title", content: "Find My Solution — UrjaSethu" },
       { property: "og:description", content: "Start with the problem. We'll help you find the technology." },
+      { property: "og:url", content: "https://urjasethu.dev/find-my-solution" },
+      { property: "og:image", content: "https://urjasethu.dev/og-image.jpg" },
+      { name: "twitter:image", content: "https://urjasethu.dev/og-image.jpg" },
     ],
+    links: [{ rel: "canonical", href: "https://urjasethu.dev/find-my-solution" }],
   }),
   component: Finder,
 });

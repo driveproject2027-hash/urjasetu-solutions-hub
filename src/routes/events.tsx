@@ -35,7 +35,11 @@ export const Route = createFileRoute("/events")({
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
+      { property: "og:url", content: "https://urjasethu.dev/events" },
+      { property: "og:image", content: "https://urjasethu.dev/og-image.jpg" },
+      { name: "twitter:image", content: "https://urjasethu.dev/og-image.jpg" },
     ],
+    links: [{ rel: "canonical", href: "https://urjasethu.dev/events" }],
   }),
   component: Events,
 });

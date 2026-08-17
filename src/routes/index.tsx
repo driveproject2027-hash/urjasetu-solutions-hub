@@ -34,8 +34,11 @@ export const Route = createFileRoute("/")({
         content:
           "Start with the problem. Discover suitable renewable-energy solutions and connect with providers across India.",
       },
+      { property: "og:url", content: "https://urjasethu.dev/" },
+      { property: "og:image", content: "https://urjasethu.dev/og-image.jpg" },
+      { name: "twitter:image", content: "https://urjasethu.dev/og-image.jpg" },
     ],
-    links: [{ rel: "canonical", href: "https://urjasetu.lovable.app/" }],
+    links: [{ rel: "canonical", href: "https://urjasethu.dev/" }],
   }),
   component: Home,
 });

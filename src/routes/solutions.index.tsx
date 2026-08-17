@@ -17,7 +17,11 @@ export const Route = createFileRoute("/solutions/")({
         property: "og:description",
         content: "Decentralised renewable energy solutions for Indian MSMEs and rural enterprises.",
       },
+      { property: "og:url", content: "https://urjasethu.dev/solutions" },
+      { property: "og:image", content: "https://urjasethu.dev/og-image.jpg" },
+      { name: "twitter:image", content: "https://urjasethu.dev/og-image.jpg" },
     ],
+    links: [{ rel: "canonical", href: "https://urjasethu.dev/solutions" }],
   }),
   component: SolutionsIndex,
 });

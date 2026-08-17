@@ -18,7 +18,11 @@ export const Route = createFileRoute("/join-us/network-partner")({
       },
       { property: "og:title", content: "Register as a Network Partner — UrjaSethu" },
       { property: "og:description", content: "Help local enterprises find the right DRE solution and support." },
+      { property: "og:url", content: "https://urjasethu.dev/join-us/network-partner" },
+      { property: "og:image", content: "https://urjasethu.dev/og-image.jpg" },
+      { name: "twitter:image", content: "https://urjasethu.dev/og-image.jpg" },
     ],
+    links: [{ rel: "canonical", href: "https://urjasethu.dev/join-us/network-partner" }],
   }),
   component: NetworkPartnerForm,
 });

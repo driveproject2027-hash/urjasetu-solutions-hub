@@ -21,7 +21,11 @@ export const Route = createFileRoute("/stories/")({
       },
       { property: "og:title", content: "Business Stories — UrjaSethu" },
       { property: "og:description", content: "Every DRE journey starts with a real problem." },
+      { property: "og:url", content: "https://urjasethu.dev/stories" },
+      { property: "og:image", content: "https://urjasethu.dev/og-image.jpg" },
+      { name: "twitter:image", content: "https://urjasethu.dev/og-image.jpg" },
     ],
+    links: [{ rel: "canonical", href: "https://urjasethu.dev/stories" }],
   }),
   component: StoriesIndex,
 });

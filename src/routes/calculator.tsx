@@ -14,7 +14,11 @@ export const Route = createFileRoute("/calculator")({
       },
       { property: "og:title", content: "Solar Business Calculator — UrjaSethu" },
       { property: "og:description", content: "What could solar look like for your business?" },
+      { property: "og:url", content: "https://urjasethu.dev/calculator" },
+      { property: "og:image", content: "https://urjasethu.dev/og-image.jpg" },
+      { name: "twitter:image", content: "https://urjasethu.dev/og-image.jpg" },
     ],
+    links: [{ rel: "canonical", href: "https://urjasethu.dev/calculator" }],
   }),
   component: Calculator,
 });

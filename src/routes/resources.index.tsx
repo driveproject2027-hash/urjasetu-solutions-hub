@@ -20,7 +20,11 @@ export const Route = createFileRoute("/resources/")({
         property: "og:description",
         content: "Understand DRE. Find the right support. Make better decisions.",
       },
+      { property: "og:url", content: "https://urjasethu.dev/resources" },
+      { property: "og:image", content: "https://urjasethu.dev/og-image.jpg" },
+      { name: "twitter:image", content: "https://urjasethu.dev/og-image.jpg" },
     ],
+    links: [{ rel: "canonical", href: "https://urjasethu.dev/resources" }],
   }),
   component: ResourcesHub,
 });
