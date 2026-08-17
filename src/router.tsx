@@ -7,6 +7,8 @@ export const getRouter = () => {
 
   const router = createRouter({
     routeTree,
+    // Avoid /path and /path/ resolving as two indexable URLs.
+    trailingSlash: "never",
     context: { queryClient },
     scrollRestoration: true,
     defaultPreloadStaleTime: 0,
