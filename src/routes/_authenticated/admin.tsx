@@ -18,6 +18,9 @@ import { useIsAdmin } from "../../lib/useAuth";
 import { updateJoinUsStatus } from "@/lib/join-us-review.functions";
 
 export const Route = createFileRoute("/_authenticated/admin")({
+  head: () => ({
+    meta: [{ title: "Admin — UrjaSethu" }, { name: "robots", content: "noindex, nofollow" }],
+  }),
   component: AdminPage,
 });
 
