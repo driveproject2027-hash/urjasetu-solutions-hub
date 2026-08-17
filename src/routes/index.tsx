@@ -19,6 +19,39 @@ import solarImg from "../assets/solutions-solar.jpg";
 import { openNeeds, opportunities, problems, solutions, stories } from "../data/catalog";
 import { t } from "../lib/i18n";
 
+const homeFaqs = [
+  {
+    question: "What is UrjaSethu?",
+    answer:
+      "UrjaSethu is an Indian platform that connects businesses with decentralised renewable energy (DRE) solutions, solution providers, finance providers and network partners. A business describes its problem — high energy bills, power cuts, diesel dependence, spoilage — and the platform points to suitable solutions and providers.",
+  },
+  {
+    question: "What is decentralised renewable energy?",
+    answer:
+      "Decentralised renewable energy means generating and using clean energy close to where it is consumed, instead of drawing everything from the central grid. Typical examples are rooftop solar, solar plus battery systems, solar drying, solar-powered cold rooms, biomass processing and solar pumps.",
+  },
+  {
+    question: "Who can use UrjaSethu?",
+    answer:
+      "MSMEs, farmer producer organisations, rural enterprises and entrepreneurs across India, along with solution providers, finance providers and ecosystem partners who want to serve them.",
+  },
+  {
+    question: "How does UrjaSethu connect businesses with solution providers?",
+    answer:
+      "A business starts with Find My Solution, answers a short set of questions and receives suitable DRE solution categories. From there it can browse verified providers, request quotes and compare responses, or post an open need that providers respond to.",
+  },
+  {
+    question: "How can businesses finance a DRE project in India?",
+    answer:
+      "Common routes are own funds, term loans from banks and NBFCs, equipment leasing, and support schemes referenced on the Finance page such as MSE GIFT, MSE SPICE, PMFME, PMEGP and ZED. Eligibility and terms change, so verify each scheme on its official source before applying.",
+  },
+  {
+    question: "How can a provider or partner join UrjaSethu?",
+    answer:
+      "Through Join Us, which has separate onboarding for solution providers, finance providers and network partners. Each application is reviewed before a public listing goes live.",
+  },
+] as const;
+
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
