@@ -72,6 +72,7 @@ async function updateRow(table: string, id: string, patch: Record<string, unknow
 function AdminPage() {
   const [userId, setUserId] = useState<string>();
   const isAdmin = useIsAdmin(userId);
+  const isSuperAdmin = useIsSuperAdmin(userId) === true;
   const [tab, setTab] = useState<Tab>("Overview");
 
   useEffect(() => {
@@ -136,6 +137,8 @@ function AdminPage() {
         {tab === "Events" && <Events />}
         {tab === "Resources" && <Resources />}
         {tab === "DRIVE impact" && <Impact />}
+        {tab === "DRIVE workspace" && <WorkspacePanel isSuperAdmin={isSuperAdmin} />}
+        {tab === "Administrators" && isSuperAdmin && <AdministratorsPanel />}
       </div>
     </>
   );
