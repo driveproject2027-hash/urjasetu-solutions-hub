@@ -14,6 +14,30 @@ export type Database = {
   }
   public: {
     Tables: {
+      admin_permissions: {
+        Row: {
+          created_at: string
+          post: string
+          sections: string[]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          post?: string
+          sections?: string[]
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          post?: string
+          sections?: string[]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       customer_requests: {
         Row: {
           admin_notes: string | null
@@ -566,6 +590,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      has_admin_section: {
+        Args: { _section: string; _user_id: string }
+        Returns: boolean
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
