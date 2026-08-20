@@ -108,19 +108,24 @@ function AdminPage() {
       />
       <div className="container-page py-10">
         <nav className="mb-8 flex flex-wrap gap-2 border-b border-border pb-4" aria-label="Admin sections">
-          {tabs.map((t) => (
-            <button
-              key={t}
-              type="button"
-              onClick={() => setTab(t)}
-              className={`border px-3 py-1.5 text-sm ${
-                tab === t ? "border-primary bg-primary text-primary-foreground" : "border-border hover:border-primary/60"
-              }`}
-            >
-              {t}
-            </button>
-          ))}
+          {tabs
+            .filter((t) => t !== "Administrators" || isSuperAdmin)
+            .map((t) => (
+              <button
+                key={t}
+                type="button"
+                onClick={() => setTab(t)}
+                className={`border px-3 py-1.5 text-sm ${
+                  tab === t
+                    ? "border-primary bg-primary text-primary-foreground"
+                    : "border-border hover:border-primary/60"
+                }`}
+              >
+                {t}
+              </button>
+            ))}
         </nav>
+
 
         {tab === "Overview" && <Overview onJump={setTab} />}
         {tab === "Join Us submissions" && <Providers />}
