@@ -40,6 +40,8 @@ const tabs = [
   "Events",
   "Resources",
   "DRIVE impact",
+  "DRIVE workspace",
+  "Administrators",
 ] as const;
 type Tab = (typeof tabs)[number];
 
