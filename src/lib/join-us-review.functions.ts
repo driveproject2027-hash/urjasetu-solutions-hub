@@ -33,6 +33,28 @@ const PATH_LABELS: Record<string, string> = {
   network: 'Network Partner',
 }
 
+// Contact details (email, phone, documents) are withheld from the browser by
+// column-level grants; admins read them through this verified server function.
+export const listJoinUsSubmissions = createServerFn({ method: 'POST' })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    const { supabase, userId } = context
+    const { data: isAdmin, error: roleError } = await supabase.rpc('has_role', {
+      _user_id: userId,
+      _role: 'admin',
+    })
+    if (roleError) throw new Error(roleError.message)
+    if (!isAdmin) throw new Error('Forbidden')
+
+    const { supabaseAdmin } = await import('@/integrations/supabase/client.server')
+    const { data, error } = await supabaseAdmin
+      .from('provider_applications')
+      .select('*')
+      .order('applied_at', { ascending: false })
+    if (error) throw new Error(error.message)
+    return data ?? []
+  })
+
 export const updateJoinUsStatus = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((input: { id: string; status: string }) => {
@@ -50,7 +72,9 @@ export const updateJoinUsStatus = createServerFn({ method: 'POST' })
     if (roleError) throw new Error(roleError.message)
     if (!isAdmin) throw new Error('Forbidden')
 
-    const { data: before, error: readError } = await supabase
+    const { supabaseAdmin } = await import('@/integrations/supabase/client.server')
+
+    const { data: before, error: readError } = await supabaseAdmin
       .from('provider_applications')
       .select('id, status, organisation, contact_person, email, provider_type, admin_notes')
       .eq('id', data.id)
