@@ -14,7 +14,8 @@ import {
   statusLabel,
   storyStatuses,
 } from "../../lib/db";
-import { useIsAdmin } from "../../lib/useAuth";
+import { useIsAdmin, useIsSuperAdmin } from "../../lib/useAuth";
+import { AdministratorsPanel, WorkspacePanel } from "../../components/site/AdminWorkspace";
 import { updateJoinUsStatus } from "@/lib/join-us-review.functions";
 
 export const Route = createFileRoute("/_authenticated/admin")({
@@ -39,6 +40,8 @@ const tabs = [
   "Events",
   "Resources",
   "DRIVE impact",
+  "DRIVE workspace",
+  "Administrators",
 ] as const;
 type Tab = (typeof tabs)[number];
 
@@ -69,6 +72,7 @@ async function updateRow(table: string, id: string, patch: Record<string, unknow
 function AdminPage() {
   const [userId, setUserId] = useState<string>();
   const isAdmin = useIsAdmin(userId);
+  const isSuperAdmin = useIsSuperAdmin(userId) === true;
   const [tab, setTab] = useState<Tab>("Overview");
 
   useEffect(() => {
@@ -105,19 +109,24 @@ function AdminPage() {
       />
       <div className="container-page py-10">
         <nav className="mb-8 flex flex-wrap gap-2 border-b border-border pb-4" aria-label="Admin sections">
-          {tabs.map((t) => (
-            <button
-              key={t}
-              type="button"
-              onClick={() => setTab(t)}
-              className={`border px-3 py-1.5 text-sm ${
-                tab === t ? "border-primary bg-primary text-primary-foreground" : "border-border hover:border-primary/60"
-              }`}
-            >
-              {t}
-            </button>
-          ))}
+          {tabs
+            .filter((t) => t !== "Administrators" || isSuperAdmin)
+            .map((t) => (
+              <button
+                key={t}
+                type="button"
+                onClick={() => setTab(t)}
+                className={`border px-3 py-1.5 text-sm ${
+                  tab === t
+                    ? "border-primary bg-primary text-primary-foreground"
+                    : "border-border hover:border-primary/60"
+                }`}
+              >
+                {t}
+              </button>
+            ))}
         </nav>
+
 
         {tab === "Overview" && <Overview onJump={setTab} />}
         {tab === "Join Us submissions" && <Providers />}
@@ -128,6 +137,8 @@ function AdminPage() {
         {tab === "Events" && <Events />}
         {tab === "Resources" && <Resources />}
         {tab === "DRIVE impact" && <Impact />}
+        {tab === "DRIVE workspace" && <WorkspacePanel isSuperAdmin={isSuperAdmin} />}
+        {tab === "Administrators" && isSuperAdmin && <AdministratorsPanel />}
       </div>
     </>
   );

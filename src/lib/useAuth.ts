@@ -26,6 +26,28 @@ export function useSession() {
   return { session, loading };
 }
 
+export function useIsSuperAdmin(userId: string | undefined) {
+  const [isSuperAdmin, setIsSuperAdmin] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    if (!userId) {
+      setIsSuperAdmin(null);
+      return;
+    }
+    let active = true;
+    supabase
+      .rpc("has_role", { _user_id: userId, _role: "super_admin" })
+      .then(({ data }) => {
+        if (active) setIsSuperAdmin(Boolean(data));
+      });
+    return () => {
+      active = false;
+    };
+  }, [userId]);
+
+  return isSuperAdmin;
+}
+
 export function useIsAdmin(userId: string | undefined) {
   const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
 

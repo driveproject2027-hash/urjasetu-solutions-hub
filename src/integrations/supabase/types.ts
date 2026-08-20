@@ -528,6 +528,39 @@ export type Database = {
         }
         Relationships: []
       }
+      workspace_links: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          sort_order: number
+          super_admin_only: boolean
+          title: string
+          updated_at: string
+          url: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          sort_order?: number
+          super_admin_only?: boolean
+          title: string
+          updated_at?: string
+          url: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          sort_order?: number
+          super_admin_only?: boolean
+          title?: string
+          updated_at?: string
+          url?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -542,7 +575,7 @@ export type Database = {
       }
     }
     Enums: {
-      app_role: "admin" | "provider" | "customer"
+      app_role: "admin" | "provider" | "customer" | "super_admin"
       provider_type: "solution" | "finance" | "network"
     }
     CompositeTypes: {
@@ -671,7 +704,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["admin", "provider", "customer"],
+      app_role: ["admin", "provider", "customer", "super_admin"],
       provider_type: ["solution", "finance", "network"],
     },
   },
