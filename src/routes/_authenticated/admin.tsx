@@ -14,7 +14,8 @@ import {
   statusLabel,
   storyStatuses,
 } from "../../lib/db";
-import { useIsAdmin } from "../../lib/useAuth";
+import { useIsAdmin, useIsSuperAdmin } from "../../lib/useAuth";
+import { AdministratorsPanel, WorkspacePanel } from "../../components/site/AdminWorkspace";
 import { updateJoinUsStatus } from "@/lib/join-us-review.functions";
 
 export const Route = createFileRoute("/_authenticated/admin")({
