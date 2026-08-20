@@ -16,7 +16,7 @@ import {
 } from "../../lib/db";
 import { useIsAdmin, useIsSuperAdmin } from "../../lib/useAuth";
 import { AdministratorsPanel, WorkspacePanel } from "../../components/site/AdminWorkspace";
-import { updateJoinUsStatus } from "@/lib/join-us-review.functions";
+import { listJoinUsSubmissions, updateJoinUsStatus } from "@/lib/join-us-review.functions";
 
 export const Route = createFileRoute("/_authenticated/admin")({
   head: () => ({
@@ -50,10 +50,10 @@ function str(row: AnyRow, key: string) {
   return typeof value === "string" ? value : value == null ? "" : String(value);
 }
 
-async function selectAll(table: string, order: string) {
+async function selectAll(table: string, order: string, columns = "*") {
   const { data, error } = await supabase
     .from(table as never)
-    .select("*")
+    .select(columns)
     .order(order, { ascending: false });
   if (error) throw error;
   return (data ?? []) as unknown as AnyRow[];
@@ -187,13 +187,13 @@ function Empty({ label = "Nothing here yet." }: { label?: string }) {
   return <p className="border-y border-border py-6 text-sm text-muted-foreground">{label}</p>;
 }
 
-function useTable(table: string, order: string) {
+function useTable(table: string, order: string, columns = "*") {
   const [rows, setRows] = useState<AnyRow[] | null>(null);
   const load = useCallback(() => {
-    selectAll(table, order)
+    selectAll(table, order, columns)
       .then(setRows)
       .catch((e: Error) => toast.error(e.message));
-  }, [table, order]);
+  }, [table, order, columns]);
   useEffect(load, [load]);
   return { rows, reload: load };
 }
@@ -338,7 +338,13 @@ async function saveProviderStatus(id: string, status: string, reload: () => void
 }
 
 function Providers() {
-  const { rows, reload } = useTable("provider_applications", "applied_at");
+  const [rows, setRows] = useState<AnyRow[] | null>(null);
+  const reload = useCallback(() => {
+    listJoinUsSubmissions({ data: undefined })
+      .then((data) => setRows(data as unknown as AnyRow[]))
+      .catch((e: Error) => toast.error(e.message));
+  }, []);
+  useEffect(reload, [reload]);
   const [filter, setFilter] = useState<string>("all");
   const [status, setStatus] = useState<string>("all");
   const [q, setQ] = useState("");
@@ -620,7 +626,11 @@ function CustomerRequests() {
 /* ---------- stories ---------- */
 
 function Stories() {
-  const { rows, reload } = useTable("story_submissions", "created_at");
+  const { rows, reload } = useTable(
+    "story_submissions",
+    "created_at",
+    "id, slug, title, business_name, sector, location, problem, solution, outcome, status, created_at",
+  );
   if (!rows) return <Empty label="Loading…" />;
 
   return (
@@ -696,7 +706,11 @@ function TextArea({ label, value, onChange }: { label: string; value: string; on
 /* ---------- open needs ---------- */
 
 function Needs() {
-  const { rows, reload } = useTable("open_needs", "created_at");
+  const { rows, reload } = useTable(
+    "open_needs",
+    "created_at",
+    "id, title, business_name, sector, location, description, budget, timeline, status, created_at",
+  );
   const [responses, setResponses] = useState<AnyRow[]>([]);
 
   useEffect(() => {
