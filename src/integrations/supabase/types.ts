@@ -528,6 +528,39 @@ export type Database = {
         }
         Relationships: []
       }
+      workspace_links: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          sort_order: number
+          super_admin_only: boolean
+          title: string
+          updated_at: string
+          url: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          sort_order?: number
+          super_admin_only?: boolean
+          title: string
+          updated_at?: string
+          url: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          sort_order?: number
+          super_admin_only?: boolean
+          title?: string
+          updated_at?: string
+          url?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
