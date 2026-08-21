@@ -263,7 +263,9 @@ export function AdministratorsPanel() {
         className="mb-8 flex flex-wrap items-end gap-3"
         onSubmit={(e) => {
           e.preventDefault();
-          void apply(email, level).then(() => setEmail(""));
+          void apply(email, level, post, level === "super_admin" ? ["all"] : sections).then(() =>
+            setEmail(""),
+          );
         }}
       >
         <div>
