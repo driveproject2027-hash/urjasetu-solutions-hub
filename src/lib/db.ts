@@ -142,14 +142,11 @@ export async function fetchPublishedStories() {
 }
 
 export async function fetchPublicNeeds() {
-  const { data, error } = await supabase
-    .from("open_needs")
-    .select("id, title, business_name, sector, location, description, budget, timeline, status")
-    .in("status", ["published", "responses_received", "matched"])
-    .order("created_at", { ascending: false });
+  const { data, error } = await supabase.rpc("list_public_open_needs");
   if (error) throw error;
   return data ?? [];
 }
+
 
 export async function fetchPublishedEvents() {
   const { data, error } = await supabase
