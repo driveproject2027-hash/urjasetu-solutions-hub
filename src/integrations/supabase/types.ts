@@ -601,6 +601,34 @@ export type Database = {
         }
         Returns: boolean
       }
+      list_public_open_needs: {
+        Args: never
+        Returns: {
+          budget: string
+          business_name: string
+          created_at: string
+          description: string
+          id: string
+          location: string
+          sector: string
+          status: string
+          timeline: string
+          title: string
+        }[]
+      }
+      list_public_providers: {
+        Args: never
+        Returns: {
+          contact_person: string
+          description: string
+          id: string
+          location: string
+          organisation: string
+          provider_type: Database["public"]["Enums"]["provider_type"]
+          services: string[]
+          website: string
+        }[]
+      }
     }
     Enums: {
       app_role: "admin" | "provider" | "customer" | "super_admin"

@@ -124,16 +124,12 @@ export async function submitStory(input: {
 }
 
 export async function fetchApprovedProviders(type?: ProviderType) {
-  let query = supabase
-    .from("provider_applications")
-    .select("id, organisation, contact_person, location, provider_type, services, website, description")
-    .eq("status", "approved")
-    .order("organisation");
-  if (type) query = query.eq("provider_type", type);
-  const { data, error } = await query;
+  const { data, error } = await supabase.rpc("list_public_providers");
   if (error) throw error;
-  return data ?? [];
+  const rows = data ?? [];
+  return type ? rows.filter((r) => r.provider_type === type) : rows;
 }
+
 
 export async function fetchPublishedStories() {
   const { data, error } = await supabase
@@ -146,14 +142,11 @@ export async function fetchPublishedStories() {
 }
 
 export async function fetchPublicNeeds() {
-  const { data, error } = await supabase
-    .from("open_needs")
-    .select("id, title, business_name, sector, location, description, budget, timeline, status")
-    .in("status", ["published", "responses_received", "matched"])
-    .order("created_at", { ascending: false });
+  const { data, error } = await supabase.rpc("list_public_open_needs");
   if (error) throw error;
   return data ?? [];
 }
+
 
 export async function fetchPublishedEvents() {
   const { data, error } = await supabase
