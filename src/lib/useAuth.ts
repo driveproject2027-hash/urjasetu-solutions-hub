@@ -48,6 +48,36 @@ export function useIsSuperAdmin(userId: string | undefined) {
   return isSuperAdmin;
 }
 
+/** Sections the signed-in admin may edit. `null` = unrestricted (no scoped post). */
+export function useMyAdminSections(userId: string | undefined) {
+  const [sections, setSections] = useState<string[] | null>(null);
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    if (!userId) {
+      setSections(null);
+      setLoaded(false);
+      return;
+    }
+    let active = true;
+    void supabase
+      .from("admin_permissions")
+      .select("sections")
+      .eq("user_id", userId)
+      .maybeSingle()
+      .then(({ data }) => {
+        if (!active) return;
+        setSections((data?.sections as string[] | undefined) ?? null);
+        setLoaded(true);
+      });
+    return () => {
+      active = false;
+    };
+  }, [userId]);
+
+  return { sections, loaded };
+}
+
 export function useIsAdmin(userId: string | undefined) {
   const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
 

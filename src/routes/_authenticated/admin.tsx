@@ -14,7 +14,8 @@ import {
   statusLabel,
   storyStatuses,
 } from "../../lib/db";
-import { useIsAdmin, useIsSuperAdmin } from "../../lib/useAuth";
+import { useIsAdmin, useIsSuperAdmin, useMyAdminSections } from "../../lib/useAuth";
+import { TAB_SECTION, canSee } from "@/lib/admin-posts";
 import { AdministratorsPanel, WorkspacePanel } from "../../components/site/AdminWorkspace";
 import { listJoinUsSubmissions, updateJoinUsStatus } from "@/lib/join-us-review.functions";
 
@@ -74,10 +75,22 @@ function AdminPage() {
   const isAdmin = useIsAdmin(userId);
   const isSuperAdmin = useIsSuperAdmin(userId) === true;
   const [tab, setTab] = useState<Tab>("Overview");
+  const { sections } = useMyAdminSections(userId);
 
   useEffect(() => {
     void supabase.auth.getUser().then(({ data }) => setUserId(data.user?.id));
   }, []);
+
+  const allowed = useCallback(
+    (t: Tab) => {
+      if (t === "Overview") return true;
+      if (t === "Administrators") return isSuperAdmin;
+      if (isSuperAdmin) return true;
+      const key = TAB_SECTION[t];
+      return key ? canSee(sections, key) : true;
+    },
+    [isSuperAdmin, sections],
+  );
 
   if (isAdmin === null) {
     return <div className="container-page py-20 text-sm text-muted-foreground">Checking access…</div>;
@@ -110,7 +123,7 @@ function AdminPage() {
       <div className="container-page py-10">
         <nav className="mb-8 flex flex-wrap gap-2 border-b border-border pb-4" aria-label="Admin sections">
           {tabs
-            .filter((t) => t !== "Administrators" || isSuperAdmin)
+            .filter(allowed)
             .map((t) => (
               <button
                 key={t}
@@ -128,17 +141,25 @@ function AdminPage() {
         </nav>
 
 
-        {tab === "Overview" && <Overview onJump={setTab} />}
-        {tab === "Join Us submissions" && <Providers />}
-        {tab === "Customer requests" && <CustomerRequests />}
-        {tab === "Stories" && <Stories />}
-        {tab === "Open needs" && <Needs />}
-        {tab === "Quotes" && <Quotes />}
-        {tab === "Events" && <Events />}
-        {tab === "Resources" && <Resources />}
-        {tab === "DRIVE impact" && <Impact />}
-        {tab === "DRIVE workspace" && <WorkspacePanel isSuperAdmin={isSuperAdmin} />}
-        {tab === "Administrators" && isSuperAdmin && <AdministratorsPanel />}
+        {!allowed(tab) ? (
+          <p className="border-y border-border py-6 text-sm text-muted-foreground">
+            Your admin post does not include this section.
+          </p>
+        ) : (
+          <>
+            {tab === "Overview" && <Overview onJump={setTab} />}
+            {tab === "Join Us submissions" && <Providers />}
+            {tab === "Customer requests" && <CustomerRequests />}
+            {tab === "Stories" && <Stories />}
+            {tab === "Open needs" && <Needs />}
+            {tab === "Quotes" && <Quotes />}
+            {tab === "Events" && <Events />}
+            {tab === "Resources" && <Resources />}
+            {tab === "DRIVE impact" && <Impact />}
+            {tab === "DRIVE workspace" && <WorkspacePanel isSuperAdmin={isSuperAdmin} />}
+            {tab === "Administrators" && isSuperAdmin && <AdministratorsPanel />}
+          </>
+        )}
       </div>
     </>
   );

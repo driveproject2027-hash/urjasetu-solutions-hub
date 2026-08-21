@@ -7,6 +7,8 @@ export type AdminUser = {
   email: string
   fullName: string
   level: 'super_admin' | 'admin'
+  post: string
+  sections: string[]
 }
 
 async function assertSuperAdmin(context: { supabase: any; userId: string }) {
@@ -38,26 +40,54 @@ export const listAdmins = createServerFn({ method: 'POST' })
       .select('id, email, full_name')
       .in('id', ids)
 
+    const { data: perms } = await supabaseAdmin
+      .from('admin_permissions')
+      .select('user_id, post, sections')
+      .in('user_id', ids)
+
     return ids.map((id) => {
       const profile = profiles?.find((p) => p.id === id)
+      const perm = perms?.find((p) => p.user_id === id)
       const isSuper = (roles ?? []).some((r) => r.user_id === id && r.role === 'super_admin')
       return {
         userId: id,
         email: profile?.email ?? '',
         fullName: profile?.full_name ?? '',
         level: isSuper ? ('super_admin' as const) : ('admin' as const),
+        post: perm?.post ?? 'full_admin',
+        sections: perm?.sections ?? ['all'],
       }
     })
   })
 
 export const setAdminAccess = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
-  .inputValidator((input: { email: string; level: 'super_admin' | 'admin' | 'none' }) => {
-    const email = (input?.email ?? '').trim().toLowerCase()
-    if (!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) throw new Error('Enter a valid email address')
-    if (!['super_admin', 'admin', 'none'].includes(input?.level)) throw new Error('Unknown access level')
-    return { email, level: input.level }
-  })
+  .inputValidator(
+    (input: {
+      email: string
+      level: 'super_admin' | 'admin' | 'none'
+      post?: string
+      sections?: string[]
+    }) => {
+      const email = (input?.email ?? '').trim().toLowerCase()
+      if (!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) throw new Error('Enter a valid email address')
+      if (!['super_admin', 'admin', 'none'].includes(input?.level)) throw new Error('Unknown access level')
+      const allowed = [
+        'all',
+        'joinus',
+        'requests',
+        'stories',
+        'needs',
+        'quotes',
+        'events',
+        'resources',
+        'impact',
+        'workspace',
+      ]
+      const sections = (input.sections ?? []).filter((s) => allowed.includes(s))
+      return { email, level: input.level, post: input.post ?? 'custom', sections }
+    },
+  )
   .handler(async ({ data, context }) => {
     await assertSuperAdmin(context as never)
     const { supabaseAdmin } = await import('@/integrations/supabase/client.server')
@@ -86,6 +116,23 @@ export const setAdminAccess = createServerFn({ method: 'POST' })
         .from('user_roles')
         .insert({ user_id: profile.id, role: data.level })
       if (insError) throw new Error(insError.message)
+    }
+
+    // Scoped posts only apply to normal admins; super admins always see everything.
+    if (data.level === 'admin' && data.sections.length > 0 && !data.sections.includes('all')) {
+      const { error: permError } = await supabaseAdmin
+        .from('admin_permissions')
+        .upsert(
+          { user_id: profile.id, post: data.post, sections: data.sections },
+          { onConflict: 'user_id' },
+        )
+      if (permError) throw new Error(permError.message)
+    } else {
+      const { error: clearError } = await supabaseAdmin
+        .from('admin_permissions')
+        .delete()
+        .eq('user_id', profile.id)
+      if (clearError) throw new Error(clearError.message)
     }
 
     return { email: data.email, level: data.level }

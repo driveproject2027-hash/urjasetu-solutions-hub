@@ -3,6 +3,7 @@ import { toast } from "sonner";
 
 import { supabase } from "@/integrations/supabase/client";
 import { listAdmins, setAdminAccess, type AdminUser } from "@/lib/admin-roles.functions";
+import { ADMIN_POSTS, ADMIN_SECTIONS, postLabel } from "@/lib/admin-posts";
 
 type WorkspaceLink = {
   id: string;
@@ -205,6 +206,8 @@ export function AdministratorsPanel() {
   const [rows, setRows] = useState<AdminUser[] | null>(null);
   const [email, setEmail] = useState("");
   const [level, setLevel] = useState<"admin" | "super_admin">("admin");
+  const [post, setPost] = useState<string>("full_admin");
+  const [sections, setSections] = useState<string[]>(["all"]);
   const [busy, setBusy] = useState(false);
 
   const load = useCallback(() => {
@@ -215,10 +218,31 @@ export function AdministratorsPanel() {
 
   useEffect(load, [load]);
 
-  async function apply(targetEmail: string, targetLevel: "admin" | "super_admin" | "none") {
+  function choosePost(key: string) {
+    setPost(key);
+    const preset = ADMIN_POSTS.find((p) => p.key === key);
+    if (preset && key !== "custom") setSections(preset.sections);
+    if (key === "custom") setSections([]);
+  }
+
+  function toggleSection(key: string) {
+    setPost("custom");
+    setSections((prev) =>
+      prev.includes(key) ? prev.filter((s) => s !== key) : [...prev.filter((s) => s !== "all"), key],
+    );
+  }
+
+  async function apply(
+    targetEmail: string,
+    targetLevel: "admin" | "super_admin" | "none",
+    targetPost = "full_admin",
+    targetSections: string[] = ["all"],
+  ) {
     setBusy(true);
     try {
-      await setAdminAccess({ data: { email: targetEmail, level: targetLevel } });
+      await setAdminAccess({
+        data: { email: targetEmail, level: targetLevel, post: targetPost, sections: targetSections },
+      });
       toast.success("Access updated");
       load();
     } catch (e) {
@@ -239,7 +263,9 @@ export function AdministratorsPanel() {
         className="mb-8 flex flex-wrap items-end gap-3"
         onSubmit={(e) => {
           e.preventDefault();
-          void apply(email, level).then(() => setEmail(""));
+          void apply(email, level, post, level === "super_admin" ? ["all"] : sections).then(() =>
+            setEmail(""),
+          );
         }}
       >
         <div>
@@ -269,6 +295,25 @@ export function AdministratorsPanel() {
             <option value="super_admin">Super admin</option>
           </select>
         </div>
+        {level === "admin" && (
+          <div>
+            <label htmlFor="admin-post" className="mb-1 block text-sm font-medium">
+              Post
+            </label>
+            <select
+              id="admin-post"
+              value={post}
+              onChange={(e) => choosePost(e.target.value)}
+              className="border border-input bg-background px-3 py-2 text-sm"
+            >
+              {ADMIN_POSTS.map((p) => (
+                <option key={p.key} value={p.key}>
+                  {p.label}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
         <button
           type="submit"
           disabled={busy}
@@ -276,6 +321,27 @@ export function AdministratorsPanel() {
         >
           Grant access
         </button>
+
+        {level === "admin" && post !== "full_admin" && (
+          <fieldset className="w-full border border-border p-4">
+            <legend className="px-1 text-sm font-medium">Sections this post can manage</legend>
+            <div className="flex flex-wrap gap-x-6 gap-y-2">
+              {ADMIN_SECTIONS.map((s) => (
+                <label key={s.key} className="flex items-center gap-2 text-sm">
+                  <input
+                    type="checkbox"
+                    checked={sections.includes("all") || sections.includes(s.key)}
+                    onChange={() => toggleSection(s.key)}
+                  />
+                  {s.label}
+                </label>
+              ))}
+            </div>
+            <p className="mt-2 text-xs text-muted-foreground">
+              Leave every box ticked-off empty to give this admin full access.
+            </p>
+          </fieldset>
+        )}
       </form>
 
       {!rows ? (
@@ -289,8 +355,16 @@ export function AdministratorsPanel() {
               <div>
                 <p className="text-sm font-medium">{r.fullName || r.email || r.userId}</p>
                 <p className="text-xs text-muted-foreground">
-                  {r.email} — {r.level === "super_admin" ? "Super admin" : "Admin"}
+                  {r.email} — {r.level === "super_admin" ? "Super admin" : postLabel(r.post)}
                 </p>
+                {r.level === "admin" && !r.sections.includes("all") && (
+                  <p className="text-xs text-muted-foreground">
+                    Sections:{" "}
+                    {r.sections
+                      .map((s) => ADMIN_SECTIONS.find((x) => x.key === s)?.label ?? s)
+                      .join(", ") || "none"}
+                  </p>
+                )}
               </div>
               <div className="flex gap-3">
                 {r.level === "admin" ? (
@@ -307,7 +381,7 @@ export function AdministratorsPanel() {
                     type="button"
                     disabled={busy}
                     className="text-sm text-primary underline"
-                    onClick={() => void apply(r.email, "admin")}
+                    onClick={() => void apply(r.email, "admin", r.post, r.sections)}
                   >
                     Make normal admin
                   </button>
