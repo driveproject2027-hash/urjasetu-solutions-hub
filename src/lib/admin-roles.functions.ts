@@ -62,12 +62,32 @@ export const listAdmins = createServerFn({ method: 'POST' })
 
 export const setAdminAccess = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
-  .inputValidator((input: { email: string; level: 'super_admin' | 'admin' | 'none' }) => {
-    const email = (input?.email ?? '').trim().toLowerCase()
-    if (!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) throw new Error('Enter a valid email address')
-    if (!['super_admin', 'admin', 'none'].includes(input?.level)) throw new Error('Unknown access level')
-    return { email, level: input.level }
-  })
+  .inputValidator(
+    (input: {
+      email: string
+      level: 'super_admin' | 'admin' | 'none'
+      post?: string
+      sections?: string[]
+    }) => {
+      const email = (input?.email ?? '').trim().toLowerCase()
+      if (!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) throw new Error('Enter a valid email address')
+      if (!['super_admin', 'admin', 'none'].includes(input?.level)) throw new Error('Unknown access level')
+      const allowed = [
+        'all',
+        'joinus',
+        'requests',
+        'stories',
+        'needs',
+        'quotes',
+        'events',
+        'resources',
+        'impact',
+        'workspace',
+      ]
+      const sections = (input.sections ?? []).filter((s) => allowed.includes(s))
+      return { email, level: input.level, post: input.post ?? 'custom', sections }
+    },
+  )
   .handler(async ({ data, context }) => {
     await assertSuperAdmin(context as never)
     const { supabaseAdmin } = await import('@/integrations/supabase/client.server')
