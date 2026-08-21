@@ -3,6 +3,7 @@ import { toast } from "sonner";
 
 import { supabase } from "@/integrations/supabase/client";
 import { listAdmins, setAdminAccess, type AdminUser } from "@/lib/admin-roles.functions";
+import { ADMIN_POSTS, ADMIN_SECTIONS, postLabel } from "@/lib/admin-posts";
 
 type WorkspaceLink = {
   id: string;
