@@ -118,5 +118,22 @@ export const setAdminAccess = createServerFn({ method: 'POST' })
       if (insError) throw new Error(insError.message)
     }
 
+    // Scoped posts only apply to normal admins; super admins always see everything.
+    if (data.level === 'admin' && data.sections.length > 0 && !data.sections.includes('all')) {
+      const { error: permError } = await supabaseAdmin
+        .from('admin_permissions')
+        .upsert(
+          { user_id: profile.id, post: data.post, sections: data.sections },
+          { onConflict: 'user_id' },
+        )
+      if (permError) throw new Error(permError.message)
+    } else {
+      const { error: clearError } = await supabaseAdmin
+        .from('admin_permissions')
+        .delete()
+        .eq('user_id', profile.id)
+      if (clearError) throw new Error(clearError.message)
+    }
+
     return { email: data.email, level: data.level }
   })
