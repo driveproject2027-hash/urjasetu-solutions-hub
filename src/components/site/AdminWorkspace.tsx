@@ -381,7 +381,7 @@ export function AdministratorsPanel() {
                     type="button"
                     disabled={busy}
                     className="text-sm text-primary underline"
-                    onClick={() => void apply(r.email, "admin")}
+                    onClick={() => void apply(r.email, "admin", r.post, r.sections)}
                   >
                     Make normal admin
                   </button>
