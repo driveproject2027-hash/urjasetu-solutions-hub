@@ -75,10 +75,22 @@ function AdminPage() {
   const isAdmin = useIsAdmin(userId);
   const isSuperAdmin = useIsSuperAdmin(userId) === true;
   const [tab, setTab] = useState<Tab>("Overview");
+  const { sections } = useMyAdminSections(userId);
 
   useEffect(() => {
     void supabase.auth.getUser().then(({ data }) => setUserId(data.user?.id));
   }, []);
+
+  const allowed = useCallback(
+    (t: Tab) => {
+      if (t === "Overview") return true;
+      if (t === "Administrators") return isSuperAdmin;
+      if (isSuperAdmin) return true;
+      const key = TAB_SECTION[t];
+      return key ? canSee(sections, key) : true;
+    },
+    [isSuperAdmin, sections],
+  );
 
   if (isAdmin === null) {
     return <div className="container-page py-20 text-sm text-muted-foreground">Checking access…</div>;
