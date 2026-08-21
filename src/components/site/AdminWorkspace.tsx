@@ -205,6 +205,8 @@ export function AdministratorsPanel() {
   const [rows, setRows] = useState<AdminUser[] | null>(null);
   const [email, setEmail] = useState("");
   const [level, setLevel] = useState<"admin" | "super_admin">("admin");
+  const [post, setPost] = useState<string>("full_admin");
+  const [sections, setSections] = useState<string[]>(["all"]);
   const [busy, setBusy] = useState(false);
 
   const load = useCallback(() => {
@@ -215,10 +217,31 @@ export function AdministratorsPanel() {
 
   useEffect(load, [load]);
 
-  async function apply(targetEmail: string, targetLevel: "admin" | "super_admin" | "none") {
+  function choosePost(key: string) {
+    setPost(key);
+    const preset = ADMIN_POSTS.find((p) => p.key === key);
+    if (preset && key !== "custom") setSections(preset.sections);
+    if (key === "custom") setSections([]);
+  }
+
+  function toggleSection(key: string) {
+    setPost("custom");
+    setSections((prev) =>
+      prev.includes(key) ? prev.filter((s) => s !== key) : [...prev.filter((s) => s !== "all"), key],
+    );
+  }
+
+  async function apply(
+    targetEmail: string,
+    targetLevel: "admin" | "super_admin" | "none",
+    targetPost = "full_admin",
+    targetSections: string[] = ["all"],
+  ) {
     setBusy(true);
     try {
-      await setAdminAccess({ data: { email: targetEmail, level: targetLevel } });
+      await setAdminAccess({
+        data: { email: targetEmail, level: targetLevel, post: targetPost, sections: targetSections },
+      });
       toast.success("Access updated");
       load();
     } catch (e) {
