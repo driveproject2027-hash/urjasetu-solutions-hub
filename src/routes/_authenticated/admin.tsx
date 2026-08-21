@@ -123,7 +123,7 @@ function AdminPage() {
       <div className="container-page py-10">
         <nav className="mb-8 flex flex-wrap gap-2 border-b border-border pb-4" aria-label="Admin sections">
           {tabs
-            .filter((t) => t !== "Administrators" || isSuperAdmin)
+            .filter(allowed)
             .map((t) => (
               <button
                 key={t}
