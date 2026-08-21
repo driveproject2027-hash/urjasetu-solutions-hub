@@ -141,17 +141,25 @@ function AdminPage() {
         </nav>
 
 
-        {tab === "Overview" && <Overview onJump={setTab} />}
-        {tab === "Join Us submissions" && <Providers />}
-        {tab === "Customer requests" && <CustomerRequests />}
-        {tab === "Stories" && <Stories />}
-        {tab === "Open needs" && <Needs />}
-        {tab === "Quotes" && <Quotes />}
-        {tab === "Events" && <Events />}
-        {tab === "Resources" && <Resources />}
-        {tab === "DRIVE impact" && <Impact />}
-        {tab === "DRIVE workspace" && <WorkspacePanel isSuperAdmin={isSuperAdmin} />}
-        {tab === "Administrators" && isSuperAdmin && <AdministratorsPanel />}
+        {!allowed(tab) ? (
+          <p className="border-y border-border py-6 text-sm text-muted-foreground">
+            Your admin post does not include this section.
+          </p>
+        ) : (
+          <>
+            {tab === "Overview" && <Overview onJump={setTab} />}
+            {tab === "Join Us submissions" && <Providers />}
+            {tab === "Customer requests" && <CustomerRequests />}
+            {tab === "Stories" && <Stories />}
+            {tab === "Open needs" && <Needs />}
+            {tab === "Quotes" && <Quotes />}
+            {tab === "Events" && <Events />}
+            {tab === "Resources" && <Resources />}
+            {tab === "DRIVE impact" && <Impact />}
+            {tab === "DRIVE workspace" && <WorkspacePanel isSuperAdmin={isSuperAdmin} />}
+            {tab === "Administrators" && isSuperAdmin && <AdministratorsPanel />}
+          </>
+        )}
       </div>
     </>
   );
