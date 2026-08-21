@@ -355,8 +355,16 @@ export function AdministratorsPanel() {
               <div>
                 <p className="text-sm font-medium">{r.fullName || r.email || r.userId}</p>
                 <p className="text-xs text-muted-foreground">
-                  {r.email} — {r.level === "super_admin" ? "Super admin" : "Admin"}
+                  {r.email} — {r.level === "super_admin" ? "Super admin" : postLabel(r.post)}
                 </p>
+                {r.level === "admin" && !r.sections.includes("all") && (
+                  <p className="text-xs text-muted-foreground">
+                    Sections:{" "}
+                    {r.sections
+                      .map((s) => ADMIN_SECTIONS.find((x) => x.key === s)?.label ?? s)
+                      .join(", ") || "none"}
+                  </p>
+                )}
               </div>
               <div className="flex gap-3">
                 {r.level === "admin" ? (
