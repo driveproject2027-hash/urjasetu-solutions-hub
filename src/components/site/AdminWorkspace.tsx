@@ -295,6 +295,25 @@ export function AdministratorsPanel() {
             <option value="super_admin">Super admin</option>
           </select>
         </div>
+        {level === "admin" && (
+          <div>
+            <label htmlFor="admin-post" className="mb-1 block text-sm font-medium">
+              Post
+            </label>
+            <select
+              id="admin-post"
+              value={post}
+              onChange={(e) => choosePost(e.target.value)}
+              className="border border-input bg-background px-3 py-2 text-sm"
+            >
+              {ADMIN_POSTS.map((p) => (
+                <option key={p.key} value={p.key}>
+                  {p.label}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
         <button
           type="submit"
           disabled={busy}
@@ -302,6 +321,27 @@ export function AdministratorsPanel() {
         >
           Grant access
         </button>
+
+        {level === "admin" && post !== "full_admin" && (
+          <fieldset className="w-full border border-border p-4">
+            <legend className="px-1 text-sm font-medium">Sections this post can manage</legend>
+            <div className="flex flex-wrap gap-x-6 gap-y-2">
+              {ADMIN_SECTIONS.map((s) => (
+                <label key={s.key} className="flex items-center gap-2 text-sm">
+                  <input
+                    type="checkbox"
+                    checked={sections.includes("all") || sections.includes(s.key)}
+                    onChange={() => toggleSection(s.key)}
+                  />
+                  {s.label}
+                </label>
+              ))}
+            </div>
+            <p className="mt-2 text-xs text-muted-foreground">
+              Leave every box ticked-off empty to give this admin full access.
+            </p>
+          </fieldset>
+        )}
       </form>
 
       {!rows ? (
