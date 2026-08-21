@@ -110,13 +110,6 @@ export type Database = {
             referencedRelation: "provider_applications"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "customer_requests_assigned_provider_id_fkey"
-            columns: ["assigned_provider_id"]
-            isOneToOne: false
-            referencedRelation: "public_providers"
-            referencedColumns: ["id"]
-          },
         ]
       }
       events: {
@@ -228,24 +221,10 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "need_responses_need_id_fkey"
-            columns: ["need_id"]
-            isOneToOne: false
-            referencedRelation: "public_open_needs"
-            referencedColumns: ["id"]
-          },
-          {
             foreignKeyName: "need_responses_provider_id_fkey"
             columns: ["provider_id"]
             isOneToOne: false
             referencedRelation: "provider_applications"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "need_responses_provider_id_fkey"
-            columns: ["provider_id"]
-            isOneToOne: false
-            referencedRelation: "public_providers"
             referencedColumns: ["id"]
           },
         ]
@@ -439,13 +418,6 @@ export type Database = {
             referencedRelation: "provider_applications"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "quote_requests_provider_id_fkey"
-            columns: ["provider_id"]
-            isOneToOne: false
-            referencedRelation: "public_providers"
-            referencedColumns: ["id"]
-          },
         ]
       }
       rate_limit_hits: {
@@ -615,81 +587,7 @@ export type Database = {
       }
     }
     Views: {
-      public_open_needs: {
-        Row: {
-          budget: string | null
-          business_name: string | null
-          created_at: string | null
-          description: string | null
-          id: string | null
-          location: string | null
-          sector: string | null
-          status: string | null
-          timeline: string | null
-          title: string | null
-        }
-        Insert: {
-          budget?: string | null
-          business_name?: string | null
-          created_at?: string | null
-          description?: string | null
-          id?: string | null
-          location?: string | null
-          sector?: string | null
-          status?: string | null
-          timeline?: string | null
-          title?: string | null
-        }
-        Update: {
-          budget?: string | null
-          business_name?: string | null
-          created_at?: string | null
-          description?: string | null
-          id?: string | null
-          location?: string | null
-          sector?: string | null
-          status?: string | null
-          timeline?: string | null
-          title?: string | null
-        }
-        Relationships: []
-      }
-      public_providers: {
-        Row: {
-          applied_at: string | null
-          contact_person: string | null
-          description: string | null
-          id: string | null
-          location: string | null
-          organisation: string | null
-          provider_type: Database["public"]["Enums"]["provider_type"] | null
-          services: string[] | null
-          website: string | null
-        }
-        Insert: {
-          applied_at?: string | null
-          contact_person?: string | null
-          description?: string | null
-          id?: string | null
-          location?: string | null
-          organisation?: string | null
-          provider_type?: Database["public"]["Enums"]["provider_type"] | null
-          services?: string[] | null
-          website?: string | null
-        }
-        Update: {
-          applied_at?: string | null
-          contact_person?: string | null
-          description?: string | null
-          id?: string | null
-          location?: string | null
-          organisation?: string | null
-          provider_type?: Database["public"]["Enums"]["provider_type"] | null
-          services?: string[] | null
-          website?: string | null
-        }
-        Relationships: []
-      }
+      [_ in never]: never
     }
     Functions: {
       has_admin_section: {
@@ -702,6 +600,34 @@ export type Database = {
           _user_id: string
         }
         Returns: boolean
+      }
+      list_public_open_needs: {
+        Args: never
+        Returns: {
+          budget: string
+          business_name: string
+          created_at: string
+          description: string
+          id: string
+          location: string
+          sector: string
+          status: string
+          timeline: string
+          title: string
+        }[]
+      }
+      list_public_providers: {
+        Args: never
+        Returns: {
+          contact_person: string
+          description: string
+          id: string
+          location: string
+          organisation: string
+          provider_type: Database["public"]["Enums"]["provider_type"]
+          services: string[]
+          website: string
+        }[]
       }
     }
     Enums: {
