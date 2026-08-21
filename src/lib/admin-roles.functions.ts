@@ -7,6 +7,8 @@ export type AdminUser = {
   email: string
   fullName: string
   level: 'super_admin' | 'admin'
+  post: string
+  sections: string[]
 }
 
 async function assertSuperAdmin(context: { supabase: any; userId: string }) {
