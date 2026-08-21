@@ -40,14 +40,22 @@ export const listAdmins = createServerFn({ method: 'POST' })
       .select('id, email, full_name')
       .in('id', ids)
 
+    const { data: perms } = await supabaseAdmin
+      .from('admin_permissions')
+      .select('user_id, post, sections')
+      .in('user_id', ids)
+
     return ids.map((id) => {
       const profile = profiles?.find((p) => p.id === id)
+      const perm = perms?.find((p) => p.user_id === id)
       const isSuper = (roles ?? []).some((r) => r.user_id === id && r.role === 'super_admin')
       return {
         userId: id,
         email: profile?.email ?? '',
         fullName: profile?.full_name ?? '',
         level: isSuper ? ('super_admin' as const) : ('admin' as const),
+        post: perm?.post ?? 'full_admin',
+        sections: perm?.sections ?? ['all'],
       }
     })
   })
