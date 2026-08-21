@@ -14,7 +14,8 @@ import {
   statusLabel,
   storyStatuses,
 } from "../../lib/db";
-import { useIsAdmin, useIsSuperAdmin } from "../../lib/useAuth";
+import { useIsAdmin, useIsSuperAdmin, useMyAdminSections } from "../../lib/useAuth";
+import { TAB_SECTION, canSee } from "@/lib/admin-posts";
 import { AdministratorsPanel, WorkspacePanel } from "../../components/site/AdminWorkspace";
 import { listJoinUsSubmissions, updateJoinUsStatus } from "@/lib/join-us-review.functions";
 
