@@ -13,6 +13,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Header } from "../components/site/Header";
 import { Footer } from "../components/site/Footer";
+import { SolarSavingsFab } from "../components/site/SolarSavingsFab";
 import { Toaster } from "../components/ui/sonner";
 import { organizationLd, webSiteLd } from "../lib/seo";
 
@@ -100,6 +101,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=DM+Sans:wght@400;500;700&display=swap",
       },
+      { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
       { rel: "icon", type: "image/png", href: "/favicon.png" },
     ],
     scripts: [
@@ -140,6 +142,7 @@ function RootComponent() {
         </main>
         <Footer />
       </div>
+      <SolarSavingsFab />
       <Toaster />
     </QueryClientProvider>
   );

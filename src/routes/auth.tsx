@@ -4,9 +4,9 @@ import { toast } from "sonner";
 
 import { PageHeader } from "../components/site/PageHeader";
 import { supabase } from "@/integrations/supabase/client";
-import { lovable } from "@/integrations/lovable/index";
 import { checkAuthThrottle } from "../lib/public-forms.functions";
 import { useSession } from "../lib/useAuth";
+import { signInWithGoogle } from "../lib/auth-google";
 
 // Auth providers can return provider-specific detail; keep user-facing copy generic.
 function authMessage(error: unknown): string {
@@ -15,10 +15,10 @@ function authMessage(error: unknown): string {
   if (raw.includes("already registered")) return "An account with this email already exists.";
   if (raw.includes("email not confirmed")) return "Please confirm your email address first.";
   if (raw.includes("password")) return "Password does not meet the minimum requirements.";
-  if (raw.includes("rate") || raw.includes("too many")) return "Too many attempts. Please try again later.";
+  if (raw.includes("rate") || raw.includes("too many"))
+    return "Too many attempts. Please try again later.";
   return "We could not complete that request. Please try again.";
 }
-
 
 export const Route = createFileRoute("/auth")({
   ssr: false,
@@ -32,7 +32,10 @@ export const Route = createFileRoute("/auth")({
           "Sign in or create an UrjaSethu account to track your enquiries, provider applications and quote requests.",
       },
       { property: "og:title", content: "Sign in to UrjaSethu" },
-      { property: "og:description", content: "Access your UrjaSethu enquiries, applications and quotes." },
+      {
+        property: "og:description",
+        content: "Access your UrjaSethu enquiries, applications and quotes.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -41,7 +44,7 @@ export const Route = createFileRoute("/auth")({
 });
 
 function AuthPage() {
-  const [mode, setMode] = useState<"signin" | "signup">("signin");
+  const [mode, setMode] = useState<"signin" | "signup" | "forgot">("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
@@ -58,7 +61,7 @@ function AuthPage() {
     setBusy(true);
     const action = mode === "signup" ? "signup" : "signin";
     try {
-      const gate = await checkAuthThrottle({ data: { action, email, outcome: "attempt" } });
+      const gate = await checkAuthThrottle({ data: { action, email } });
       if (!gate.allowed) {
         toast.error("Too many attempts", {
           description: `Please wait about ${Math.ceil(gate.retryAfterSeconds / 60) || 1} minute(s) before trying again.`,
@@ -76,28 +79,48 @@ function AuthPage() {
           },
         });
         if (error) throw error;
-        void checkAuthThrottle({ data: { action, email, outcome: "success" } });
         toast.success("Account created", { description: "You can now sign in." });
         setMode("signin");
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
-        void checkAuthThrottle({ data: { action, email, outcome: "success" } });
         void navigate({ to: "/account" });
       }
     } catch (err) {
-      void checkAuthThrottle({ data: { action, email, outcome: "failure" } });
       toast.error(authMessage(err));
     } finally {
       setBusy(false);
     }
   }
 
+  async function onForgotPassword(e: React.FormEvent) {
+    e.preventDefault();
+    setBusy(true);
+    try {
+      const gate = await checkAuthThrottle({ data: { action: "reset", email } });
+      if (!gate.allowed) {
+        toast.error("Too many attempts", {
+          description: `Please wait about ${Math.ceil(gate.retryAfterSeconds / 60) || 1} minute(s) before trying again.`,
+        });
+        return;
+      }
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/auth/reset`,
+      });
+      if (error) throw error;
+      toast.success("Reset email sent", {
+        description: "Check your inbox for a link to set a new password.",
+      });
+      setMode("signin");
+    } catch (err) {
+      toast.error(authMessage(err));
+    } finally {
+      setBusy(false);
+    }
+  }
 
   async function onGoogle() {
-    const result = await lovable.auth.signInWithOAuth("google", {
-      redirect_uri: window.location.origin,
-    });
+    const result = await signInWithGoogle(window.location.origin + "/auth");
     if (result.error) {
       toast.error("Google sign-in failed");
       return;
@@ -110,11 +133,21 @@ function AuthPage() {
     <>
       <PageHeader
         eyebrow="Account"
-        title={mode === "signin" ? "Sign in" : "Create an account"}
-        intro="An account lets you track the enquiries, applications and quote requests you submit through UrjaSethu."
+        title={
+          mode === "signin"
+            ? "Sign in"
+            : mode === "signup"
+              ? "Create an account"
+              : "Reset your password"
+        }
+        intro={
+          mode === "forgot"
+            ? "Enter the email you registered with and we will send you a link to set a new password."
+            : "An account lets you track the enquiries, applications and quote requests you submit through UrjaSethu."
+        }
       />
       <div className="container-page max-w-md py-12">
-        <form onSubmit={onSubmit} className="space-y-4">
+        <form onSubmit={mode === "forgot" ? onForgotPassword : onSubmit} className="space-y-4">
           {mode === "signup" && (
             <div>
               <label htmlFor="name" className="mb-1.5 block text-sm font-medium">
@@ -141,47 +174,76 @@ function AuthPage() {
               className="w-full border border-input bg-background px-3 py-2.5 text-base outline-none focus:border-primary"
             />
           </div>
-          <div>
-            <label htmlFor="password" className="mb-1.5 block text-sm font-medium">
-              Password
-            </label>
-            <input
-              id="password"
-              type="password"
-              required
-              minLength={6}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full border border-input bg-background px-3 py-2.5 text-base outline-none focus:border-primary"
-            />
-          </div>
+          {mode !== "forgot" && (
+            <div>
+              <label htmlFor="password" className="mb-1.5 block text-sm font-medium">
+                Password
+              </label>
+              <input
+                id="password"
+                type="password"
+                required
+                minLength={6}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full border border-input bg-background px-3 py-2.5 text-base outline-none focus:border-primary"
+              />
+            </div>
+          )}
           <button
             type="submit"
             disabled={busy}
             className="w-full bg-primary px-5 py-3 text-sm font-medium text-primary-foreground hover:bg-forest-deep disabled:opacity-60"
           >
-            {mode === "signin" ? "Sign in" : "Create account"}
+            {mode === "signin"
+              ? "Sign in"
+              : mode === "signup"
+                ? "Create account"
+                : "Send reset link"}
           </button>
         </form>
 
-        <button
-          type="button"
-          onClick={onGoogle}
-          className="mt-4 w-full border border-border px-5 py-3 text-sm font-medium hover:border-primary"
-        >
-          Continue with Google
-        </button>
-
-        <p className="mt-6 text-sm text-muted-foreground">
-          {mode === "signin" ? "Don't have an account?" : "Already have an account?"}{" "}
+        {mode === "signin" && (
           <button
             type="button"
-            className="font-medium text-primary underline"
-            onClick={() => setMode(mode === "signin" ? "signup" : "signin")}
+            onClick={() => setMode("forgot")}
+            className="mt-3 w-full text-sm font-medium text-primary underline underline-offset-4"
           >
-            {mode === "signin" ? "Create one" : "Sign in"}
+            Forgot your password?
           </button>
-        </p>
+        )}
+        {mode === "forgot" && (
+          <button
+            type="button"
+            onClick={() => setMode("signin")}
+            className="mt-3 w-full text-sm font-medium text-primary underline underline-offset-4"
+          >
+            Back to sign in
+          </button>
+        )}
+
+        {mode !== "forgot" && (
+          <button
+            type="button"
+            onClick={onGoogle}
+            className="mt-4 w-full border border-border px-5 py-3 text-sm font-medium hover:border-primary"
+          >
+            Continue with Google
+          </button>
+        )}
+
+        {mode !== "forgot" && (
+          <p className="mt-6 text-sm text-muted-foreground">
+            {mode === "signin" ? "Don't have an account?" : "Already have an account?"}{" "}
+            <button
+              type="button"
+              className="font-medium text-primary underline"
+              onClick={() => setMode(mode === "signin" ? "signup" : "signin")}
+            >
+              {mode === "signin" ? "Create one" : "Sign in"}
+            </button>
+          </p>
+        )}
       </div>
     </>
   );

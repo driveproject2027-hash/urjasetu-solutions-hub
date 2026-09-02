@@ -123,7 +123,6 @@ export type PublicFormData = z.output<typeof publicFormSchema>;
 export const authThrottleSchema = z.object({
   action: z.enum(["signin", "signup", "reset"]),
   email: emailSchema,
-  outcome: z.enum(["attempt", "failure", "success"]),
 });
 
 /** First readable message from a ZodError, safe to show a user. */

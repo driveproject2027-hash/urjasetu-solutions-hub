@@ -20,6 +20,13 @@ export class RateLimitError extends Error {
   }
 }
 
+export class RateLimitServiceError extends Error {
+  constructor() {
+    super('Rate limit service unavailable')
+    this.name = 'RateLimitServiceError'
+  }
+}
+
 async function sha256(value: string): Promise<string> {
   const bytes = new TextEncoder().encode(value)
   const digest = await crypto.subtle.digest('SHA-256', bytes)
@@ -52,9 +59,8 @@ async function countHits(bucket: string, subject: string, windowSeconds: number,
   if (outcome) query = query.eq('outcome', outcome)
   const { count, error } = await query
   if (error) {
-    // Fail open on infrastructure errors, but make it visible server-side.
     console.error('[rate-limit] count failed', error)
-    return 0
+    throw new RateLimitServiceError()
   }
   return count ?? 0
 }
@@ -63,7 +69,10 @@ export async function recordHit(bucket: string, subject: string, outcome = 'hit'
   const { error } = await admin()
     .from('rate_limit_hits')
     .insert({ bucket, subject, outcome })
-  if (error) console.error('[rate-limit] insert failed', error)
+  if (error) {
+    console.error('[rate-limit] insert failed', error)
+    throw new RateLimitServiceError()
+  }
 }
 
 /** Throws RateLimitError when the rule is exceeded. Records the hit otherwise. */

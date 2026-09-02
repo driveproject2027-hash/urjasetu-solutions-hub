@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { render } from '@react-email/render'
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, notFound } from '@tanstack/react-router'
 import { SignupEmail } from '@/lib/email-templates/signup'
 import { InviteEmail } from '@/lib/email-templates/invite'
 import { MagicLinkEmail } from '@/lib/email-templates/magic-link'
@@ -17,90 +17,62 @@ const EMAIL_TEMPLATES: Record<string, React.ComponentType<any>> = {
   reauthentication: ReauthenticationEmail,
 }
 
-// Configuration
-const SITE_NAME = "dre-hub-india"
-const ROOT_DOMAIN = "urjasethu.dev"
+const SITE_NAME = 'UrjaSethu'
+const ROOT_DOMAIN = 'urjasethu.dev'
+const SAMPLE_PROJECT_URL = `https://${ROOT_DOMAIN}`
+const SAMPLE_EMAIL = 'user@example.test'
 
-// Sample data for preview mode ONLY (not used in actual email sending).
-// URLs are baked in at scaffold time from the project's real data.
-// The sample email uses a fixed placeholder (RFC 6761 .test TLD) so the Go backend
-// can always find-and-replace it with the actual recipient when sending test emails,
-// even if the project's domain has changed since the template was scaffolded.
-const SAMPLE_PROJECT_URL = "https://dre-hub-india.lovable.app"
-const SAMPLE_EMAIL = "user@example.test"
 const SAMPLE_DATA: Record<string, object> = {
   signup: {
     siteName: SITE_NAME,
     siteUrl: SAMPLE_PROJECT_URL,
     recipient: SAMPLE_EMAIL,
-    confirmationUrl: SAMPLE_PROJECT_URL,
+    confirmationUrl: `${SAMPLE_PROJECT_URL}/auth-callback?token=example-token`,
   },
   magiclink: {
     siteName: SITE_NAME,
-    confirmationUrl: SAMPLE_PROJECT_URL,
+    confirmationUrl: `${SAMPLE_PROJECT_URL}/auth-callback?token=example-token`,
   },
   recovery: {
     siteName: SITE_NAME,
-    confirmationUrl: SAMPLE_PROJECT_URL,
+    confirmationUrl: `${SAMPLE_PROJECT_URL}/auth-callback?token=example-token`,
   },
   invite: {
     siteName: SITE_NAME,
     siteUrl: SAMPLE_PROJECT_URL,
-    confirmationUrl: SAMPLE_PROJECT_URL,
+    confirmationUrl: `${SAMPLE_PROJECT_URL}/auth-callback?token=example-token`,
   },
   email_change: {
     siteName: SITE_NAME,
-    oldEmail: SAMPLE_EMAIL,
+    oldEmail: 'old@example.test',
     email: SAMPLE_EMAIL,
-    newEmail: SAMPLE_EMAIL,
-    confirmationUrl: SAMPLE_PROJECT_URL,
+    newEmail: 'new@example.test',
+    confirmationUrl: `${SAMPLE_PROJECT_URL}/auth-callback?token=example-token`,
   },
   reauthentication: {
     token: '123456',
   },
 }
 
-export const Route = createFileRoute("/lovable/email/auth/preview")({
+export const Route = createFileRoute('/lovable/email/auth/preview')({
+  loader: () => {
+    if (import.meta.env.PROD) throw notFound()
+  },
+  component: AuthEmailPreviewPage,
   server: {
     handlers: {
       POST: async ({ request }) => {
-        const apiKey = process.env['LOVABLE_API_KEY']
+        if (import.meta.env.PROD) return new Response(null, { status: 404 })
+        const body = (await request.json().catch(() => ({}))) as { type?: string }
+        const type = body.type ?? ''
+        const Template = EMAIL_TEMPLATES[type]
 
-        if (!apiKey) {
-          return Response.json(
-            { error: 'Server configuration error' },
-            { status: 500 }
-          )
+        if (!Template) {
+          return Response.json({ error: `Unknown email type: ${type}` }, { status: 400 })
         }
 
-        // Verify the caller is authorized with LOVABLE_API_KEY
-        const authHeader = request.headers.get('Authorization')
-        if (!authHeader || authHeader !== `Bearer ${apiKey}`) {
-          return Response.json({ error: 'Unauthorized' }, { status: 401 })
-        }
-
-        let type: string
-        try {
-          const body = await request.json()
-          type = body.type
-        } catch {
-          return Response.json(
-            { error: 'Invalid JSON in request body' },
-            { status: 400 }
-          )
-        }
-
-        const EmailTemplate = EMAIL_TEMPLATES[type]
-
-        if (!EmailTemplate) {
-          return Response.json(
-            { error: `Unknown email type: ${type}` },
-            { status: 400 }
-          )
-        }
-
-        const sampleData = SAMPLE_DATA[type] || {}
-        const html = await render(React.createElement(EmailTemplate, sampleData))
+        const sampleData = SAMPLE_DATA[type] ?? {}
+        const html = await render(React.createElement(Template, sampleData))
 
         return new Response(html, {
           status: 200,
@@ -110,3 +82,16 @@ export const Route = createFileRoute("/lovable/email/auth/preview")({
     },
   },
 })
+
+function AuthEmailPreviewPage() {
+  return React.createElement(
+    'main',
+    { className: 'container-page py-16' },
+    React.createElement('h1', { className: 'font-display text-2xl font-semibold' }, 'Authentication email previews'),
+    React.createElement(
+      'p',
+      { className: 'mt-3 text-sm text-muted-foreground' },
+      'This endpoint accepts POST requests for rendering authentication email templates.',
+    ),
+  )
+}

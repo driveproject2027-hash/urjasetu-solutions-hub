@@ -4,7 +4,7 @@ import { getRequestHeader } from '@tanstack/react-start/server'
 import type { PublicFormInput } from './validation'
 
 export const submitPublicForm = createServerFn({ method: 'POST' })
-  .inputValidator((input: PublicFormInput) => input)
+  .validator((input: PublicFormInput) => input)
   .handler(async ({ data }) => {
     const { handlePublicSubmission, resolveOptionalUser, SubmissionError } = await import(
       './public-forms.server'
@@ -28,7 +28,7 @@ export const submitPublicForm = createServerFn({ method: 'POST' })
   })
 
 export const checkAuthThrottle = createServerFn({ method: 'POST' })
-  .inputValidator((input: { action: 'signin' | 'signup' | 'reset'; email: string; outcome: 'attempt' | 'failure' | 'success' }) => input)
+  .validator((input: { action: 'signin' | 'signup' | 'reset'; email: string }) => input)
   .handler(async ({ data }) => {
     const { evaluateAuthThrottle } = await import('./auth-throttle.server')
     try {
@@ -36,8 +36,8 @@ export const checkAuthThrottle = createServerFn({ method: 'POST' })
     } catch (error) {
       const { firstIssue } = await import('./validation')
       const issue = firstIssue(error)
-      if (issue) return { allowed: true, retryAfterSeconds: 0 }
+      if (issue) throw new Error(issue)
       console.error('[checkAuthThrottle] unexpected failure', error)
-      return { allowed: true, retryAfterSeconds: 0 }
+      return { allowed: false, retryAfterSeconds: 60 }
     }
   })

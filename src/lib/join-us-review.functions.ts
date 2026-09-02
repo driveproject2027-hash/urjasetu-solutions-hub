@@ -33,18 +33,21 @@ const PATH_LABELS: Record<string, string> = {
   network: 'Network Partner',
 }
 
+async function assertJoinUsManager(context: { supabase: any; userId: string }) {
+  const { data, error } = await context.supabase.rpc('has_admin_section', {
+    _user_id: context.userId,
+    _section: 'joinus',
+  })
+  if (error) throw new Error(error.message)
+  if (!data) throw new Error('Forbidden')
+}
+
 // Contact details (email, phone, documents) are withheld from the browser by
 // column-level grants; admins read them through this verified server function.
 export const listJoinUsSubmissions = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
-    const { supabase, userId } = context
-    const { data: isAdmin, error: roleError } = await supabase.rpc('has_role', {
-      _user_id: userId,
-      _role: 'admin',
-    })
-    if (roleError) throw new Error(roleError.message)
-    if (!isAdmin) throw new Error('Forbidden')
+    await assertJoinUsManager(context as never)
 
     const { supabaseAdmin } = await import('@/integrations/supabase/client.server')
     const { data, error } = await supabaseAdmin
@@ -57,20 +60,15 @@ export const listJoinUsSubmissions = createServerFn({ method: 'POST' })
 
 export const updateJoinUsStatus = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
-  .inputValidator((input: { id: string; status: string }) => {
+  .validator((input: { id: string; status: string }) => {
     if (!input?.id || !input?.status) throw new Error('Missing application id or status')
     if (!STATUS_LABELS[input.status]) throw new Error('Unknown review status')
     return input
   })
-  .handler(async ({ data, context }): Promise<ReviewUpdateResult> => {
-    const { supabase, userId } = context
 
-    const { data: isAdmin, error: roleError } = await supabase.rpc('has_role', {
-      _user_id: userId,
-      _role: 'admin',
-    })
-    if (roleError) throw new Error(roleError.message)
-    if (!isAdmin) throw new Error('Forbidden')
+  .handler(async ({ data, context }): Promise<ReviewUpdateResult> => {
+    const { supabase } = context
+    await assertJoinUsManager(context as never)
 
     const { supabaseAdmin } = await import('@/integrations/supabase/client.server')
 
@@ -117,4 +115,19 @@ export const updateJoinUsStatus = createServerFn({ method: 'POST' })
       console.error('[join-us-status] email send failed', error)
       return { status: data.status, notified: 'failed', recipient: before.email }
     }
+  })
+
+export const deleteJoinUsSubmission = createServerFn({ method: 'POST' })
+  .middleware([requireSupabaseAuth])
+  .validator((input: { id: string }) => {
+    if (!input?.id) throw new Error('Missing application id')
+    return input
+  })
+  .handler(async ({ data, context }) => {
+    await assertJoinUsManager(context as never)
+
+    const { supabaseAdmin } = await import('@/integrations/supabase/client.server')
+    const { error } = await supabaseAdmin.from('provider_applications').delete().eq('id', data.id)
+    if (error) throw new Error(error.message)
+    return { deleted: true as const }
   })

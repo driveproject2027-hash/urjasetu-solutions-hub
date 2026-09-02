@@ -15,6 +15,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as CalculatorRouteImport } from './routes/calculator'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as DevMockJoinUsRouteImport } from './routes/dev-mock-join-us'
 import { Route as DriveRouteImport } from './routes/drive'
 import { Route as EventsRouteImport } from './routes/events'
 import { Route as FinancingRouteImport } from './routes/financing'
@@ -31,6 +32,7 @@ import { Route as SolutionsRouteImport } from './routes/solutions'
 import { Route as StoriesRouteImport } from './routes/stories'
 import { Route as AuthenticatedAccountRouteImport } from './routes/_authenticated/account'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
+import { Route as AuthResetRouteImport } from './routes/auth.reset'
 import { Route as JoinUsIndexRouteImport } from './routes/join-us.index'
 import { Route as JoinUsFinanceProviderRouteImport } from './routes/join-us.finance-provider'
 import { Route as JoinUsNetworkPartnerRouteImport } from './routes/join-us.network-partner'
@@ -74,6 +76,11 @@ const CalculatorRoute = CalculatorRouteImport.update({
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DevMockJoinUsRoute = DevMockJoinUsRouteImport.update({
+  id: '/dev-mock-join-us',
+  path: '/dev-mock-join-us',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DriveRoute = DriveRouteImport.update({
@@ -156,6 +163,11 @@ const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthResetRoute = AuthResetRouteImport.update({
+  id: '/reset',
+  path: '/reset',
+  getParentRoute: () => AuthRoute,
+} as any)
 const JoinUsIndexRoute = JoinUsIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -236,9 +248,10 @@ const LovableEmailTransactionalPreviewRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/auth': typeof AuthRoute
+  '/auth': typeof AuthRouteWithChildren
   '/calculator': typeof CalculatorRoute
   '/contact': typeof ContactRoute
+  '/dev-mock-join-us': typeof DevMockJoinUsRoute
   '/drive': typeof DriveRoute
   '/events': typeof EventsRoute
   '/financing': typeof FinancingRoute
@@ -255,6 +268,7 @@ export interface FileRoutesByFullPath {
   '/stories': typeof StoriesRouteWithChildren
   '/account': typeof AuthenticatedAccountRoute
   '/admin': typeof AuthenticatedAdminRoute
+  '/auth/reset': typeof AuthResetRoute
   '/join-us/finance-provider': typeof JoinUsFinanceProviderRoute
   '/join-us/network-partner': typeof JoinUsNetworkPartnerRoute
   '/join-us/solution-provider': typeof JoinUsSolutionProviderRoute
@@ -274,9 +288,10 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/auth': typeof AuthRoute
+  '/auth': typeof AuthRouteWithChildren
   '/calculator': typeof CalculatorRoute
   '/contact': typeof ContactRoute
+  '/dev-mock-join-us': typeof DevMockJoinUsRoute
   '/drive': typeof DriveRoute
   '/events': typeof EventsRoute
   '/financing': typeof FinancingRoute
@@ -288,6 +303,7 @@ export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/account': typeof AuthenticatedAccountRoute
   '/admin': typeof AuthenticatedAdminRoute
+  '/auth/reset': typeof AuthResetRoute
   '/join-us/finance-provider': typeof JoinUsFinanceProviderRoute
   '/join-us/network-partner': typeof JoinUsNetworkPartnerRoute
   '/join-us/solution-provider': typeof JoinUsSolutionProviderRoute
@@ -309,9 +325,10 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/about': typeof AboutRoute
-  '/auth': typeof AuthRoute
+  '/auth': typeof AuthRouteWithChildren
   '/calculator': typeof CalculatorRoute
   '/contact': typeof ContactRoute
+  '/dev-mock-join-us': typeof DevMockJoinUsRoute
   '/drive': typeof DriveRoute
   '/events': typeof EventsRoute
   '/financing': typeof FinancingRoute
@@ -328,6 +345,7 @@ export interface FileRoutesById {
   '/stories': typeof StoriesRouteWithChildren
   '/_authenticated/account': typeof AuthenticatedAccountRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
+  '/auth/reset': typeof AuthResetRoute
   '/join-us/finance-provider': typeof JoinUsFinanceProviderRoute
   '/join-us/network-partner': typeof JoinUsNetworkPartnerRoute
   '/join-us/solution-provider': typeof JoinUsSolutionProviderRoute
@@ -352,6 +370,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/calculator'
     | '/contact'
+    | '/dev-mock-join-us'
     | '/drive'
     | '/events'
     | '/financing'
@@ -368,6 +387,7 @@ export interface FileRouteTypes {
     | '/stories'
     | '/account'
     | '/admin'
+    | '/auth/reset'
     | '/join-us/finance-provider'
     | '/join-us/network-partner'
     | '/join-us/solution-provider'
@@ -390,6 +410,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/calculator'
     | '/contact'
+    | '/dev-mock-join-us'
     | '/drive'
     | '/events'
     | '/financing'
@@ -401,6 +422,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/account'
     | '/admin'
+    | '/auth/reset'
     | '/join-us/finance-provider'
     | '/join-us/network-partner'
     | '/join-us/solution-provider'
@@ -424,6 +446,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/calculator'
     | '/contact'
+    | '/dev-mock-join-us'
     | '/drive'
     | '/events'
     | '/financing'
@@ -440,6 +463,7 @@ export interface FileRouteTypes {
     | '/stories'
     | '/_authenticated/account'
     | '/_authenticated/admin'
+    | '/auth/reset'
     | '/join-us/finance-provider'
     | '/join-us/network-partner'
     | '/join-us/solution-provider'
@@ -461,9 +485,10 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AboutRoute: typeof AboutRoute
-  AuthRoute: typeof AuthRoute
+  AuthRoute: typeof AuthRouteWithChildren
   CalculatorRoute: typeof CalculatorRoute
   ContactRoute: typeof ContactRoute
+  DevMockJoinUsRoute: typeof DevMockJoinUsRoute
   DriveRoute: typeof DriveRoute
   EventsRoute: typeof EventsRoute
   FinancingRoute: typeof FinancingRoute
@@ -525,6 +550,13 @@ declare module '@tanstack/react-router' {
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dev-mock-join-us': {
+      id: '/dev-mock-join-us'
+      path: '/dev-mock-join-us'
+      fullPath: '/dev-mock-join-us'
+      preLoaderRoute: typeof DevMockJoinUsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/drive': {
@@ -638,6 +670,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin'
       preLoaderRoute: typeof AuthenticatedAdminRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/auth/reset': {
+      id: '/auth/reset'
+      path: '/reset'
+      fullPath: '/auth/reset'
+      preLoaderRoute: typeof AuthResetRouteImport
+      parentRoute: typeof AuthRoute
     }
     '/join-us/': {
       id: '/join-us/'
@@ -760,6 +799,16 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
+interface AuthRouteChildren {
+  AuthResetRoute: typeof AuthResetRoute
+}
+
+const AuthRouteChildren: AuthRouteChildren = {
+  AuthResetRoute: AuthResetRoute,
+}
+
+const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
+
 interface JoinUsRouteChildren {
   JoinUsFinanceProviderRoute: typeof JoinUsFinanceProviderRoute
   JoinUsNetworkPartnerRoute: typeof JoinUsNetworkPartnerRoute
@@ -836,9 +885,10 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AboutRoute: AboutRoute,
-  AuthRoute: AuthRoute,
+  AuthRoute: AuthRouteWithChildren,
   CalculatorRoute: CalculatorRoute,
   ContactRoute: ContactRoute,
+  DevMockJoinUsRoute: DevMockJoinUsRoute,
   DriveRoute: DriveRoute,
   EventsRoute: EventsRoute,
   FinancingRoute: FinancingRoute,

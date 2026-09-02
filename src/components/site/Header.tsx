@@ -20,7 +20,10 @@ const nav = [
 
 export function Header() {
   const [open, setOpen] = useState(false);
+  const [moreOpen, setMoreOpen] = useState(false);
   const { session } = useSession();
+  const primaryNav = [nav[0], nav[1], nav[2], nav[3], nav[6], nav[7]];
+  const secondaryNav = [nav[4], nav[5], nav[8], nav[9]];
 
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur">
@@ -29,17 +32,41 @@ export function Header() {
           <span className="font-display text-xl font-bold tracking-tight text-primary">UrjaSethu</span>
         </Link>
 
-        <nav className="hidden items-center gap-5 xl:flex" aria-label="Primary">
-          {nav.map((item) => (
+        <nav className="hidden flex-1 items-center justify-evenly px-6 xl:flex 2xl:px-10" aria-label="Primary">
+          {primaryNav.map((item) => (
             <Link
               key={item.to}
               to={item.to}
-              className="text-sm text-foreground/80 transition-colors hover:text-primary"
+              className="whitespace-nowrap text-sm text-foreground/80 transition-colors hover:text-primary"
               activeProps={{ className: "text-primary font-medium" }}
             >
               {item.label}
             </Link>
           ))}
+          <div className="relative">
+            <button
+              type="button"
+              aria-expanded={moreOpen}
+              onClick={() => setMoreOpen((value) => !value)}
+              className="whitespace-nowrap text-sm text-foreground/80 transition-colors hover:text-primary"
+            >
+              More
+            </button>
+            {moreOpen && (
+              <div className="absolute right-0 top-full z-50 mt-4 min-w-52 border border-border bg-background p-2 shadow-lg">
+                {secondaryNav.map((item) => (
+                  <Link
+                    key={item.to}
+                    to={item.to}
+                    onClick={() => setMoreOpen(false)}
+                    className="block px-3 py-2 text-sm text-foreground/80 hover:bg-muted hover:text-primary"
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
         </nav>
 
         <div className="hidden items-center gap-4 xl:flex">

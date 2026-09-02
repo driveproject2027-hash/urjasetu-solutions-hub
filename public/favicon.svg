@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">UrjaSethu</title>
+  <desc id="desc">A rising sun behind a renewable energy leaf</desc>
+  <rect width="64" height="64" rx="14" fill="#174f35"/>
+  <circle cx="45" cy="19" r="13" fill="#f2c94c"/>
+  <path d="M10 52c1-16 10-29 31-38 1 16-5 29-19 36-5 3-9 3-12 2Z" fill="#fffaf0"/>
+  <path d="M12 51c9-10 18-19 29-27" fill="none" stroke="#174f35" stroke-width="4" stroke-linecap="round"/>
+</svg>

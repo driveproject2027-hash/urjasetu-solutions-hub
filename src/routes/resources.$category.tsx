@@ -1,10 +1,12 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 
 import { PageHeader } from "../components/site/PageHeader";
 import { Breadcrumbs } from "../components/site/Breadcrumbs";
 import { resourceCategories } from "../data/resources";
 import { OG_IMAGE, absoluteUrl, breadcrumbLd } from "../lib/seo";
 import { solutions, opportunities, stories } from "../data/catalog";
+import { fetchPublishedResources } from "../lib/db";
 
 export const Route = createFileRoute("/resources/$category")({
   loader: ({ params }) => {
@@ -48,6 +50,15 @@ export const Route = createFileRoute("/resources/$category")({
 
 function CategoryPage() {
   const { category } = Route.useLoaderData();
+  const [published, setPublished] = useState<PublishedResource[] | null>(null);
+
+  useEffect(() => {
+    fetchPublishedResources(category.slug)
+      .then((rows) => setPublished(rows as PublishedResource[]))
+      .catch(() => setPublished([]));
+  }, [category.slug]);
+
+  const articles = published === null ? category.articles : published;
 
   return (
     <>
@@ -61,32 +72,32 @@ function CategoryPage() {
       </PageHeader>
 
       <div className="container-page py-12">
-        {category.articles.length > 0 && (
+        {articles.length > 0 && (
           <div className="space-y-12">
-            {category.articles.map((a) => (
-              <article key={a.slug} id={a.slug} className="border-t border-border pt-6">
+            {articles.map((a) => (
+              <article key={a.id ?? a.slug} id={a.slug} className="border-t border-border pt-6">
                 <h2 className="font-display text-2xl font-semibold">{a.title}</h2>
                 <p className="mt-2 max-w-2xl text-base text-muted-foreground">{a.summary}</p>
                 <div className="mt-6 grid gap-6 md:grid-cols-2">
-                  {a.body.map((b) => (
+                  {articleSections(a).map((b) => (
                     <section key={b.heading}>
                       <h3 className="font-display text-base font-semibold">{b.heading}</h3>
                       <p className="mt-1 text-base text-foreground/85">{b.text}</p>
                     </section>
                   ))}
                 </div>
-                {(a.source || a.updated) && (
+                {(a.source || a.source_name || a.updated) && (
                   <p className="mt-6 text-sm text-muted-foreground">
-                    {a.source && (
+                    {(a.source || a.source_name) && (
                       <>
                         Official source:{" "}
                         <a
-                          href={a.source.url}
+                          href={a.source?.url ?? a.source_url ?? "#"}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="text-primary underline underline-offset-4"
                         >
-                          {a.source.label}
+                          {a.source?.label ?? a.source_name}
                         </a>
                         {a.updated ? " · " : ""}
                       </>
@@ -182,4 +193,27 @@ function CategoryPage() {
       </div>
     </>
   );
+}
+
+type PublishedResource = {
+  id: string;
+  title: string;
+  summary: string | null;
+  body: string | null;
+  source_name: string | null;
+  source_url: string | null;
+  slug?: string;
+  source?: { label: string; url: string };
+  updated?: string;
+};
+
+function articleSections(article: PublishedResource | (typeof resourceCategories)[number]["articles"][number]) {
+  if (Array.isArray(article.body)) return article.body;
+  return (article.body ?? "")
+    .split("\n\n")
+    .filter(Boolean)
+    .map((section) => {
+      const [heading, ...text] = section.split("\n");
+      return { heading, text: text.join(" ") };
+    });
 }

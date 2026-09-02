@@ -62,7 +62,7 @@ export const listAdmins = createServerFn({ method: 'POST' })
 
 export const setAdminAccess = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
-  .inputValidator(
+  .validator(
     (input: {
       email: string
       level: 'super_admin' | 'admin' | 'none'

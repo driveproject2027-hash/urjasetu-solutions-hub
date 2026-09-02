@@ -1,9 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { PageHeader } from "../components/site/PageHeader";
 import { resourceCategories } from "../data/resources";
 import { solutions, opportunities, stories } from "../data/catalog";
+import { fetchPublishedResources } from "../lib/db";
 
 
 export const Route = createFileRoute("/resources/")({
@@ -32,18 +33,30 @@ export const Route = createFileRoute("/resources/")({
 const exampleSearches = ["solar subsidy", "cold storage", "solar dryer", "PMEGP", "DRE financing", "battery storage"];
 
 type Hit = { title: string; summary: string; category: string; slug: string };
+type PublishedResource = { category: string; title: string; summary: string | null };
 
 function ResourcesHub() {
   const [q, setQ] = useState("");
+  const [published, setPublished] = useState<PublishedResource[] | null>(null);
+
+  useEffect(() => {
+    fetchPublishedResources()
+      .then((rows) => setPublished(rows as PublishedResource[]))
+      .catch(() => setPublished([]));
+  }, []);
 
   const index = useMemo<Hit[]>(() => {
     const items: Hit[] = [];
     for (const cat of resourceCategories) {
       items.push({ title: cat.name, summary: cat.tagline, category: "Category", slug: cat.slug });
-      for (const a of cat.articles) {
+      const articles =
+        published === null
+          ? cat.articles
+          : published.filter((resource) => resource.category === cat.slug);
+      for (const a of articles) {
         items.push({
           title: a.title,
-          summary: `${a.summary} ${a.tags.join(" ")}`,
+          summary: a.summary ?? "",
           category: cat.name,
           slug: cat.slug,
         });
@@ -56,7 +69,7 @@ function ResourcesHub() {
       items.push({ title: o.title, summary: o.opportunity, category: "Business Opportunities", slug: 'business-opportunities' });
     }
     return items;
-  }, []);
+  }, [published]);
 
   const results = useMemo(() => {
     const term = q.trim().toLowerCase();

@@ -1,30 +1,17 @@
 import * as React from 'react'
 import { render } from '@react-email/render'
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, notFound } from '@tanstack/react-router'
 import { TEMPLATES } from '@/lib/email-templates/registry'
 
-// Renders all registered templates with their previewData.
-// Gated by LOVABLE_API_KEY — only the Go API calls this.
-
-export const Route = createFileRoute("/lovable/email/transactional/preview")({
+export const Route = createFileRoute('/lovable/email/transactional/preview')({
+  loader: () => {
+    if (import.meta.env.PROD) throw notFound()
+  },
+  component: TransactionalEmailPreviewPage,
   server: {
     handlers: {
-      POST: async ({ request }) => {
-        const apiKey = process.env['LOVABLE_API_KEY']
-        if (!apiKey) {
-          return Response.json(
-            { error: 'Server configuration error' },
-            { status: 500 }
-          )
-        }
-
-        // Verify the caller is authorized with LOVABLE_API_KEY
-        const authHeader = request.headers.get('Authorization')
-        const token = authHeader?.replace(/^Bearer\s+/i, '')
-        if (token !== apiKey) {
-          return Response.json({ error: 'Unauthorized' }, { status: 401 })
-        }
-
+      POST: async () => {
+        if (import.meta.env.PROD) return new Response(null, { status: 404 })
         const templateNames = Object.keys(TEMPLATES)
         const results: Array<{
           templateName: string
@@ -52,13 +39,9 @@ export const Route = createFileRoute("/lovable/email/transactional/preview")({
           }
 
           try {
-            const html = await render(
-              React.createElement(entry.component, entry.previewData)
-            )
+            const html = await render(React.createElement(entry.component, entry.previewData))
             const resolvedSubject =
-              typeof entry.subject === 'function'
-                ? entry.subject(entry.previewData)
-                : entry.subject
+              typeof entry.subject === 'function' ? entry.subject(entry.previewData) : entry.subject
 
             results.push({
               templateName: name,
@@ -68,10 +51,6 @@ export const Route = createFileRoute("/lovable/email/transactional/preview")({
               status: 'ready',
             })
           } catch (err) {
-            console.error('Failed to render template for preview', {
-              template: name,
-              error: err,
-            })
             results.push({
               templateName: name,
               displayName,
@@ -88,3 +67,16 @@ export const Route = createFileRoute("/lovable/email/transactional/preview")({
     },
   },
 })
+
+function TransactionalEmailPreviewPage() {
+  return React.createElement(
+    'main',
+    { className: 'container-page py-16' },
+    React.createElement('h1', { className: 'font-display text-2xl font-semibold' }, 'Transactional email previews'),
+    React.createElement(
+      'p',
+      { className: 'mt-3 text-sm text-muted-foreground' },
+      'This endpoint accepts POST requests for rendering transactional email templates.',
+    ),
+  )
+}

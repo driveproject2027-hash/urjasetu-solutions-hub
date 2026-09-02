@@ -119,8 +119,8 @@ Postmark, SES) — it currently posts to the Lovable email service.
 In your Supabase dashboard:
 
 1. **Authentication → URL Configuration**
-   - Site URL: `http://localhost:8080`
-   - Redirect URLs: add `http://localhost:8080/**` and your production domain.
+   - Site URL: `http://localhost:5173`
+   - Redirect URLs: add `http://localhost:5173/**` and your production domain.
 2. **Authentication → Providers → Email**: enable; leave "Confirm email" on for
    production, turn it off locally if you want faster testing.
 3. **Authentication → Providers → Google**: enable and paste a Google OAuth
@@ -156,7 +156,7 @@ on conflict do nothing;
 ## 9. Run it
 
 ```bash
-bun run dev          # http://localhost:8080
+bun run dev          # http://localhost:5173
 ```
 
 Smoke test:
@@ -200,5 +200,5 @@ Supabase → Authentication → URL Configuration.
 | `Missing Supabase environment variable(s)` | `.env` not loaded or a name is misspelled |
 | Permission denied on a table | Migration didn't run — re-check `supabase db push` output |
 | `Unsupported provider` on Google sign-in | Google provider not enabled in your Supabase project |
-| Redirect loop after login | Site URL / redirect URLs don't include `http://localhost:8080` |
+| Redirect loop after login | Site URL / redirect URLs don't include `http://localhost:5173` |
 | File upload fails | `provider-documents` bucket missing (step 5) |

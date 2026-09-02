@@ -17,7 +17,12 @@ import {
 import { useIsAdmin, useIsSuperAdmin, useMyAdminSections } from "../../lib/useAuth";
 import { TAB_SECTION, canSee } from "@/lib/admin-posts";
 import { AdministratorsPanel, WorkspacePanel } from "../../components/site/AdminWorkspace";
-import { listJoinUsSubmissions, updateJoinUsStatus } from "@/lib/join-us-review.functions";
+import {
+  deleteJoinUsSubmission,
+  listJoinUsSubmissions,
+  updateJoinUsStatus,
+} from "@/lib/join-us-review.functions";
+import { getAdminOverviewCounts, getRecentEnquiries } from "@/lib/admin-overview.functions";
 
 export const Route = createFileRoute("/_authenticated/admin")({
   head: () => ({
@@ -93,7 +98,9 @@ function AdminPage() {
   );
 
   if (isAdmin === null) {
-    return <div className="container-page py-20 text-sm text-muted-foreground">Checking access…</div>;
+    return (
+      <div className="container-page py-20 text-sm text-muted-foreground">Checking access…</div>
+    );
   }
 
   if (!isAdmin) {
@@ -121,25 +128,25 @@ function AdminPage() {
         intro="Review applications, route customer requests to the right kind of provider and manage published content."
       />
       <div className="container-page py-10">
-        <nav className="mb-8 flex flex-wrap gap-2 border-b border-border pb-4" aria-label="Admin sections">
-          {tabs
-            .filter(allowed)
-            .map((t) => (
-              <button
-                key={t}
-                type="button"
-                onClick={() => setTab(t)}
-                className={`border px-3 py-1.5 text-sm ${
-                  tab === t
-                    ? "border-primary bg-primary text-primary-foreground"
-                    : "border-border hover:border-primary/60"
-                }`}
-              >
-                {t}
-              </button>
-            ))}
+        <nav
+          className="mb-8 flex flex-wrap gap-2 border-b border-border pb-4"
+          aria-label="Admin sections"
+        >
+          {tabs.filter(allowed).map((t) => (
+            <button
+              key={t}
+              type="button"
+              onClick={() => setTab(t)}
+              className={`border px-3 py-1.5 text-sm ${
+                tab === t
+                  ? "border-primary bg-primary text-primary-foreground"
+                  : "border-border hover:border-primary/60"
+              }`}
+            >
+              {t}
+            </button>
+          ))}
         </nav>
-
 
         {!allowed(tab) ? (
           <p className="border-y border-border py-6 text-sm text-muted-foreground">
@@ -192,12 +199,22 @@ function StatusSelect({
   );
 }
 
-function Panel({ title, count, children }: { title: string; count?: number | undefined; children: React.ReactNode }) {
+function Panel({
+  title,
+  count,
+  children,
+}: {
+  title: string;
+  count?: number | undefined;
+  children: React.ReactNode;
+}) {
   return (
     <section>
       <h2 className="mb-4 text-xl font-semibold">
         {title}
-        {count !== undefined && <span className="ml-2 text-sm font-normal text-muted-foreground">{count}</span>}
+        {count !== undefined && (
+          <span className="ml-2 text-sm font-normal text-muted-foreground">{count}</span>
+        )}
       </h2>
       {children}
     </section>
@@ -233,31 +250,12 @@ async function saveStatus(table: string, id: string, status: string, reload: () 
 
 function Overview({ onJump }: { onJump: (t: Tab) => void }) {
   const [counts, setCounts] = useState<Record<string, number>>({});
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    void (async () => {
-      const queries: Array<[string, string, string, string[]]> = [
-        ["New provider applications", "provider_applications", "status", ["pending", "under_review"]],
-        ["Pending customer requests", "customer_requests", "status", ["new", "contacted"]],
-        ["Open needs", "open_needs", "status", ["new", "published", "responses_received"]],
-        ["New quote requests", "quote_requests", "status", ["new", "viewed"]],
-        ["Pending stories", "story_submissions", "status", ["pending", "under_review"]],
-      ];
-      const next: Record<string, number> = {};
-      for (const [label, table, col, values] of queries) {
-        const { count } = await supabase
-          .from(table as never)
-          .select("*", { count: "exact", head: true })
-          .in(col, values);
-        next[label] = count ?? 0;
-      }
-      const { count: eventCount } = await supabase
-        .from("events")
-        .select("*", { count: "exact", head: true })
-        .eq("is_published", true);
-      next["Upcoming events"] = eventCount ?? 0;
-      setCounts(next);
-    })();
+    getAdminOverviewCounts({ data: undefined })
+      .then(setCounts)
+      .catch((e: Error) => setError(e.message));
   }, []);
 
   const jumpFor: Record<string, Tab> = {
@@ -271,6 +269,11 @@ function Overview({ onJump }: { onJump: (t: Tab) => void }) {
 
   return (
     <Panel title="Overview">
+      {error && (
+        <p className="mb-4 border-y border-border py-3 text-sm text-destructive">
+          Could not load counts: {error}
+        </p>
+      )}
       <div className="grid gap-px border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
         {Object.entries(jumpFor).map(([label, target]) => (
           <button
@@ -279,7 +282,9 @@ function Overview({ onJump }: { onJump: (t: Tab) => void }) {
             onClick={() => onJump(target)}
             className="bg-background p-5 text-left hover:bg-ivory"
           >
-            <div className="font-display text-3xl font-semibold text-primary">{counts[label] ?? "—"}</div>
+            <div className="font-display text-3xl font-semibold text-primary">
+              {counts[label] ?? "—"}
+            </div>
             <div className="mt-1 text-sm text-muted-foreground">{label}</div>
           </button>
         ))}
@@ -292,12 +297,9 @@ function Overview({ onJump }: { onJump: (t: Tab) => void }) {
 function RecentEnquiries() {
   const [rows, setRows] = useState<AnyRow[]>([]);
   useEffect(() => {
-    void supabase
-      .from("customer_requests")
-      .select("id, source, name, problem, status, created_at")
-      .order("created_at", { ascending: false })
-      .limit(8)
-      .then(({ data }) => setRows((data ?? []) as unknown as AnyRow[]));
+    getRecentEnquiries({ data: undefined })
+      .then((data) => setRows(data as unknown as AnyRow[]))
+      .catch(() => undefined);
   }, []);
 
   return (
@@ -309,11 +311,17 @@ function RecentEnquiries() {
         <ul className="divide-y divide-border border-y border-border">
           {rows.map((r) => (
             <li key={r.id} className="flex flex-wrap items-center gap-3 py-3 text-sm">
-              <span className="text-muted-foreground">{new Date(str(r, "created_at")).toLocaleDateString()}</span>
-              <span className="font-medium">{requestSourceLabels[str(r, "source")] ?? str(r, "source")}</span>
+              <span className="text-muted-foreground">
+                {new Date(str(r, "created_at")).toLocaleDateString()}
+              </span>
+              <span className="font-medium">
+                {requestSourceLabels[str(r, "source")] ?? str(r, "source")}
+              </span>
               <span className="text-foreground/80">{str(r, "name")}</span>
               <span className="flex-1 truncate text-muted-foreground">{str(r, "problem")}</span>
-              <span className="border border-border px-2 py-0.5 text-xs">{statusLabel(str(r, "status"))}</span>
+              <span className="border border-border px-2 py-0.5 text-xs">
+                {statusLabel(str(r, "status"))}
+              </span>
             </li>
           ))}
         </ul>
@@ -378,9 +386,15 @@ function Providers() {
     if (filter !== "all" && str(r, "provider_type") !== filter) return false;
     if (status !== "all" && str(r, "status") !== status) return false;
     if (!term) return true;
-    return ["organisation", "contact_person", "email", "phone", "location", "services", "description"].some((k) =>
-      str(r, k).toLowerCase().includes(term),
-    );
+    return [
+      "organisation",
+      "contact_person",
+      "email",
+      "phone",
+      "location",
+      "services",
+      "description",
+    ].some((k) => str(r, k).toLowerCase().includes(term));
   });
 
   const countBy = (predicate: (r: AnyRow) => boolean) => rows.filter(predicate).length;
@@ -389,7 +403,10 @@ function Providers() {
     <Panel title="Join Us submissions" count={rows.length}>
       <div className="mb-6 grid gap-px border border-border bg-border sm:grid-cols-2 lg:grid-cols-4">
         {[
-          ["Awaiting review", countBy((r) => ["pending", "under_review"].includes(str(r, "status")))],
+          [
+            "Awaiting review",
+            countBy((r) => ["pending", "under_review"].includes(str(r, "status"))),
+          ],
           ["Solution providers", countBy((r) => str(r, "provider_type") === "solution")],
           ["Finance providers", countBy((r) => str(r, "provider_type") === "finance")],
           ["Network partners", countBy((r) => str(r, "provider_type") === "network")],
@@ -456,20 +473,31 @@ function Providers() {
                   <div className="flex flex-wrap items-center gap-3">
                     <h3 className="font-display text-lg font-semibold">{str(r, "organisation")}</h3>
                     <span className="border border-border px-2 py-0.5 text-xs text-muted-foreground">
-                      {providerTypeLabels[str(r, "provider_type") as "solution"] ?? str(r, "provider_type")}
+                      {providerTypeLabels[str(r, "provider_type") as "solution"] ??
+                        str(r, "provider_type")}
                     </span>
                     <span className="border border-primary/40 px-2 py-0.5 text-xs text-primary">
                       {statusLabel(str(r, "status"))}
                     </span>
                   </div>
                   <p className="mt-1 text-sm text-muted-foreground">
-                    {[str(r, "contact_person"), str(r, "email"), str(r, "phone"), str(r, "location")]
+                    {[
+                      str(r, "contact_person"),
+                      str(r, "email"),
+                      str(r, "phone"),
+                      str(r, "location"),
+                    ]
                       .filter(Boolean)
                       .join(" · ")}
                   </p>
                   {str(r, "website") && (
                     <p className="mt-1 text-sm">
-                      <a href={str(r, "website")} target="_blank" rel="noreferrer" className="text-primary underline">
+                      <a
+                        href={str(r, "website")}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-primary underline"
+                      >
                         {str(r, "website")}
                       </a>
                     </p>
@@ -477,7 +505,10 @@ function Providers() {
                   {services.length > 0 && (
                     <ul className="mt-2 flex flex-wrap gap-1.5">
                       {services.map((s) => (
-                        <li key={s} className="border border-border px-2 py-0.5 text-xs text-foreground/80">
+                        <li
+                          key={s}
+                          className="border border-border px-2 py-0.5 text-xs text-foreground/80"
+                        >
                           {s}
                         </li>
                       ))}
@@ -495,13 +526,17 @@ function Providers() {
                         onClick={() => setOpen(isOpen ? null : r.id)}
                         className="mt-2 text-xs font-medium text-primary underline"
                       >
-                        {isOpen ? "Hide submitted answers" : `View submitted answers (${details.length})`}
+                        {isOpen
+                          ? "Hide submitted answers"
+                          : `View submitted answers (${details.length})`}
                       </button>
                       {isOpen && (
                         <dl className="mt-3 grid max-w-2xl gap-x-6 gap-y-2 border border-border p-4 text-sm sm:grid-cols-2">
                           {details.map((d) => (
                             <div key={d.label}>
-                              <dt className="text-xs uppercase tracking-wide text-muted-foreground">{d.label}</dt>
+                              <dt className="text-xs uppercase tracking-wide text-muted-foreground">
+                                {d.label}
+                              </dt>
                               <dd className="text-foreground/90">{d.value}</dd>
                             </div>
                           ))}
@@ -518,17 +553,34 @@ function Providers() {
                   />
 
                   <AdminNotes table="provider_applications" row={r} reload={reload} />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const organisation = str(r, "organisation") || "this submission";
+                      if (!window.confirm(`Delete ${organisation}? This cannot be undone.`)) return;
+                      deleteJoinUsSubmission({ data: { id: r.id } })
+                        .then(() => {
+                          toast.success("Submission deleted");
+                          reload();
+                        })
+                        .catch((e: Error) => toast.error(e.message));
+                    }}
+                    className="text-xs font-medium text-destructive underline"
+                  >
+                    Delete submission
+                  </button>
                 </div>
               </li>
             );
           })}
         </ul>
       )}
-      <p className="mt-4 text-xs text-muted-foreground">Only approved providers appear in the public directory.</p>
+      <p className="mt-4 text-xs text-muted-foreground">
+        Only approved providers appear in the public directory.
+      </p>
     </Panel>
   );
 }
-
 
 function AdminNotes({ table, row, reload }: { table: string; row: AnyRow; reload: () => void }) {
   const [notes, setNotes] = useState(str(row, "admin_notes"));
@@ -589,7 +641,9 @@ function CustomerRequests() {
                   <span className="border border-border px-2 py-0.5 text-xs text-muted-foreground">
                     {requestSourceLabels[str(r, "source")] ?? str(r, "source")}
                   </span>
-                  <h3 className="font-medium">{str(r, "name") || str(r, "business_name") || "Unnamed"}</h3>
+                  <h3 className="font-medium">
+                    {str(r, "name") || str(r, "business_name") || "Unnamed"}
+                  </h3>
                   <span className="text-xs text-muted-foreground">
                     {new Date(str(r, "created_at")).toLocaleDateString()}
                   </span>
@@ -600,7 +654,9 @@ function CustomerRequests() {
                 <p className="mt-2 max-w-2xl text-sm">{str(r, "problem")}</p>
                 <dl className="mt-2 flex flex-wrap gap-x-6 gap-y-1 text-xs text-muted-foreground">
                   {str(r, "requirement") && <div>Requirement: {str(r, "requirement")}</div>}
-                  {str(r, "solution_interest") && <div>Interest: {str(r, "solution_interest")}</div>}
+                  {str(r, "solution_interest") && (
+                    <div>Interest: {str(r, "solution_interest")}</div>
+                  )}
                   {str(r, "budget") && <div>Budget: {str(r, "budget")}</div>}
                   {str(r, "timeline") && <div>Timeline: {str(r, "timeline")}</div>}
                 </dl>
@@ -630,7 +686,8 @@ function CustomerRequests() {
                   <option value="">Assign to expert…</option>
                   {providers.map((p) => (
                     <option key={p.id} value={p.id}>
-                      {str(p, "organisation")} — {providerTypeLabels[str(p, "provider_type") as "solution"]}
+                      {str(p, "organisation")} —{" "}
+                      {providerTypeLabels[str(p, "provider_type") as "solution"]}
                     </option>
                   ))}
                 </select>
@@ -646,6 +703,151 @@ function CustomerRequests() {
 
 /* ---------- stories ---------- */
 
+const emptyStory = {
+  title: "",
+  business_name: "",
+  sector: "",
+  location: "",
+  problem: "",
+  solution: "",
+  outcome: "",
+  contact_email: "",
+};
+
+function CreateStoryForm({ reload }: { reload: () => void }) {
+  const [story, setStory] = useState(emptyStory);
+  const [open, setOpen] = useState(false);
+  const [busy, setBusy] = useState(false);
+
+  const set = (k: keyof typeof emptyStory) => (v: string) => setStory((s) => ({ ...s, [k]: v }));
+
+  async function onCreate() {
+    if (!story.title.trim()) {
+      toast.error("Title is required");
+      return;
+    }
+    setBusy(true);
+    try {
+      const { data, error } = await supabase
+        .from("story_submissions")
+        .insert({ ...story, status: "under_review" })
+        .select("id")
+        .single();
+      if (error) throw error;
+      toast.success("Story created", {
+        description: 'Set it to "Approved" to publish it on the site.',
+      });
+      setStory(emptyStory);
+      setOpen(false);
+      reload();
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Could not create story");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  if (!open) {
+    return (
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        className="mb-6 border border-primary px-4 py-2 text-sm font-medium text-primary hover:bg-primary hover:text-primary-foreground"
+      >
+        + Add a story
+      </button>
+    );
+  }
+
+  return (
+    <div className="mb-8 grid max-w-3xl gap-3 border border-border p-5">
+      <h3 className="font-display text-lg font-semibold">New story</h3>
+      <label className="block text-sm">
+        <span className="mb-1 block text-xs uppercase tracking-wide text-muted-foreground">
+          Headline / title *
+        </span>
+        <input
+          value={story.title}
+          onChange={(e) => set("title")(e.target.value)}
+          placeholder="Power cuts were stopping my stitching work."
+          className="w-full border border-input bg-background px-3 py-2 text-sm"
+        />
+      </label>
+      <div className="grid gap-3 sm:grid-cols-2">
+        <label className="block text-sm">
+          <span className="mb-1 block text-xs uppercase tracking-wide text-muted-foreground">
+            Person / business name
+          </span>
+          <input
+            value={story.business_name}
+            onChange={(e) => set("business_name")(e.target.value)}
+            className="w-full border border-input bg-background px-3 py-2 text-sm"
+          />
+        </label>
+        <label className="block text-sm">
+          <span className="mb-1 block text-xs uppercase tracking-wide text-muted-foreground">
+            Sector
+          </span>
+          <input
+            value={story.sector}
+            onChange={(e) => set("sector")(e.target.value)}
+            className="w-full border border-input bg-background px-3 py-2 text-sm"
+          />
+        </label>
+        <label className="block text-sm">
+          <span className="mb-1 block text-xs uppercase tracking-wide text-muted-foreground">
+            Location
+          </span>
+          <input
+            value={story.location}
+            onChange={(e) => set("location")(e.target.value)}
+            className="w-full border border-input bg-background px-3 py-2 text-sm"
+          />
+        </label>
+        <label className="block text-sm">
+          <span className="mb-1 block text-xs uppercase tracking-wide text-muted-foreground">
+            Contact email
+          </span>
+          <input
+            type="email"
+            value={story.contact_email}
+            onChange={(e) => set("contact_email")(e.target.value)}
+            className="w-full border border-input bg-background px-3 py-2 text-sm"
+          />
+        </label>
+      </div>
+      <TextArea label="The problem" value={story.problem} onChange={set("problem")} />
+      <TextArea
+        label="The solution they adopted"
+        value={story.solution}
+        onChange={set("solution")}
+      />
+      <TextArea
+        label="The outcome / what changed"
+        value={story.outcome}
+        onChange={set("outcome")}
+      />
+      <div className="flex gap-3">
+        <button
+          type="button"
+          disabled={busy}
+          onClick={() => void onCreate()}
+          className="bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-forest-deep disabled:opacity-60"
+        >
+          {busy ? "Saving…" : "Create story"}
+        </button>
+        <button
+          type="button"
+          onClick={() => setOpen(false)}
+          className="border border-border px-4 py-2 text-sm font-medium hover:border-primary"
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
+  );
+}
+
 function Stories() {
   const { rows, reload } = useTable(
     "story_submissions",
@@ -656,6 +858,7 @@ function Stories() {
 
   return (
     <Panel title="Business stories" count={rows.length}>
+      <CreateStoryForm reload={reload} />
       {rows.length === 0 ? (
         <Empty />
       ) : (
@@ -710,10 +913,20 @@ function EditableStory({ row, reload }: { row: AnyRow; reload: () => void }) {
   );
 }
 
-function TextArea({ label, value, onChange }: { label: string; value: string; onChange: (v: string) => void }) {
+function TextArea({
+  label,
+  value,
+  onChange,
+}: {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+}) {
   return (
     <label className="block text-sm">
-      <span className="mb-1 block text-xs uppercase tracking-wide text-muted-foreground">{label}</span>
+      <span className="mb-1 block text-xs uppercase tracking-wide text-muted-foreground">
+        {label}
+      </span>
       <textarea
         rows={2}
         value={value}
@@ -760,14 +973,18 @@ function Needs() {
                   </p>
                   <p className="mt-2 max-w-2xl text-sm">{str(r, "description")}</p>
                   <p className="mt-1 text-xs text-muted-foreground">
-                    Budget {str(r, "budget") || "—"} · Timeline {str(r, "timeline") || "—"} · {rs.length} response(s)
+                    Budget {str(r, "budget") || "—"} · Timeline {str(r, "timeline") || "—"} ·{" "}
+                    {rs.length} response(s)
                   </p>
                   {rs.length > 0 && (
                     <ul className="mt-2 space-y-1 border-l border-border pl-3">
                       {rs.map((x) => (
                         <li key={x.id} className="text-sm text-foreground/85">
-                          <span className="font-medium">{str(x, "contact_name") || "Provider"}</span>{" "}
-                          <span className="text-muted-foreground">{str(x, "contact_email")}</span> — {str(x, "message")}
+                          <span className="font-medium">
+                            {str(x, "contact_name") || "Provider"}
+                          </span>{" "}
+                          <span className="text-muted-foreground">{str(x, "contact_email")}</span> —{" "}
+                          {str(x, "message")}
                         </li>
                       ))}
                     </ul>
@@ -807,7 +1024,9 @@ function Quotes() {
               <div>
                 <div className="flex flex-wrap items-center gap-3">
                   <h3 className="font-medium">{str(r, "name") || "Customer"}</h3>
-                  <span className="text-xs text-muted-foreground">→ {str(r, "provider_ref") || "Provider"}</span>
+                  <span className="text-xs text-muted-foreground">
+                    → {str(r, "provider_ref") || "Provider"}
+                  </span>
                   <span className="text-xs text-muted-foreground">
                     {new Date(str(r, "created_at")).toLocaleDateString()}
                   </span>
@@ -815,7 +1034,9 @@ function Quotes() {
                 <p className="mt-1 text-sm text-muted-foreground">
                   {str(r, "email")} · {str(r, "phone")}
                 </p>
-                <p className="mt-2 max-w-2xl text-sm">{str(r, "requirement") || str(r, "message")}</p>
+                <p className="mt-2 max-w-2xl text-sm">
+                  {str(r, "requirement") || str(r, "message")}
+                </p>
               </div>
               <StatusSelect
                 value={str(r, "status")}
@@ -859,14 +1080,29 @@ function Events() {
       return;
     }
     toast.success("Event created (unpublished)");
-    setForm({ title: "", description: "", event_type: "workshop", starts_at: "", location: "", registration_url: "" });
+    setForm({
+      title: "",
+      description: "",
+      event_type: "workshop",
+      starts_at: "",
+      location: "",
+      registration_url: "",
+    });
     reload();
   }
 
   return (
     <Panel title="Events and awareness programmes" count={rows?.length}>
-      <form onSubmit={create} className="mb-8 grid gap-4 border border-border bg-ivory p-5 md:grid-cols-2">
-        <Input label="Title" value={form.title} onChange={(v) => setForm({ ...form, title: v })} required />
+      <form
+        onSubmit={create}
+        className="mb-8 grid gap-4 border border-border bg-ivory p-5 md:grid-cols-2"
+      >
+        <Input
+          label="Title"
+          value={form.title}
+          onChange={(v) => setForm({ ...form, title: v })}
+          required
+        />
         <div>
           <label htmlFor="etype" className="mb-1.5 block text-sm font-medium">
             Type
@@ -884,11 +1120,29 @@ function Events() {
             ))}
           </select>
         </div>
-        <Input label="Date and time" type="datetime-local" value={form.starts_at} onChange={(v) => setForm({ ...form, starts_at: v })} />
-        <Input label="Location" value={form.location} onChange={(v) => setForm({ ...form, location: v })} />
-        <Input label="Registration link" value={form.registration_url} onChange={(v) => setForm({ ...form, registration_url: v })} className="md:col-span-2" />
+        <Input
+          label="Date and time"
+          type="datetime-local"
+          value={form.starts_at}
+          onChange={(v) => setForm({ ...form, starts_at: v })}
+        />
+        <Input
+          label="Location"
+          value={form.location}
+          onChange={(v) => setForm({ ...form, location: v })}
+        />
+        <Input
+          label="Registration link"
+          value={form.registration_url}
+          onChange={(v) => setForm({ ...form, registration_url: v })}
+          className="md:col-span-2"
+        />
         <div className="md:col-span-2">
-          <TextArea label="Description" value={form.description} onChange={(v) => setForm({ ...form, description: v })} />
+          <TextArea
+            label="Description"
+            value={form.description}
+            onChange={(v) => setForm({ ...form, description: v })}
+          />
         </div>
         <button
           type="submit"
@@ -907,8 +1161,10 @@ function Events() {
               <div className="flex-1">
                 <h3 className="font-medium">{str(r, "title")}</h3>
                 <p className="text-sm text-muted-foreground">
-                  {str(r, "starts_at") ? new Date(str(r, "starts_at")).toLocaleString() : "Date to be announced"} ·{" "}
-                  {str(r, "location") || "Location to be announced"}
+                  {str(r, "starts_at")
+                    ? new Date(str(r, "starts_at")).toLocaleString()
+                    : "Date to be announced"}{" "}
+                  · {str(r, "location") || "Location to be announced"}
                 </p>
               </div>
               <button
@@ -963,7 +1219,7 @@ const resourceCategories = [
   "game-drive",
   "case-studies",
   "guides-toolkits",
-  "blogs-insights",
+  "insights",
 ];
 
 function Resources() {
@@ -993,13 +1249,23 @@ function Resources() {
       return;
     }
     toast.success("Resource published");
-    setForm({ category: resourceCategories[0] as string, title: "", summary: "", body: "", source_name: "", source_url: "" });
+    setForm({
+      category: resourceCategories[0] as string,
+      title: "",
+      summary: "",
+      body: "",
+      source_name: "",
+      source_url: "",
+    });
     reload();
   }
 
   return (
     <Panel title="Resources" count={rows?.length}>
-      <form onSubmit={create} className="mb-8 grid gap-4 border border-border bg-ivory p-5 md:grid-cols-2">
+      <form
+        onSubmit={create}
+        className="mb-8 grid gap-4 border border-border bg-ivory p-5 md:grid-cols-2"
+      >
         <div>
           <label htmlFor="rcat" className="mb-1.5 block text-sm font-medium">
             Category
@@ -1017,14 +1283,35 @@ function Resources() {
             ))}
           </select>
         </div>
-        <Input label="Title" value={form.title} onChange={(v) => setForm({ ...form, title: v })} required />
-        <Input label="Source name" value={form.source_name} onChange={(v) => setForm({ ...form, source_name: v })} />
-        <Input label="Official source link" value={form.source_url} onChange={(v) => setForm({ ...form, source_url: v })} />
+        <Input
+          label="Title"
+          value={form.title}
+          onChange={(v) => setForm({ ...form, title: v })}
+          required
+        />
+        <Input
+          label="Source name"
+          value={form.source_name}
+          onChange={(v) => setForm({ ...form, source_name: v })}
+        />
+        <Input
+          label="Official source link"
+          value={form.source_url}
+          onChange={(v) => setForm({ ...form, source_url: v })}
+        />
         <div className="md:col-span-2">
-          <TextArea label="Summary" value={form.summary} onChange={(v) => setForm({ ...form, summary: v })} />
+          <TextArea
+            label="Summary"
+            value={form.summary}
+            onChange={(v) => setForm({ ...form, summary: v })}
+          />
         </div>
         <div className="md:col-span-2">
-          <TextArea label="Body" value={form.body} onChange={(v) => setForm({ ...form, body: v })} />
+          <TextArea
+            label="Body"
+            value={form.body}
+            onChange={(v) => setForm({ ...form, body: v })}
+          />
         </div>
         <button
           type="submit"
@@ -1127,7 +1414,10 @@ function Impact() {
       >
         <Input label="New metric" value={label} onChange={setLabel} required />
         <Input label="Value" value={value} onChange={setValue} required />
-        <button type="submit" className="border border-primary px-4 py-2 text-sm font-medium text-primary hover:bg-primary hover:text-primary-foreground">
+        <button
+          type="submit"
+          className="border border-primary px-4 py-2 text-sm font-medium text-primary hover:bg-primary hover:text-primary-foreground"
+        >
           Add metric
         </button>
       </form>
