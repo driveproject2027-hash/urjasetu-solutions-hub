@@ -7,19 +7,19 @@ import { schemes } from "../data/catalog";
 export const Route = createFileRoute("/financing")({
   head: () => ({
     meta: [
-      { title: "Renewable Energy Financing in India for Businesses | UrjaSethu" },
+      { title: "Renewable Energy Financing in India for Businesses | LayaGreenEnergy" },
       {
         name: "description",
         content:
           "How Indian businesses and MSMEs can finance decentralised renewable energy projects, plus support schemes such as MSE GIFT, MSE SPICE, PMFME, PMEGP and ZED.",
       },
-      { property: "og:title", content: "Renewable Energy Financing in India — UrjaSethu" },
+      { property: "og:title", content: "Renewable Energy Financing in India — LayaGreenEnergy" },
       { property: "og:description", content: "Government schemes that may support DRE adoption by MSMEs." },
-      { property: "og:url", content: "https://urjasethu.dev/financing" },
-      { property: "og:image", content: "https://urjasethu.dev/og-image.jpg" },
-      { name: "twitter:image", content: "https://urjasethu.dev/og-image.jpg" },
+      { property: "og:url", content: "https://layagreenenergy.dev/financing" },
+      { property: "og:image", content: "https://layagreenenergy.dev/og-image.jpg" },
+      { name: "twitter:image", content: "https://layagreenenergy.dev/og-image.jpg" },
     ],
-    links: [{ rel: "canonical", href: "https://urjasethu.dev/financing" }],
+    links: [{ rel: "canonical", href: "https://layagreenenergy.dev/financing" }],
   }),
   component: Financing,
 });
@@ -43,7 +43,7 @@ function Financing() {
           ))}
         </ul>
         <p className="mt-8 max-w-2xl text-sm text-muted-foreground">
-          UrjaSethu does not process applications, guarantee eligibility or provide financial advice. Scheme details
+          LayaGreenEnergy does not process applications, guarantee eligibility or provide financial advice. Scheme details
           shown here are summaries for orientation only.
         </p>
       </div>

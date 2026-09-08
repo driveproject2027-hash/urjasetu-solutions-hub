@@ -22,19 +22,19 @@ export const Route = createFileRoute("/find-my-solution")({
   validateSearch: searchSchema,
   head: () => ({
     meta: [
-      { title: "Find My Solution — UrjaSethu" },
+      { title: "Find My Solution — LayaGreenEnergy" },
       {
         name: "description",
         content:
           "Answer a few questions about your business and the problem you face. Get explainable DRE recommendations and matching providers.",
       },
-      { property: "og:title", content: "Find My Solution — UrjaSethu" },
+      { property: "og:title", content: "Find My Solution — LayaGreenEnergy" },
       { property: "og:description", content: "Start with the problem. We'll help you find the technology." },
-      { property: "og:url", content: "https://urjasethu.dev/find-my-solution" },
-      { property: "og:image", content: "https://urjasethu.dev/og-image.jpg" },
-      { name: "twitter:image", content: "https://urjasethu.dev/og-image.jpg" },
+      { property: "og:url", content: "https://layagreenenergy.dev/find-my-solution" },
+      { property: "og:image", content: "https://layagreenenergy.dev/og-image.jpg" },
+      { name: "twitter:image", content: "https://layagreenenergy.dev/og-image.jpg" },
     ],
-    links: [{ rel: "canonical", href: "https://urjasethu.dev/find-my-solution" }],
+    links: [{ rel: "canonical", href: "https://layagreenenergy.dev/find-my-solution" }],
   }),
   component: Finder,
 });

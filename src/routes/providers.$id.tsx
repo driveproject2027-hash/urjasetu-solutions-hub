@@ -18,14 +18,14 @@ export const Route = createFileRoute("/providers/$id")({
   },
   head: ({ loaderData }) => {
     if (!loaderData) {
-      return { meta: [{ title: "Provider unavailable — UrjaSethu" }, { name: "robots", content: "noindex" }] };
+      return { meta: [{ title: "Provider unavailable — LayaGreenEnergy" }, { name: "robots", content: "noindex" }] };
     }
     const { provider } = loaderData;
     return {
       meta: [
-        { title: `${provider.name} — DRE provider in ${provider.city} | UrjaSethu` },
+        { title: `${provider.name} — DRE provider in ${provider.city} | LayaGreenEnergy` },
         { name: "description", content: provider.about },
-        { property: "og:title", content: `${provider.name} — UrjaSethu` },
+        { property: "og:title", content: `${provider.name} — LayaGreenEnergy` },
         { property: "og:description", content: provider.about },
         { property: "og:url", content: absoluteUrl(`/providers/${provider.id}`) },
         { property: "og:image", content: OG_IMAGE },

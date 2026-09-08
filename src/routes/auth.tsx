@@ -24,17 +24,17 @@ export const Route = createFileRoute("/auth")({
   ssr: false,
   head: () => ({
     meta: [
-      { title: "Sign in to UrjaSethu" },
+      { title: "Sign in to LayaGreenEnergy" },
       { name: "robots", content: "noindex, nofollow" },
       {
         name: "description",
         content:
-          "Sign in or create an UrjaSethu account to track your enquiries, provider applications and quote requests.",
+          "Sign in or create an LayaGreenEnergy account to track your enquiries, provider applications and quote requests.",
       },
-      { property: "og:title", content: "Sign in to UrjaSethu" },
+      { property: "og:title", content: "Sign in to LayaGreenEnergy" },
       {
         property: "og:description",
-        content: "Access your UrjaSethu enquiries, applications and quotes.",
+        content: "Access your LayaGreenEnergy enquiries, applications and quotes.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
@@ -143,7 +143,7 @@ function AuthPage() {
         intro={
           mode === "forgot"
             ? "Enter the email you registered with and we will send you a link to set a new password."
-            : "An account lets you track the enquiries, applications and quote requests you submit through UrjaSethu."
+            : "An account lets you track the enquiries, applications and quote requests you submit through LayaGreenEnergy."
         }
       />
       <div className="container-page max-w-md py-12">

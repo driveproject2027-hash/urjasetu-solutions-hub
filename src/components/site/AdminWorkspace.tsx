@@ -48,7 +48,7 @@ export function WorkspacePanel({ isSuperAdmin }: { isSuperAdmin: boolean }) {
     <section>
       <h2 className="mb-1 text-xl font-semibold">Internal workspace</h2>
       <p className="mb-4 max-w-2xl text-sm text-muted-foreground">
-        Private DRIVE and programme material. Visible only to signed-in UrjaSethu administrators.
+        Private DRIVE and programme material. Visible only to signed-in LayaGreenEnergy administrators.
         {isSuperAdmin ? " As a super admin you can add or remove links below." : ""}
       </p>
 
@@ -256,7 +256,7 @@ export function AdministratorsPanel() {
     <section>
       <h2 className="mb-1 text-xl font-semibold">Administrators</h2>
       <p className="mb-6 max-w-2xl text-sm text-muted-foreground">
-        Super admins manage who can access the admin area. The person must already have an UrjaSethu account.
+        Super admins manage who can access the admin area. The person must already have an LayaGreenEnergy account.
       </p>
 
       <form

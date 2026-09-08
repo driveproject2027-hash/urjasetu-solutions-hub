@@ -13,10 +13,12 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Header } from "../components/site/Header";
 import { Footer } from "../components/site/Footer";
-import { SolarSavingsFab } from "../components/site/SolarSavingsFab";
+// TEMPORARY • DRE EXPO — solar calculator FAB hidden while the expo runs;
+// restore the SolarSavingsFab import + usage below after the expo.
+// import { SolarSavingsFab } from "../components/site/SolarSavingsFab";
+import { ExpoFab } from "../components/site/ExpoCta";
 import { Toaster } from "../components/ui/sonner";
 import { organizationLd, webSiteLd } from "../lib/seo";
-
 
 function NotFoundComponent() {
   return (
@@ -83,13 +85,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "UrjaSethu — DRE Solutions & Business Platform" },
+      { title: "LayaGreenEnergy — DRE Solutions & Business Platform" },
       {
         name: "description",
         content:
-          "UrjaSethu helps Indian businesses start with a real problem and find the right decentralised renewable energy solution and provider.",
+          "LayaGreenEnergy helps Indian businesses start with a real problem and find the right decentralised renewable energy solution and provider.",
       },
-      { property: "og:site_name", content: "UrjaSethu" },
+      { property: "og:site_name", content: "LayaGreenEnergy" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -142,9 +144,9 @@ function RootComponent() {
         </main>
         <Footer />
       </div>
-      <SolarSavingsFab />
+      {/* TEMPORARY • DRE EXPO — was <SolarSavingsFab />; restore after the expo */}
+      <ExpoFab />
       <Toaster />
     </QueryClientProvider>
   );
 }
-

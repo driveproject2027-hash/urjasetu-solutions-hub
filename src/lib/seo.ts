@@ -3,8 +3,8 @@
  * social preview image and JSON-LD builders used by route `head()` options.
  */
 
-export const SITE_URL = "https://urjasethu.dev";
-export const SITE_NAME = "UrjaSethu";
+export const SITE_URL = "https://layagreenenergy.dev";
+export const SITE_NAME = "LayaGreenEnergy";
 export const OG_IMAGE = `${SITE_URL}/og-image.jpg`;
 
 /** Absolute, self-referencing URL for a route path (no trailing slash except root). */
@@ -21,7 +21,7 @@ export function organizationLd() {
     name: SITE_NAME,
     url: `${SITE_URL}/`,
     description:
-      "UrjaSethu connects Indian businesses with decentralised renewable energy (DRE) solutions, solution providers, finance providers and network partners.",
+      "LayaGreenEnergy connects Indian businesses with decentralised renewable energy (DRE) solutions, solution providers, finance providers and network partners.",
     logo: `${SITE_URL}/favicon.png`,
     telephone: "+91-8499883525",
     areaServed: "IN",

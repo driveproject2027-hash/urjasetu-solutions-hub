@@ -13,19 +13,19 @@ import { userMessage } from "../lib/user-error";
 export const Route = createFileRoute("/stories/")({
   head: () => ({
     meta: [
-      { title: "Business Stories — real problems, real DRE journeys | UrjaSethu" },
+      { title: "Business Stories — real problems, real DRE journeys | LayaGreenEnergy" },
       {
         name: "description",
         content:
           "Indian business owners describe the problem they faced, what they needed, and the decentralised renewable energy journey that followed.",
       },
-      { property: "og:title", content: "Business Stories — UrjaSethu" },
+      { property: "og:title", content: "Business Stories — LayaGreenEnergy" },
       { property: "og:description", content: "Every DRE journey starts with a real problem." },
-      { property: "og:url", content: "https://urjasethu.dev/stories" },
-      { property: "og:image", content: "https://urjasethu.dev/og-image.jpg" },
-      { name: "twitter:image", content: "https://urjasethu.dev/og-image.jpg" },
+      { property: "og:url", content: "https://layagreenenergy.dev/stories" },
+      { property: "og:image", content: "https://layagreenenergy.dev/og-image.jpg" },
+      { name: "twitter:image", content: "https://layagreenenergy.dev/og-image.jpg" },
     ],
-    links: [{ rel: "canonical", href: "https://urjasethu.dev/stories" }],
+    links: [{ rel: "canonical", href: "https://layagreenenergy.dev/stories" }],
   }),
   component: StoriesIndex,
 });

@@ -8,6 +8,8 @@ export const ADMIN_SECTIONS = [
   { key: "resources", label: "Resources" },
   { key: "impact", label: "DRIVE impact" },
   { key: "workspace", label: "DRIVE workspace" },
+  // TEMPORARY • DRE EXPO — remove with the expo module (src/lib/expo.ts)
+  { key: "expo", label: "DRE Expo registrations (temporary)" },
 ] as const;
 
 export type AdminSectionKey = (typeof ADMIN_SECTIONS)[number]["key"];
@@ -43,6 +45,8 @@ export const TAB_SECTION: Record<string, AdminSectionKey> = {
   Resources: "resources",
   "DRIVE impact": "impact",
   "DRIVE workspace": "workspace",
+  // TEMPORARY • DRE EXPO
+  "DRE Expo registrations": "expo",
 };
 
 export function canSee(sections: string[] | null, key: AdminSectionKey) {

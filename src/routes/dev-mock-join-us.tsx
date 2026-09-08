@@ -12,7 +12,7 @@ export const Route = createFileRoute("/dev-mock-join-us")({
   },
   head: () => ({
     meta: [
-      { title: "Mock Join Us submissions — UrjaSethu (dev tool)" },
+      { title: "Mock Join Us submissions — LayaGreenEnergy (dev tool)" },
       { name: "robots", content: "noindex, nofollow" },
     ],
   }),

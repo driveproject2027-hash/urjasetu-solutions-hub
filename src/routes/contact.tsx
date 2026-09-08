@@ -9,29 +9,29 @@ import { userMessage } from "../lib/user-error";
 
 // Update these with the official contact details.
 const PHONE = "8499883525";
-const EMAIL = "hello@urjasethu.dev";
+const EMAIL = "hello@layagreenenergy.dev";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
-      { title: "Contact UrjaSethu — Talk to a DRE expert" },
+      { title: "Contact LayaGreenEnergy — Talk to a DRE expert" },
       {
         name: "description",
         content:
           "Call us or share a few details about your renewable energy requirement and we will connect you with the right domain-specific expert.",
       },
-      { property: "og:title", content: "Contact UrjaSethu" },
+      { property: "og:title", content: "Contact LayaGreenEnergy" },
       {
         property: "og:description",
-        content: "Reach the UrjaSethu team by phone, or send a short enquiry about your DRE requirement.",
+        content: "Reach the LayaGreenEnergy team by phone, or send a short enquiry about your DRE requirement.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
-      { property: "og:url", content: "https://urjasethu.dev/contact" },
-      { property: "og:image", content: "https://urjasethu.dev/og-image.jpg" },
-      { name: "twitter:image", content: "https://urjasethu.dev/og-image.jpg" },
+      { property: "og:url", content: "https://layagreenenergy.dev/contact" },
+      { property: "og:image", content: "https://layagreenenergy.dev/og-image.jpg" },
+      { name: "twitter:image", content: "https://layagreenenergy.dev/og-image.jpg" },
     ],
-    links: [{ rel: "canonical", href: "https://urjasethu.dev/contact" }],
+    links: [{ rel: "canonical", href: "https://layagreenenergy.dev/contact" }],
   }),
   component: Contact,
 });

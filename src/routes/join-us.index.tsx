@@ -5,22 +5,22 @@ import { PageHeader } from "../components/site/PageHeader";
 export const Route = createFileRoute("/join-us/")({
   head: () => ({
     meta: [
-      { title: "Join Us — Solution, Finance & Network Partners | UrjaSethu" },
+      { title: "Join Us — Solution, Finance & Network Partners | LayaGreenEnergy" },
       {
         name: "description",
         content:
-          "Register on UrjaSethu as a DRE solution provider, a finance provider or a network partner. Each partner type has its own onboarding form.",
+          "Register on LayaGreenEnergy as a DRE solution provider, a finance provider or a network partner. Each partner type has its own onboarding form.",
       },
-      { property: "og:title", content: "Join UrjaSethu" },
+      { property: "og:title", content: "Join LayaGreenEnergy" },
       {
         property: "og:description",
         content: "Three ways to join the DRE marketplace: solution provider, finance provider or network partner.",
       },
-      { property: "og:url", content: "https://urjasethu.dev/join-us" },
-      { property: "og:image", content: "https://urjasethu.dev/og-image.jpg" },
-      { name: "twitter:image", content: "https://urjasethu.dev/og-image.jpg" },
+      { property: "og:url", content: "https://layagreenenergy.dev/join-us" },
+      { property: "og:image", content: "https://layagreenenergy.dev/og-image.jpg" },
+      { name: "twitter:image", content: "https://layagreenenergy.dev/og-image.jpg" },
     ],
-    links: [{ rel: "canonical", href: "https://urjasethu.dev/join-us" }],
+    links: [{ rel: "canonical", href: "https://layagreenenergy.dev/join-us" }],
   }),
   component: JoinUs,
 });
@@ -54,7 +54,7 @@ function JoinUs() {
     <>
       <PageHeader
         eyebrow="Join us"
-        title="Three ways to be part of the UrjaSethu network"
+        title="Three ways to be part of the LayaGreenEnergy network"
         intro="Choose the role that fits your organisation. Each one has its own registration form, because what we need to verify is different in each case."
       />
 

@@ -33,6 +33,8 @@ import { Route as StoriesRouteImport } from './routes/stories'
 import { Route as AuthenticatedAccountRouteImport } from './routes/_authenticated/account'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthResetRouteImport } from './routes/auth.reset'
+import { Route as ExpoIndexRouteImport } from './routes/expo.index'
+import { Route as ExpoKindRouteImport } from './routes/expo.$kind'
 import { Route as JoinUsIndexRouteImport } from './routes/join-us.index'
 import { Route as JoinUsFinanceProviderRouteImport } from './routes/join-us.finance-provider'
 import { Route as JoinUsNetworkPartnerRouteImport } from './routes/join-us.network-partner'
@@ -168,6 +170,16 @@ const AuthResetRoute = AuthResetRouteImport.update({
   path: '/reset',
   getParentRoute: () => AuthRoute,
 } as any)
+const ExpoIndexRoute = ExpoIndexRouteImport.update({
+  id: '/expo/',
+  path: '/expo/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExpoKindRoute = ExpoKindRouteImport.update({
+  id: '/expo/$kind',
+  path: '/expo/$kind',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const JoinUsIndexRoute = JoinUsIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -269,6 +281,7 @@ export interface FileRoutesByFullPath {
   '/account': typeof AuthenticatedAccountRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/auth/reset': typeof AuthResetRoute
+  '/expo/$kind': typeof ExpoKindRoute
   '/join-us/finance-provider': typeof JoinUsFinanceProviderRoute
   '/join-us/network-partner': typeof JoinUsNetworkPartnerRoute
   '/join-us/solution-provider': typeof JoinUsSolutionProviderRoute
@@ -276,6 +289,7 @@ export interface FileRoutesByFullPath {
   '/resources/$category': typeof ResourcesCategoryRoute
   '/solutions/$slug': typeof SolutionsSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
+  '/expo/': typeof ExpoIndexRoute
   '/join-us/': typeof JoinUsIndexRoute
   '/providers/': typeof ProvidersIndexRoute
   '/resources/': typeof ResourcesIndexRoute
@@ -304,6 +318,7 @@ export interface FileRoutesByTo {
   '/account': typeof AuthenticatedAccountRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/auth/reset': typeof AuthResetRoute
+  '/expo/$kind': typeof ExpoKindRoute
   '/join-us/finance-provider': typeof JoinUsFinanceProviderRoute
   '/join-us/network-partner': typeof JoinUsNetworkPartnerRoute
   '/join-us/solution-provider': typeof JoinUsSolutionProviderRoute
@@ -311,6 +326,7 @@ export interface FileRoutesByTo {
   '/resources/$category': typeof ResourcesCategoryRoute
   '/solutions/$slug': typeof SolutionsSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
+  '/expo': typeof ExpoIndexRoute
   '/join-us': typeof JoinUsIndexRoute
   '/providers': typeof ProvidersIndexRoute
   '/resources': typeof ResourcesIndexRoute
@@ -346,6 +362,7 @@ export interface FileRoutesById {
   '/_authenticated/account': typeof AuthenticatedAccountRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/auth/reset': typeof AuthResetRoute
+  '/expo/$kind': typeof ExpoKindRoute
   '/join-us/finance-provider': typeof JoinUsFinanceProviderRoute
   '/join-us/network-partner': typeof JoinUsNetworkPartnerRoute
   '/join-us/solution-provider': typeof JoinUsSolutionProviderRoute
@@ -353,6 +370,7 @@ export interface FileRoutesById {
   '/resources/$category': typeof ResourcesCategoryRoute
   '/solutions/$slug': typeof SolutionsSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
+  '/expo/': typeof ExpoIndexRoute
   '/join-us/': typeof JoinUsIndexRoute
   '/providers/': typeof ProvidersIndexRoute
   '/resources/': typeof ResourcesIndexRoute
@@ -388,6 +406,7 @@ export interface FileRouteTypes {
     | '/account'
     | '/admin'
     | '/auth/reset'
+    | '/expo/$kind'
     | '/join-us/finance-provider'
     | '/join-us/network-partner'
     | '/join-us/solution-provider'
@@ -395,6 +414,7 @@ export interface FileRouteTypes {
     | '/resources/$category'
     | '/solutions/$slug'
     | '/stories/$slug'
+    | '/expo/'
     | '/join-us/'
     | '/providers/'
     | '/resources/'
@@ -423,6 +443,7 @@ export interface FileRouteTypes {
     | '/account'
     | '/admin'
     | '/auth/reset'
+    | '/expo/$kind'
     | '/join-us/finance-provider'
     | '/join-us/network-partner'
     | '/join-us/solution-provider'
@@ -430,6 +451,7 @@ export interface FileRouteTypes {
     | '/resources/$category'
     | '/solutions/$slug'
     | '/stories/$slug'
+    | '/expo'
     | '/join-us'
     | '/providers'
     | '/resources'
@@ -464,6 +486,7 @@ export interface FileRouteTypes {
     | '/_authenticated/account'
     | '/_authenticated/admin'
     | '/auth/reset'
+    | '/expo/$kind'
     | '/join-us/finance-provider'
     | '/join-us/network-partner'
     | '/join-us/solution-provider'
@@ -471,6 +494,7 @@ export interface FileRouteTypes {
     | '/resources/$category'
     | '/solutions/$slug'
     | '/stories/$slug'
+    | '/expo/'
     | '/join-us/'
     | '/providers/'
     | '/resources/'
@@ -503,6 +527,8 @@ export interface RootRouteChildren {
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SolutionsRoute: typeof SolutionsRouteWithChildren
   StoriesRoute: typeof StoriesRouteWithChildren
+  ExpoKindRoute: typeof ExpoKindRoute
+  ExpoIndexRoute: typeof ExpoIndexRoute
   LovableEmailAuthPreviewRoute: typeof LovableEmailAuthPreviewRoute
   LovableEmailAuthWebhookRoute: typeof LovableEmailAuthWebhookRoute
   LovableEmailTransactionalPreviewRoute: typeof LovableEmailTransactionalPreviewRoute
@@ -677,6 +703,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/auth/reset'
       preLoaderRoute: typeof AuthResetRouteImport
       parentRoute: typeof AuthRoute
+    }
+    '/expo/': {
+      id: '/expo/'
+      path: '/expo'
+      fullPath: '/expo/'
+      preLoaderRoute: typeof ExpoIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/expo/$kind': {
+      id: '/expo/$kind'
+      path: '/expo/$kind'
+      fullPath: '/expo/$kind'
+      preLoaderRoute: typeof ExpoKindRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/join-us/': {
       id: '/join-us/'
@@ -903,6 +943,8 @@ const rootRouteChildren: RootRouteChildren = {
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SolutionsRoute: SolutionsRouteWithChildren,
   StoriesRoute: StoriesRouteWithChildren,
+  ExpoKindRoute: ExpoKindRoute,
+  ExpoIndexRoute: ExpoIndexRoute,
   LovableEmailAuthPreviewRoute: LovableEmailAuthPreviewRoute,
   LovableEmailAuthWebhookRoute: LovableEmailAuthWebhookRoute,
   LovableEmailTransactionalPreviewRoute: LovableEmailTransactionalPreviewRoute,

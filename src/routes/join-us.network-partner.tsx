@@ -10,19 +10,19 @@ import { userMessage } from "../lib/user-error";
 export const Route = createFileRoute("/join-us/network-partner")({
   head: () => ({
     meta: [
-      { title: "Register as a Network Partner — UrjaSethu" },
+      { title: "Register as a Network Partner — LayaGreenEnergy" },
       {
         name: "description",
         content:
-          "NGOs, FPOs, clusters, incubators and local facilitators can register as UrjaSethu network partners and connect enterprises to decentralised renewable energy.",
+          "NGOs, FPOs, clusters, incubators and local facilitators can register as LayaGreenEnergy network partners and connect enterprises to decentralised renewable energy.",
       },
-      { property: "og:title", content: "Register as a Network Partner — UrjaSethu" },
+      { property: "og:title", content: "Register as a Network Partner — LayaGreenEnergy" },
       { property: "og:description", content: "Help local enterprises find the right DRE solution and support." },
-      { property: "og:url", content: "https://urjasethu.dev/join-us/network-partner" },
-      { property: "og:image", content: "https://urjasethu.dev/og-image.jpg" },
-      { name: "twitter:image", content: "https://urjasethu.dev/og-image.jpg" },
+      { property: "og:url", content: "https://layagreenenergy.dev/join-us/network-partner" },
+      { property: "og:image", content: "https://layagreenenergy.dev/og-image.jpg" },
+      { name: "twitter:image", content: "https://layagreenenergy.dev/og-image.jpg" },
     ],
-    links: [{ rel: "canonical", href: "https://urjasethu.dev/join-us/network-partner" }],
+    links: [{ rel: "canonical", href: "https://layagreenenergy.dev/join-us/network-partner" }],
   }),
   component: NetworkPartnerForm,
 });

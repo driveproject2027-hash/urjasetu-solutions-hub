@@ -9,19 +9,19 @@ import { providers, solutions } from "../data/catalog";
 export const Route = createFileRoute("/providers/")({
   head: () => ({
     meta: [
-      { title: "DRE Solution, Finance & Network Providers in India | UrjaSethu" },
+      { title: "DRE Solution, Finance & Network Providers in India | LayaGreenEnergy" },
       {
         name: "description",
         content:
           "Search verified decentralised renewable energy providers by technology, industry, location and service area.",
       },
-      { property: "og:title", content: "Find DRE Providers — UrjaSethu" },
+      { property: "og:title", content: "Find DRE Providers — LayaGreenEnergy" },
       { property: "og:description", content: "A directory of DRE installers, manufacturers and service providers." },
-      { property: "og:url", content: "https://urjasethu.dev/providers" },
-      { property: "og:image", content: "https://urjasethu.dev/og-image.jpg" },
-      { name: "twitter:image", content: "https://urjasethu.dev/og-image.jpg" },
+      { property: "og:url", content: "https://layagreenenergy.dev/providers" },
+      { property: "og:image", content: "https://layagreenenergy.dev/og-image.jpg" },
+      { name: "twitter:image", content: "https://layagreenenergy.dev/og-image.jpg" },
     ],
-    links: [{ rel: "canonical", href: "https://urjasethu.dev/providers" }],
+    links: [{ rel: "canonical", href: "https://layagreenenergy.dev/providers" }],
   }),
   component: ProvidersIndex,
 });
@@ -37,7 +37,7 @@ type ApprovedProvider = {
 };
 
 const typeTabs: Array<{ value: ProviderType | "all"; label: string; blurb: string }> = [
-  { value: "all", label: "All partners", blurb: "Everyone listed on UrjaSethu." },
+  { value: "all", label: "All partners", blurb: "Everyone listed on LayaGreenEnergy." },
   {
     value: "solution",
     label: "Solution providers",

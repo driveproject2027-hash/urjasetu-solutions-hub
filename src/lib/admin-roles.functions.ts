@@ -98,7 +98,7 @@ export const setAdminAccess = createServerFn({ method: 'POST' })
       .ilike('email', data.email)
       .maybeSingle()
     if (profileError) throw new Error(profileError.message)
-    if (!profile) throw new Error('No UrjaSethu account found with that email. Ask them to sign up first.')
+    if (!profile) throw new Error('No LayaGreenEnergy account found with that email. Ask them to sign up first.')
 
     if (profile.id === context.userId && data.level !== 'super_admin') {
       throw new Error('You cannot remove your own super admin access.')

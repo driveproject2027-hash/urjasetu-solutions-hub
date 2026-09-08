@@ -10,19 +10,19 @@ import { userMessage } from "../lib/user-error";
 export const Route = createFileRoute("/join-us/finance-provider")({
   head: () => ({
     meta: [
-      { title: "Register as a Finance Provider — UrjaSethu" },
+      { title: "Register as a Finance Provider — LayaGreenEnergy" },
       {
         name: "description",
         content:
-          "Banks, NBFCs, cooperatives and leasing companies can register on UrjaSethu to finance MSME investments in decentralised renewable energy.",
+          "Banks, NBFCs, cooperatives and leasing companies can register on LayaGreenEnergy to finance MSME investments in decentralised renewable energy.",
       },
-      { property: "og:title", content: "Register as a Finance Provider — UrjaSethu" },
+      { property: "og:title", content: "Register as a Finance Provider — LayaGreenEnergy" },
       { property: "og:description", content: "Reach MSMEs seeking finance for renewable energy assets." },
-      { property: "og:url", content: "https://urjasethu.dev/join-us/finance-provider" },
-      { property: "og:image", content: "https://urjasethu.dev/og-image.jpg" },
-      { name: "twitter:image", content: "https://urjasethu.dev/og-image.jpg" },
+      { property: "og:url", content: "https://layagreenenergy.dev/join-us/finance-provider" },
+      { property: "og:image", content: "https://layagreenenergy.dev/og-image.jpg" },
+      { name: "twitter:image", content: "https://layagreenenergy.dev/og-image.jpg" },
     ],
-    links: [{ rel: "canonical", href: "https://urjasethu.dev/join-us/finance-provider" }],
+    links: [{ rel: "canonical", href: "https://layagreenenergy.dev/join-us/finance-provider" }],
   }),
   component: FinanceProviderForm,
 });
@@ -157,7 +157,7 @@ function FinanceProviderForm() {
           <TextArea label="Anything else we should know" name="notes" rows={4} className="md:col-span-2" />
 
           <p className="text-xs text-muted-foreground md:col-span-2">
-            UrjaSethu does not process loan applications or guarantee eligibility. If your offering does not fit these
+            LayaGreenEnergy does not process loan applications or guarantee eligibility. If your offering does not fit these
             fields,{" "}
             <Link to="/contact" className="text-primary hover:underline">
               contact us

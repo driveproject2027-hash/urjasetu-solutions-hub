@@ -22,14 +22,17 @@ export function Header() {
   const [open, setOpen] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
   const { session } = useSession();
-  const primaryNav = [nav[0], nav[1], nav[2], nav[3], nav[6], nav[7]];
-  const secondaryNav = [nav[4], nav[5], nav[8], nav[9]];
+  const primaryNav = [nav[0], nav[1], nav[2], nav[8], nav[9]];
+  const secondaryNav = [nav[3], nav[4], nav[5], nav[6], nav[7]];
 
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur">
       <div className="container-page flex h-16 items-center justify-between gap-6">
         <Link to="/" className="flex items-baseline">
-          <span className="font-display text-xl font-bold tracking-tight text-primary">UrjaSethu</span>
+          <span className="font-display tracking-tight">
+            <span className="text-2xl font-bold text-primary">Laya</span>
+            <span className="text-base font-semibold text-primary/80"> GreenEnergy</span>
+          </span>
         </Link>
 
         <nav className="hidden flex-1 items-center justify-evenly px-6 xl:flex 2xl:px-10" aria-label="Primary">

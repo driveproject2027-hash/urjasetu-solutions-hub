@@ -17,8 +17,8 @@ const EMAIL_TEMPLATES: Record<string, React.ComponentType<any>> = {
   reauthentication: ReauthenticationEmail,
 }
 
-const SITE_NAME = 'UrjaSethu'
-const ROOT_DOMAIN = 'urjasethu.dev'
+const SITE_NAME = 'LayaGreenEnergy'
+const ROOT_DOMAIN = 'layagreenenergy.dev'
 const SAMPLE_PROJECT_URL = `https://${ROOT_DOMAIN}`
 const SAMPLE_EMAIL = 'user@example.test'
 

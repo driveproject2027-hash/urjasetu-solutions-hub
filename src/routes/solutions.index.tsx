@@ -6,22 +6,22 @@ import { solutions } from "../data/catalog";
 export const Route = createFileRoute("/solutions/")({
   head: () => ({
     meta: [
-      { title: "DRE Solutions for Indian Businesses — Solar, Cold Chain & More | UrjaSethu" },
+      { title: "DRE Solutions for Indian Businesses — Solar, Cold Chain & More | LayaGreenEnergy" },
       {
         name: "description",
         content:
           "Solar PV, solar plus battery, cold chain, solar drying, processing, e-mobility, pumps and waste-to-fuel — matched to real business problems.",
       },
-      { property: "og:title", content: "Explore DRE Solutions — UrjaSethu" },
+      { property: "og:title", content: "Explore DRE Solutions — LayaGreenEnergy" },
       {
         property: "og:description",
         content: "Decentralised renewable energy solutions for Indian MSMEs and rural enterprises.",
       },
-      { property: "og:url", content: "https://urjasethu.dev/solutions" },
-      { property: "og:image", content: "https://urjasethu.dev/og-image.jpg" },
-      { name: "twitter:image", content: "https://urjasethu.dev/og-image.jpg" },
+      { property: "og:url", content: "https://layagreenenergy.dev/solutions" },
+      { property: "og:image", content: "https://layagreenenergy.dev/og-image.jpg" },
+      { name: "twitter:image", content: "https://layagreenenergy.dev/og-image.jpg" },
     ],
-    links: [{ rel: "canonical", href: "https://urjasethu.dev/solutions" }],
+    links: [{ rel: "canonical", href: "https://layagreenenergy.dev/solutions" }],
   }),
   component: SolutionsIndex,
 });

@@ -22,24 +22,24 @@ type EventItem = {
 export const Route = createFileRoute("/events")({
   head: () => ({
     meta: [
-      { title: "Events & Awareness — UrjaSethu" },
+      { title: "Events & Awareness — LayaGreenEnergy" },
       {
         name: "description",
         content:
           "Upcoming awareness programmes, workshops, DRE events and enterprise engagements organised under the DRIVE initiative.",
       },
-      { property: "og:title", content: "Events & Awareness — UrjaSethu" },
+      { property: "og:title", content: "Events & Awareness — LayaGreenEnergy" },
       {
         property: "og:description",
         content: "Workshops, awareness programmes and enterprise engagements on decentralised renewable energy.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
-      { property: "og:url", content: "https://urjasethu.dev/events" },
-      { property: "og:image", content: "https://urjasethu.dev/og-image.jpg" },
-      { name: "twitter:image", content: "https://urjasethu.dev/og-image.jpg" },
+      { property: "og:url", content: "https://layagreenenergy.dev/events" },
+      { property: "og:image", content: "https://layagreenenergy.dev/og-image.jpg" },
+      { name: "twitter:image", content: "https://layagreenenergy.dev/og-image.jpg" },
     ],
-    links: [{ rel: "canonical", href: "https://urjasethu.dev/events" }],
+    links: [{ rel: "canonical", href: "https://layagreenenergy.dev/events" }],
   }),
   component: Events,
 });

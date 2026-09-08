@@ -5,22 +5,22 @@ import { PageHeader } from "../components/site/PageHeader";
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "About UrjaSethu and the DRIVE initiative" },
+      { title: "About LayaGreenEnergy and the DRIVE initiative" },
       {
         name: "description",
         content:
-          "UrjaSethu is a decentralised renewable energy platform for Indian businesses, developed under DRIVE — Decentralised Renewable Energy Innovation for Vibrant Enterprises.",
+          "LayaGreenEnergy is a decentralised renewable energy platform for Indian businesses, developed under DRIVE — Decentralised Renewable Energy Innovation for Vibrant Enterprises.",
       },
-      { property: "og:title", content: "About UrjaSethu and DRIVE" },
+      { property: "og:title", content: "About LayaGreenEnergy and DRIVE" },
       {
         property: "og:description",
         content: "A DRE marketplace built around real business problems, not technology catalogues.",
       },
-      { property: "og:url", content: "https://urjasethu.dev/about" },
-      { property: "og:image", content: "https://urjasethu.dev/og-image.jpg" },
-      { name: "twitter:image", content: "https://urjasethu.dev/og-image.jpg" },
+      { property: "og:url", content: "https://layagreenenergy.dev/about" },
+      { property: "og:image", content: "https://layagreenenergy.dev/og-image.jpg" },
+      { name: "twitter:image", content: "https://layagreenenergy.dev/og-image.jpg" },
     ],
-    links: [{ rel: "canonical", href: "https://urjasethu.dev/about" }],
+    links: [{ rel: "canonical", href: "https://layagreenenergy.dev/about" }],
   }),
   component: About,
 });
@@ -31,7 +31,7 @@ function About() {
       <PageHeader
         eyebrow="About"
         title="A platform built around the business problem, not the technology."
-        intro="UrjaSethu exists so that a business owner can describe what is going wrong and end up with a suitable solution, a credible provider and a project that actually gets done."
+        intro="LayaGreenEnergy exists so that a business owner can describe what is going wrong and end up with a suitable solution, a credible provider and a project that actually gets done."
       />
 
       <div className="container-page grid gap-12 py-12 lg:grid-cols-[1.4fr_1fr]">
@@ -55,12 +55,12 @@ function About() {
             <h2 className="text-xl font-semibold">About DRIVE</h2>
             <p className="mt-3 leading-relaxed text-foreground/85">
               DRIVE — Decentralised Renewable Energy Innovation for Vibrant Enterprises — is the initiative under
-              which UrjaSethu is developed. DRIVE works on strengthening the ecosystem for decentralised renewable
+              which LayaGreenEnergy is developed. DRIVE works on strengthening the ecosystem for decentralised renewable
               energy in Indian enterprises: awareness, technology matching, enterprise development and financing
               linkages.
             </p>
             <p className="mt-3 leading-relaxed text-foreground/85">
-              UrjaSethu is designed to stand on its own as a platform. DRIVE supports it; it does not define it.
+              LayaGreenEnergy is designed to stand on its own as a platform. DRIVE supports it; it does not define it.
             </p>
           </section>
           <section>

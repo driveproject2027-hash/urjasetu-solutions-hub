@@ -8,19 +8,19 @@ import { estimateSolarProject } from "../lib/solar-estimate";
 export const Route = createFileRoute("/calculator")({
   head: () => ({
     meta: [
-      { title: "Solar Business Calculator — indicative estimates | UrjaSethu" },
+      { title: "Solar Business Calculator — indicative estimates | LayaGreenEnergy" },
       {
         name: "description",
         content:
           "Estimate an indicative solar system size, monthly generation, savings, investment and payback for your business. Approximate figures only.",
       },
-      { property: "og:title", content: "Solar Business Calculator — UrjaSethu" },
+      { property: "og:title", content: "Solar Business Calculator — LayaGreenEnergy" },
       { property: "og:description", content: "What could solar look like for your business?" },
-      { property: "og:url", content: "https://urjasethu.dev/calculator" },
-      { property: "og:image", content: "https://urjasethu.dev/og-image.jpg" },
-      { name: "twitter:image", content: "https://urjasethu.dev/og-image.jpg" },
+      { property: "og:url", content: "https://layagreenenergy.dev/calculator" },
+      { property: "og:image", content: "https://layagreenenergy.dev/og-image.jpg" },
+      { name: "twitter:image", content: "https://layagreenenergy.dev/og-image.jpg" },
     ],
-    links: [{ rel: "canonical", href: "https://urjasethu.dev/calculator" }],
+    links: [{ rel: "canonical", href: "https://layagreenenergy.dev/calculator" }],
   }),
   component: Calculator,
 });

@@ -11,19 +11,19 @@ import { userMessage } from "../lib/user-error";
 export const Route = createFileRoute("/join-us/solution-provider")({
   head: () => ({
     meta: [
-      { title: "Register as a DRE Solution Provider — UrjaSethu" },
+      { title: "Register as a DRE Solution Provider — LayaGreenEnergy" },
       {
         name: "description",
         content:
-          "Register your DRE company on UrjaSethu — technologies offered, service districts, capacity and certifications — and reach Indian businesses looking for solutions.",
+          "Register your DRE company on LayaGreenEnergy — technologies offered, service districts, capacity and certifications — and reach Indian businesses looking for solutions.",
       },
-      { property: "og:title", content: "Register as a DRE Solution Provider — UrjaSethu" },
+      { property: "og:title", content: "Register as a DRE Solution Provider — LayaGreenEnergy" },
       { property: "og:description", content: "Reach businesses actively looking for renewable energy solutions." },
-      { property: "og:url", content: "https://urjasethu.dev/join-us/solution-provider" },
-      { property: "og:image", content: "https://urjasethu.dev/og-image.jpg" },
-      { name: "twitter:image", content: "https://urjasethu.dev/og-image.jpg" },
+      { property: "og:url", content: "https://layagreenenergy.dev/join-us/solution-provider" },
+      { property: "og:image", content: "https://layagreenenergy.dev/og-image.jpg" },
+      { name: "twitter:image", content: "https://layagreenenergy.dev/og-image.jpg" },
     ],
-    links: [{ rel: "canonical", href: "https://urjasethu.dev/join-us/solution-provider" }],
+    links: [{ rel: "canonical", href: "https://layagreenenergy.dev/join-us/solution-provider" }],
   }),
   component: SolutionProviderForm,
 });

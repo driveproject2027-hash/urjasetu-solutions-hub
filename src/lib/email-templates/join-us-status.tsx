@@ -82,16 +82,16 @@ const Email = ({
 }: JoinUsStatusProps) => (
   <Html lang="en" dir="ltr">
     <Head />
-    <Preview>{`Your UrjaSethu registration is now ${statusLabel ?? 'updated'}`}</Preview>
+    <Preview>{`Your LayaGreenEnergy registration is now ${statusLabel ?? 'updated'}`}</Preview>
     <Body style={main}>
       <Container style={container}>
-        <Text style={brand}>UrjaSethu</Text>
+        <Text style={brand}>LayaGreenEnergy</Text>
         <Heading style={heading}>Your registration has been reviewed</Heading>
         <Text style={paragraph}>
           {contactPerson ? `Dear ${contactPerson},` : 'Hello,'}
         </Text>
         <Text style={paragraph}>
-          Thank you for registering{organisation ? ` ${organisation}` : ''} on UrjaSethu
+          Thank you for registering{organisation ? ` ${organisation}` : ''} on LayaGreenEnergy
           {pathLabel ? ` as a ${pathLabel}` : ''}. Our team has updated the status of your
           application.
         </Text>
@@ -110,14 +110,14 @@ const Email = ({
 
         <Text style={paragraph}>
           You can view the platform and your listing details at{' '}
-          <Link href="https://urjasethu.dev" style={{ color: forest }}>
-            urjasethu.dev
+          <Link href="https://layagreenenergy.dev" style={{ color: forest }}>
+            layagreenenergy.dev
           </Link>
           . If anything looks incorrect, simply reply to this email and we will get back to you.
         </Text>
 
         <Hr style={hr} />
-        <Text style={footer}>UrjaSethu — Decentralised Renewable Energy marketplace for Indian MSMEs.</Text>
+        <Text style={footer}>LayaGreenEnergy — Decentralised Renewable Energy marketplace for Indian MSMEs.</Text>
         <Text style={footer}>Supported by the DRIVE initiative.</Text>
       </Container>
     </Body>
@@ -127,7 +127,7 @@ const Email = ({
 export const template = {
   component: Email,
   subject: (data: Record<string, unknown>) =>
-    `UrjaSethu registration update: ${String(data['statusLabel'] ?? 'reviewed')}`,
+    `LayaGreenEnergy registration update: ${String(data['statusLabel'] ?? 'reviewed')}`,
   displayName: 'Join Us review status update',
   previewData: {
     organisation: 'Surya Agro Solutions',

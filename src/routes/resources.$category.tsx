@@ -16,15 +16,15 @@ export const Route = createFileRoute("/resources/$category")({
   },
   head: ({ loaderData }) => {
     if (!loaderData) {
-      return { meta: [{ title: "Resource not found — UrjaSethu" }, { name: "robots", content: "noindex" }] };
+      return { meta: [{ title: "Resource not found — LayaGreenEnergy" }, { name: "robots", content: "noindex" }] };
     }
     const { category } = loaderData;
     const description = `${category.tagline} ${category.intro}`.slice(0, 155);
     return {
       meta: [
-        { title: `${category.name} — Resources | UrjaSethu` },
+        { title: `${category.name} — Resources | LayaGreenEnergy` },
         { name: "description", content: description },
-        { property: "og:title", content: `${category.name} — UrjaSethu Resources` },
+        { property: "og:title", content: `${category.name} — LayaGreenEnergy Resources` },
         { property: "og:description", content: description },
         { property: "og:url", content: absoluteUrl(`/resources/${category.slug}`) },
         { property: "og:image", content: OG_IMAGE },

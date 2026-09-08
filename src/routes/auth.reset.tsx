@@ -9,7 +9,7 @@ export const Route = createFileRoute("/auth/reset")({
   ssr: false,
   head: () => ({
     meta: [
-      { title: "Set a new password — UrjaSethu" },
+      { title: "Set a new password — LayaGreenEnergy" },
       { name: "robots", content: "noindex, nofollow" },
     ],
   }),
@@ -67,7 +67,7 @@ function ResetPassword() {
       <PageHeader
         eyebrow="Account"
         title="Set a new password"
-        intro="Choose a new password for your UrjaSethu account."
+        intro="Choose a new password for your LayaGreenEnergy account."
       />
       <div className="container-page max-w-md py-12">
         {message && (

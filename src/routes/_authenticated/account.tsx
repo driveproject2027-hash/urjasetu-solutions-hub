@@ -8,7 +8,7 @@ import { useIsAdmin } from "../../lib/useAuth";
 
 export const Route = createFileRoute("/_authenticated/account")({
   head: () => ({
-    meta: [{ title: "Your account — UrjaSethu" }, { name: "robots", content: "noindex, nofollow" }],
+    meta: [{ title: "Your account — LayaGreenEnergy" }, { name: "robots", content: "noindex, nofollow" }],
   }),
   component: Account,
 });
@@ -56,7 +56,7 @@ function Account() {
 
   return (
     <>
-      <PageHeader eyebrow="Account" title="Your UrjaSethu activity" intro={email ?? ""}>
+      <PageHeader eyebrow="Account" title="Your LayaGreenEnergy activity" intro={email ?? ""}>
         <div className="flex flex-wrap gap-4">
           {isAdmin && (
             <Link to="/admin" className="bg-primary px-5 py-3 text-sm font-medium text-primary-foreground hover:bg-forest-deep">

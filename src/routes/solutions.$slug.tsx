@@ -12,15 +12,15 @@ export const Route = createFileRoute("/solutions/$slug")({
   },
   head: ({ loaderData }) => {
     if (!loaderData) {
-      return { meta: [{ title: "Solution unavailable — UrjaSethu" }, { name: "robots", content: "noindex" }] };
+      return { meta: [{ title: "Solution unavailable — LayaGreenEnergy" }, { name: "robots", content: "noindex" }] };
     }
     const { solution } = loaderData;
     const url = absoluteUrl(`/solutions/${solution.slug}`);
     return {
       meta: [
-        { title: `${solution.name} — DRE Solutions | UrjaSethu` },
+        { title: `${solution.name} — DRE Solutions | LayaGreenEnergy` },
         { name: "description", content: solution.summary },
-        { property: "og:title", content: `${solution.name} — UrjaSethu` },
+        { property: "og:title", content: `${solution.name} — LayaGreenEnergy` },
         { property: "og:description", content: solution.summary },
         { property: "og:url", content: url },
         { property: "og:image", content: OG_IMAGE },
@@ -48,7 +48,7 @@ export const Route = createFileRoute("/solutions/$slug")({
             description: solution.summary,
             areaServed: "IN",
             url,
-            provider: { "@type": "Organization", name: "UrjaSethu", url: `${SITE_URL}/` },
+            provider: { "@type": "Organization", name: "LayaGreenEnergy", url: `${SITE_URL}/` },
           }),
         },
       ],

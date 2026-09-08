@@ -17,6 +17,8 @@ import {
 import { useIsAdmin, useIsSuperAdmin, useMyAdminSections } from "../../lib/useAuth";
 import { TAB_SECTION, canSee } from "@/lib/admin-posts";
 import { AdministratorsPanel, WorkspacePanel } from "../../components/site/AdminWorkspace";
+// TEMPORARY • DRE EXPO — remove with the expo module (src/lib/expo.ts)
+import { ExpoRegistrations } from "../../components/site/ExpoAdmin";
 import {
   deleteJoinUsSubmission,
   listJoinUsSubmissions,
@@ -26,7 +28,7 @@ import { getAdminOverviewCounts, getRecentEnquiries } from "@/lib/admin-overview
 
 export const Route = createFileRoute("/_authenticated/admin")({
   head: () => ({
-    meta: [{ title: "Admin — UrjaSethu" }, { name: "robots", content: "noindex, nofollow" }],
+    meta: [{ title: "Admin — LayaGreenEnergy" }, { name: "robots", content: "noindex, nofollow" }],
   }),
   component: AdminPage,
 });
@@ -38,6 +40,7 @@ type AnyRow = {
 
 const tabs = [
   "Overview",
+  "DRE Expo registrations", // TEMPORARY • DRE EXPO — remove with the expo module
   "Join Us submissions",
   "Customer requests",
   "Stories",
@@ -109,7 +112,7 @@ function AdminPage() {
         <PageHeader
           eyebrow="Admin"
           title="You do not have access to this area"
-          intro="The admin dashboard is limited to UrjaSethu administrators."
+          intro="The admin dashboard is limited to LayaGreenEnergy administrators."
         />
         <div className="container-page py-12">
           <Link to="/" className="text-sm font-medium text-primary underline">
@@ -124,7 +127,7 @@ function AdminPage() {
     <>
       <PageHeader
         eyebrow="Admin"
-        title="UrjaSethu administration"
+        title="LayaGreenEnergy administration"
         intro="Review applications, route customer requests to the right kind of provider and manage published content."
       />
       <div className="container-page py-10">
@@ -155,6 +158,7 @@ function AdminPage() {
         ) : (
           <>
             {tab === "Overview" && <Overview onJump={setTab} />}
+            {tab === "DRE Expo registrations" && <ExpoRegistrations />}
             {tab === "Join Us submissions" && <Providers />}
             {tab === "Customer requests" && <CustomerRequests />}
             {tab === "Stories" && <Stories />}
@@ -1211,21 +1215,21 @@ function Events() {
 /* ---------- resources ---------- */
 
 const resourceCategories = [
-  "dre-basics",
-  "government-schemes",
-  "finance-funding",
-  "dre-technologies",
-  "business-opportunities",
-  "game-drive",
-  "case-studies",
-  "guides-toolkits",
-  "insights",
-];
+  { slug: "dre-basics", label: "DRE Basics" },
+  { slug: "government-schemes", label: "Government Schemes" },
+  { slug: "finance-funding", label: "Finance & Funding" },
+  { slug: "dre-technologies", label: "DRE Technologies" },
+  { slug: "business-opportunities", label: "Business Opportunities" },
+  { slug: "game-drive", label: "GAME & DRIVE" },
+  { slug: "case-studies", label: "Case Studies" },
+  { slug: "guides-toolkits", label: "Guides & Toolkits" },
+  { slug: "insights", label: "Blogs & Insights" },
+] as const;
 
 function Resources() {
   const { rows, reload } = useTable("resources", "created_at");
   const [form, setForm] = useState({
-    category: resourceCategories[0] as string,
+    category: resourceCategories[0].slug,
     title: "",
     summary: "",
     body: "",
@@ -1250,7 +1254,7 @@ function Resources() {
     }
     toast.success("Resource published");
     setForm({
-      category: resourceCategories[0] as string,
+      category: resourceCategories[0].slug,
       title: "",
       summary: "",
       body: "",
@@ -1276,9 +1280,9 @@ function Resources() {
             onChange={(e) => setForm({ ...form, category: e.target.value })}
             className="w-full border border-input bg-background px-3 py-2 text-sm"
           >
-            {resourceCategories.map((c) => (
-              <option key={c} value={c}>
-                {statusLabel(c.replace(/-/g, " "))}
+            {resourceCategories.map((category) => (
+              <option key={category.slug} value={category.slug}>
+                {category.label}
               </option>
             ))}
           </select>
@@ -1324,52 +1328,65 @@ function Resources() {
       {!rows || rows.length === 0 ? (
         <Empty />
       ) : (
-        <ul className="divide-y divide-border border-y border-border">
-          {rows.map((r) => (
-            <li key={r.id} className="flex flex-wrap items-center gap-4 py-4">
-              <div className="flex-1">
-                <h3 className="font-medium">{str(r, "title")}</h3>
-                <p className="text-sm text-muted-foreground">
-                  {statusLabel(str(r, "category").replace(/-/g, " "))}
-                  {str(r, "source_name") ? ` · ${str(r, "source_name")}` : ""}
-                </p>
-              </div>
-              <button
-                type="button"
-                onClick={() => {
-                  updateRow("resources", r.id, { is_published: !r["is_published"] })
-                    .then(() => {
-                      toast.success("Resource updated");
-                      reload();
-                    })
-                    .catch((e: Error) => toast.error(e.message));
-                }}
-                className="border border-border px-3 py-1 text-sm hover:border-primary"
-              >
-                {r["is_published"] ? "Unpublish" : "Publish"}
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  supabase
-                    .from("resources")
-                    .delete()
-                    .eq("id", r.id)
-                    .then(({ error }) => {
-                      if (error) toast.error(error.message);
-                      else {
-                        toast.success("Resource deleted");
-                        reload();
-                      }
-                    });
-                }}
-                className="text-sm text-muted-foreground underline"
-              >
-                Delete
-              </button>
-            </li>
-          ))}
-        </ul>
+        <div className="space-y-8">
+          {resourceCategories.map((category) => {
+            const categoryRows = rows.filter((row) => str(row, "category") === category.slug);
+            if (categoryRows.length === 0) return null;
+
+            return (
+              <section key={category.slug}>
+                <h3 className="mb-3 border-b border-border pb-2 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+                  {category.label} <span className="ml-1 font-normal">{categoryRows.length}</span>
+                </h3>
+                <ul className="divide-y divide-border border-y border-border">
+                  {categoryRows.map((r) => (
+                    <li key={r.id} className="flex flex-wrap items-center gap-4 py-4">
+                      <div className="flex-1">
+                        <h4 className="font-medium">{str(r, "title")}</h4>
+                        {str(r, "source_name") && (
+                          <p className="text-sm text-muted-foreground">{str(r, "source_name")}</p>
+                        )}
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          updateRow("resources", r.id, { is_published: !r["is_published"] })
+                            .then(() => {
+                              toast.success("Resource updated");
+                              reload();
+                            })
+                            .catch((e: Error) => toast.error(e.message));
+                        }}
+                        className="border border-border px-3 py-1 text-sm hover:border-primary"
+                      >
+                        {r["is_published"] ? "Unpublish" : "Publish"}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          supabase
+                            .from("resources")
+                            .delete()
+                            .eq("id", r.id)
+                            .then(({ error }) => {
+                              if (error) toast.error(error.message);
+                              else {
+                                toast.success("Resource deleted");
+                                reload();
+                              }
+                            });
+                        }}
+                        className="text-sm text-muted-foreground underline"
+                      >
+                        Delete
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            );
+          })}
+        </div>
       )}
     </Panel>
   );

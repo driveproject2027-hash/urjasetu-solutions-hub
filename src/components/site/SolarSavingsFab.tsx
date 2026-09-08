@@ -9,13 +9,16 @@ export function SolarSavingsFab() {
   return (
     <Link
       to="/calculator"
-      className="group fixed bottom-5 right-4 z-50 flex items-center gap-2 rounded-full bg-forest-deep py-3 pl-4 pr-5 text-sm font-medium text-primary-foreground shadow-lg shadow-forest-deep/25 transition-all hover:bg-forest hover:shadow-xl hover:shadow-forest-deep/30 sm:bottom-6 sm:right-6"
+      className="group fixed bottom-4 left-4 z-50 flex items-center gap-3 border border-white/15 bg-forest-deep px-3 py-3 text-sm font-medium text-primary-foreground shadow-[0_10px_24px_oklch(0.29_0.055_155/0.22)] transition-colors hover:bg-forest focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:bottom-6 sm:left-6"
     >
-      <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-sand text-forest-deep">
-        <Sun className="size-4" />
+      <span className="flex size-9 shrink-0 items-center justify-center bg-sand text-forest-deep">
+        <Sun className="size-4.5" strokeWidth={1.75} />
       </span>
-      <span className="max-w-[9.5rem] leading-tight sm:max-w-none">
-        Know your solar savings today
+      <span className="leading-tight">
+        <span className="block text-[0.65rem] font-medium uppercase tracking-[0.12em] text-sand/75">
+          Solar estimate
+        </span>
+        <span className="mt-0.5 block">Know your savings</span>
       </span>
     </Link>
   );

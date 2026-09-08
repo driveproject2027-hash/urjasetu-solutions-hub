@@ -10,22 +10,22 @@ import { fetchPublishedResources } from "../lib/db";
 export const Route = createFileRoute("/resources/")({
   head: () => ({
     meta: [
-      { title: "Decentralised Renewable Energy Guides & Schemes | UrjaSethu Resources" },
+      { title: "Decentralised Renewable Energy Guides & Schemes | LayaGreenEnergy Resources" },
       {
         name: "description",
         content:
           "Guides, government schemes, financing resources, DRE technologies, business opportunities and ecosystem insights for Indian businesses exploring decentralised renewable energy.",
       },
-      { property: "og:title", content: "Resources — UrjaSethu knowledge centre" },
+      { property: "og:title", content: "Resources — LayaGreenEnergy knowledge centre" },
       {
         property: "og:description",
         content: "Understand DRE. Find the right support. Make better decisions.",
       },
-      { property: "og:url", content: "https://urjasethu.dev/resources" },
-      { property: "og:image", content: "https://urjasethu.dev/og-image.jpg" },
-      { name: "twitter:image", content: "https://urjasethu.dev/og-image.jpg" },
+      { property: "og:url", content: "https://layagreenenergy.dev/resources" },
+      { property: "og:image", content: "https://layagreenenergy.dev/og-image.jpg" },
+      { name: "twitter:image", content: "https://layagreenenergy.dev/og-image.jpg" },
     ],
-    links: [{ rel: "canonical", href: "https://urjasethu.dev/resources" }],
+    links: [{ rel: "canonical", href: "https://layagreenenergy.dev/resources" }],
   }),
   component: ResourcesHub,
 });
@@ -164,7 +164,7 @@ function ResourcesHub() {
         </div>
 
         <p className="mt-10 max-w-2xl text-sm text-muted-foreground">
-          UrjaSethu does not process applications, confirm eligibility or provide financial advice. Scheme summaries are
+          LayaGreenEnergy does not process applications, confirm eligibility or provide financial advice. Scheme summaries are
           for orientation only — always verify current details with the official source.
         </p>
       </div>

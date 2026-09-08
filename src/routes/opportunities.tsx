@@ -6,19 +6,19 @@ import { opportunities } from "../data/catalog";
 export const Route = createFileRoute("/opportunities")({
   head: () => ({
     meta: [
-      { title: "Start a DRE Business — Business Opportunities | UrjaSethu" },
+      { title: "Start a DRE Business — Business Opportunities | LayaGreenEnergy" },
       {
         name: "description",
         content:
           "Enterprise opportunities in decentralised renewable energy: solar drying, cold storage, service centres, e-mobility, waste-to-fuel and textile clusters.",
       },
-      { property: "og:title", content: "Start a DRE Business — UrjaSethu" },
+      { property: "og:title", content: "Start a DRE Business — LayaGreenEnergy" },
       { property: "og:description", content: "Enterprise opportunities in decentralised renewable energy." },
-      { property: "og:url", content: "https://urjasethu.dev/opportunities" },
-      { property: "og:image", content: "https://urjasethu.dev/og-image.jpg" },
-      { name: "twitter:image", content: "https://urjasethu.dev/og-image.jpg" },
+      { property: "og:url", content: "https://layagreenenergy.dev/opportunities" },
+      { property: "og:image", content: "https://layagreenenergy.dev/og-image.jpg" },
+      { name: "twitter:image", content: "https://layagreenenergy.dev/og-image.jpg" },
     ],
-    links: [{ rel: "canonical", href: "https://urjasethu.dev/opportunities" }],
+    links: [{ rel: "canonical", href: "https://layagreenenergy.dev/opportunities" }],
   }),
   component: Opportunities,
 });

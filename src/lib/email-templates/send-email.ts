@@ -6,8 +6,8 @@ import { TEMPLATES } from './registry'
 // Server-only: reads RESEND_API_KEY. Never import from client components.
 
 // Configuration
-const SITE_NAME = "UrjaSethu"
-const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || "noreply@urjasethu.dev"
+const SITE_NAME = "LayaGreenEnergy"
+const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || "noreply@layagreenenergy.dev"
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 

@@ -10,19 +10,19 @@ import { userMessage } from "../lib/user-error";
 export const Route = createFileRoute("/needs")({
   head: () => ({
     meta: [
-      { title: "Open Needs — what businesses are looking for | UrjaSethu" },
+      { title: "Open Needs — what businesses are looking for | LayaGreenEnergy" },
       {
         name: "description",
         content:
           "Active requirements posted by Indian businesses looking for decentralised renewable energy solutions. Providers can respond directly.",
       },
-      { property: "og:title", content: "Open Needs — UrjaSethu" },
+      { property: "og:title", content: "Open Needs — LayaGreenEnergy" },
       { property: "og:description", content: "Real demand from businesses. Providers respond with proposals." },
-      { property: "og:url", content: "https://urjasethu.dev/needs" },
-      { property: "og:image", content: "https://urjasethu.dev/og-image.jpg" },
-      { name: "twitter:image", content: "https://urjasethu.dev/og-image.jpg" },
+      { property: "og:url", content: "https://layagreenenergy.dev/needs" },
+      { property: "og:image", content: "https://layagreenenergy.dev/og-image.jpg" },
+      { name: "twitter:image", content: "https://layagreenenergy.dev/og-image.jpg" },
     ],
-    links: [{ rel: "canonical", href: "https://urjasethu.dev/needs" }],
+    links: [{ rel: "canonical", href: "https://layagreenenergy.dev/needs" }],
   }),
   component: Needs,
 });

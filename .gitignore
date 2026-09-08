@@ -36,3 +36,6 @@ supabase/.temp/
 .env
 .env.local
 .env.*.local
+
+# local credentials — never commit
+src/password.txt
