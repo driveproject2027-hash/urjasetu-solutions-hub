@@ -58,27 +58,34 @@ const homeFaqs = [
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Decentralised Renewable Energy Solutions for Businesses in India | LayaGreenEnergy" },
+      {
+        title: "Decentralised Renewable Energy Solutions for Businesses in India | LayaGreenEnergy",
+      },
       {
         name: "description",
         content:
           "LayaGreenEnergy connects Indian businesses with decentralised renewable energy (DRE) solutions, verified providers, finance providers and network partners. Start with your problem, get a recommendation, compare providers.",
       },
-      { property: "og:title", content: "Decentralised Renewable Energy Solutions for Indian Businesses" },
+      {
+        property: "og:title",
+        content: "Decentralised Renewable Energy Solutions for Indian Businesses",
+      },
       {
         property: "og:description",
         content:
           "Start with the problem. Find suitable DRE solutions, verified providers and financing routes across India.",
       },
-      { property: "og:url", content: "https://layagreenenergy.dev/" },
-      { property: "og:image", content: "https://layagreenenergy.dev/og-image.jpg" },
-      { name: "twitter:image", content: "https://layagreenenergy.dev/og-image.jpg" },
+      { property: "og:url", content: "https://urjasetu.dev/" },
+      { property: "og:image", content: "https://urjasetu.dev/og-image.jpg" },
+      { name: "twitter:image", content: "https://urjasetu.dev/og-image.jpg" },
     ],
-    links: [{ rel: "canonical", href: "https://layagreenenergy.dev/" }],
+    links: [{ rel: "canonical", href: "https://urjasetu.dev/" }],
     scripts: [
       {
         type: "application/ld+json",
-        children: JSON.stringify(faqLd(homeFaqs.map((f) => ({ question: f.question, answer: f.answer })))),
+        children: JSON.stringify(
+          faqLd(homeFaqs.map((f) => ({ question: f.question, answer: f.answer }))),
+        ),
       },
     ],
   }),
@@ -175,16 +182,16 @@ function Home() {
               <h3 className="mt-2 font-display text-base font-semibold leading-snug text-foreground md:text-lg">
                 “{lead.headline}”
               </h3>
-              <p className="mt-1 text-sm text-muted-foreground">{lead.person} · {lead.role} · {lead.location}</p>
+              <p className="mt-1 text-sm text-muted-foreground">
+                {lead.person} · {lead.role} · {lead.location}
+              </p>
               <p className="mt-3 text-sm text-foreground/90">{lead.problem}</p>
 
               <span className="mt-3 inline-flex items-center gap-2 text-sm font-medium text-primary">
                 I have a similar problem <ArrowRight className="size-3" />
               </span>
             </Link>
-
           </div>
-
         </div>
       </section>
 
@@ -224,7 +231,9 @@ function Home() {
       {/* Journey */}
       <section className="bg-forest-deep text-ivory">
         <div className="container-page py-14">
-          <p className="text-[0.72rem] uppercase tracking-[0.14em] text-ivory/60">How LayaGreenEnergy works</p>
+          <p className="text-[0.72rem] uppercase tracking-[0.14em] text-ivory/60">
+            How LayaGreenEnergy works
+          </p>
           <h2 className="mt-3 max-w-2xl text-2xl font-semibold md:text-3xl">
             One path, from a real problem to a completed project.
           </h2>
@@ -255,7 +264,11 @@ function Home() {
 
           <div className="mt-10 grid gap-10 lg:grid-cols-[1.3fr_1fr]">
             <article className="group">
-              <Link to="/stories/$slug" params={{ slug: lead.slug }} className="block overflow-hidden">
+              <Link
+                to="/stories/$slug"
+                params={{ slug: lead.slug }}
+                className="block overflow-hidden"
+              >
                 <img
                   src={storyImages[lead.image]}
                   alt={lead.headline}
@@ -299,7 +312,9 @@ function Home() {
                     className="h-20 w-24 shrink-0 object-cover"
                   />
                   <div>
-                    <h3 className="font-display text-base font-semibold leading-snug">“{s.headline}”</h3>
+                    <h3 className="font-display text-base font-semibold leading-snug">
+                      “{s.headline}”
+                    </h3>
                     <p className="mt-1 text-xs text-muted-foreground">
                       {s.person} · {s.location}
                     </p>
@@ -318,8 +333,8 @@ function Home() {
             <div>
               <h2 className="text-2xl font-semibold md:text-3xl">Explore DRE solutions</h2>
               <p className="mt-3 max-w-md text-muted-foreground">
-                Technology matched to what your business actually needs — generation, storage, cooling,
-                processing and mobility.
+                Technology matched to what your business actually needs — generation, storage,
+                cooling, processing and mobility.
               </p>
               <img
                 src={solarImg}
@@ -340,7 +355,9 @@ function Home() {
                   >
                     <span>
                       <span className="font-display text-lg font-medium">{s.name}</span>
-                      <span className="mt-1 block max-w-md text-sm text-muted-foreground">{s.summary}</span>
+                      <span className="mt-1 block max-w-md text-sm text-muted-foreground">
+                        {s.summary}
+                      </span>
                     </span>
                     <ArrowRight className="size-4 shrink-0 opacity-0 transition-opacity group-hover:opacity-100" />
                   </Link>
@@ -367,7 +384,10 @@ function Home() {
           </div>
           <ul className="mt-8 divide-y divide-border border-y border-border">
             {openNeeds.slice(0, 3).map((n) => (
-              <li key={n.id} className="flex flex-col items-start gap-3 py-5 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-4">
+              <li
+                key={n.id}
+                className="flex flex-col items-start gap-3 py-5 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-4"
+              >
                 <div>
                   <h3 className="font-medium">{n.title}</h3>
                   <p className="mt-1 text-sm text-muted-foreground">
@@ -390,10 +410,12 @@ function Home() {
       <section className="border-b border-border bg-ivory">
         <div className="container-page grid gap-10 py-12 md:grid-cols-2 md:py-20">
           <div>
-            <h2 className="text-2xl font-semibold md:text-3xl">What could solar look like for your business?</h2>
+            <h2 className="text-2xl font-semibold md:text-3xl">
+              What could solar look like for your business?
+            </h2>
             <p className="mt-3 text-muted-foreground">
-              A quick indicative estimate of system size, generation, savings and payback. Estimates only —
-              always confirm with a provider site assessment.
+              A quick indicative estimate of system size, generation, savings and payback. Estimates
+              only — always confirm with a provider site assessment.
             </p>
             <Link
               to="/calculator"
@@ -413,7 +435,10 @@ function Home() {
                 </li>
               ))}
             </ul>
-            <Link to="/opportunities" className="mt-6 inline-block text-sm font-medium text-primary hover:underline">
+            <Link
+              to="/opportunities"
+              className="mt-6 inline-block text-sm font-medium text-primary hover:underline"
+            >
               Explore opportunities →
             </Link>
           </div>
@@ -426,9 +451,13 @@ function Home() {
           <div>
             <h2 className="text-2xl font-semibold md:text-3xl">Find DRE providers</h2>
             <p className="mt-3 text-muted-foreground">
-              Search installers, manufacturers and service providers by technology, industry and service area.
+              Search installers, manufacturers and service providers by technology, industry and
+              service area.
             </p>
-            <Link to="/providers" className="mt-6 inline-block text-sm font-medium text-primary hover:underline">
+            <Link
+              to="/providers"
+              className="mt-6 inline-block text-sm font-medium text-primary hover:underline"
+            >
               Browse the provider directory →
             </Link>
           </div>
@@ -436,10 +465,14 @@ function Home() {
             <p className="eyebrow">Institutional</p>
             <h2 className="mt-3 text-xl font-semibold">The DRIVE initiative</h2>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-              LayaGreenEnergy is developed under DRIVE — Decentralised Renewable Energy Innovation for Vibrant
-              Enterprises — an initiative supporting MSMEs and rural enterprises to adopt clean energy.
+              LayaGreenEnergy is developed under DRIVE — Decentralised Renewable Energy Innovation
+              for Vibrant Enterprises — an initiative supporting MSMEs and rural enterprises to
+              adopt clean energy.
             </p>
-            <Link to="/about" className="mt-5 inline-block text-sm font-medium text-primary hover:underline">
+            <Link
+              to="/about"
+              className="mt-5 inline-block text-sm font-medium text-primary hover:underline"
+            >
               About DRIVE →
             </Link>
           </div>
@@ -449,7 +482,9 @@ function Home() {
       {/* Common questions — plain answers for people and answer engines */}
       <section className="border-b border-border bg-ivory">
         <div className="container-page py-12 md:py-20">
-          <h2 className="text-2xl font-semibold md:text-3xl">Common questions about LayaGreenEnergy and DRE</h2>
+          <h2 className="text-2xl font-semibold md:text-3xl">
+            Common questions about LayaGreenEnergy and DRE
+          </h2>
           <dl className="mt-8 grid gap-x-12 gap-y-8 md:grid-cols-2">
             {homeFaqs.map((f) => (
               <div key={f.question}>
@@ -476,7 +511,9 @@ function Home() {
       <section className="bg-primary text-primary-foreground">
         <div className="container-page flex flex-col items-start gap-6 py-12 md:flex-row md:flex-wrap md:items-center md:justify-between md:py-14">
           <div>
-            <h2 className="text-2xl font-semibold md:text-3xl">Don't start with technology. Start with the problem.</h2>
+            <h2 className="text-2xl font-semibold md:text-3xl">
+              Don't start with technology. Start with the problem.
+            </h2>
             <p className="mt-2 max-w-xl text-primary-foreground/80">
               Tell us what is holding your business back and we'll take it from there.
             </p>

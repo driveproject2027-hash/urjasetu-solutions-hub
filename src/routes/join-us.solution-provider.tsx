@@ -18,12 +18,15 @@ export const Route = createFileRoute("/join-us/solution-provider")({
           "Register your DRE company on LayaGreenEnergy — technologies offered, service districts, capacity and certifications — and reach Indian businesses looking for solutions.",
       },
       { property: "og:title", content: "Register as a DRE Solution Provider — LayaGreenEnergy" },
-      { property: "og:description", content: "Reach businesses actively looking for renewable energy solutions." },
-      { property: "og:url", content: "https://layagreenenergy.dev/join-us/solution-provider" },
-      { property: "og:image", content: "https://layagreenenergy.dev/og-image.jpg" },
-      { name: "twitter:image", content: "https://layagreenenergy.dev/og-image.jpg" },
+      {
+        property: "og:description",
+        content: "Reach businesses actively looking for renewable energy solutions.",
+      },
+      { property: "og:url", content: "https://urjasetu.dev/join-us/solution-provider" },
+      { property: "og:image", content: "https://urjasetu.dev/og-image.jpg" },
+      { name: "twitter:image", content: "https://urjasetu.dev/og-image.jpg" },
     ],
-    links: [{ rel: "canonical", href: "https://layagreenenergy.dev/join-us/solution-provider" }],
+    links: [{ rel: "canonical", href: "https://urjasetu.dev/join-us/solution-provider" }],
   }),
   component: SolutionProviderForm,
 });
@@ -76,7 +79,9 @@ function SolutionProviderForm() {
                 });
                 form.reset();
               })
-              .catch((err: unknown) => toast.error("Could not submit", { description: userMessage(err) }))
+              .catch((err: unknown) =>
+                toast.error("Could not submit", { description: userMessage(err) }),
+              )
               .finally(() => setBusy(false));
           }}
         >
@@ -100,13 +105,27 @@ function SolutionProviderForm() {
             className="md:col-span-2"
           />
 
-          <Field label="Service areas (districts)" name="districts" required className="md:col-span-2" />
+          <Field
+            label="Service areas (districts)"
+            name="districts"
+            required
+            className="md:col-span-2"
+          />
           <Field label="Industries served" name="industries" className="md:col-span-2" />
           <Field label="Years of experience" name="experience" />
           <Field label="Installations completed" name="installations" />
           <Field label="Largest system installed (kW / capacity)" name="largest_system" />
-          <Field label="In-house O&M or service team?" name="service_model" placeholder="Yes / No / Through partners" />
-          <Field label="Certifications and empanelments" name="certifications" className="md:col-span-2" placeholder="MNRE, state DISCOM, ISO, BIS…" />
+          <Field
+            label="In-house O&M or service team?"
+            name="service_model"
+            placeholder="Yes / No / Through partners"
+          />
+          <Field
+            label="Certifications and empanelments"
+            name="certifications"
+            className="md:col-span-2"
+            placeholder="MNRE, state DISCOM, ISO, BIS…"
+          />
           <Field label="Website" name="website" className="md:col-span-2" />
           <TextArea
             label="Anything else about your capacity or past projects"
@@ -116,8 +135,9 @@ function SolutionProviderForm() {
           />
 
           <p className="text-xs text-muted-foreground md:col-span-2">
-            Verification means the platform has reviewed the information you submit. It is separate from customer
-            ratings, which come only from real project experience. If something here does not fit your business,{" "}
+            Verification means the platform has reviewed the information you submit. It is separate
+            from customer ratings, which come only from real project experience. If something here
+            does not fit your business,{" "}
             <Link to="/contact" className="text-primary hover:underline">
               contact us
             </Link>

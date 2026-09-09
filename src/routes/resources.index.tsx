@@ -6,7 +6,6 @@ import { resourceCategories } from "../data/resources";
 import { solutions, opportunities, stories } from "../data/catalog";
 import { fetchPublishedResources } from "../lib/db";
 
-
 export const Route = createFileRoute("/resources/")({
   head: () => ({
     meta: [
@@ -21,16 +20,23 @@ export const Route = createFileRoute("/resources/")({
         property: "og:description",
         content: "Understand DRE. Find the right support. Make better decisions.",
       },
-      { property: "og:url", content: "https://layagreenenergy.dev/resources" },
-      { property: "og:image", content: "https://layagreenenergy.dev/og-image.jpg" },
-      { name: "twitter:image", content: "https://layagreenenergy.dev/og-image.jpg" },
+      { property: "og:url", content: "https://urjasetu.dev/resources" },
+      { property: "og:image", content: "https://urjasetu.dev/og-image.jpg" },
+      { name: "twitter:image", content: "https://urjasetu.dev/og-image.jpg" },
     ],
-    links: [{ rel: "canonical", href: "https://layagreenenergy.dev/resources" }],
+    links: [{ rel: "canonical", href: "https://urjasetu.dev/resources" }],
   }),
   component: ResourcesHub,
 });
 
-const exampleSearches = ["solar subsidy", "cold storage", "solar dryer", "PMEGP", "DRE financing", "battery storage"];
+const exampleSearches = [
+  "solar subsidy",
+  "cold storage",
+  "solar dryer",
+  "PMEGP",
+  "DRE financing",
+  "battery storage",
+];
 
 type Hit = { title: string; summary: string; category: string; slug: string };
 type PublishedResource = { category: string; title: string; summary: string | null };
@@ -63,10 +69,20 @@ function ResourcesHub() {
       }
     }
     for (const s of solutions) {
-      items.push({ title: s.name, summary: s.summary, category: "DRE Technologies", slug: 'dre-technologies' });
+      items.push({
+        title: s.name,
+        summary: s.summary,
+        category: "DRE Technologies",
+        slug: "dre-technologies",
+      });
     }
     for (const o of opportunities) {
-      items.push({ title: o.title, summary: o.opportunity, category: "Business Opportunities", slug: 'business-opportunities' });
+      items.push({
+        title: o.title,
+        summary: o.opportunity,
+        category: "Business Opportunities",
+        slug: "business-opportunities",
+      });
     }
     return items;
   }, [published]);
@@ -138,7 +154,6 @@ function ResourcesHub() {
       </PageHeader>
 
       <div className="container-page py-12">
-
         <h2 className="mt-16 text-2xl font-semibold">Browse the knowledge centre</h2>
         <div className="mt-8 grid gap-px border border-border bg-border md:grid-cols-2 lg:grid-cols-3">
           {resourceCategories.map((cat) => (
@@ -148,7 +163,9 @@ function ResourcesHub() {
               params={{ category: cat.slug }}
               className="group bg-background p-7 transition-colors hover:bg-ivory"
             >
-              <h3 className="font-display text-lg font-semibold group-hover:text-primary">{cat.name}</h3>
+              <h3 className="font-display text-lg font-semibold group-hover:text-primary">
+                {cat.name}
+              </h3>
               <p className="mt-2 text-base text-foreground/85">{cat.tagline}</p>
               <p className="mt-4 text-sm text-muted-foreground">
                 {cat.slug === "dre-technologies"
@@ -164,8 +181,9 @@ function ResourcesHub() {
         </div>
 
         <p className="mt-10 max-w-2xl text-sm text-muted-foreground">
-          LayaGreenEnergy does not process applications, confirm eligibility or provide financial advice. Scheme summaries are
-          for orientation only — always verify current details with the official source.
+          LayaGreenEnergy does not process applications, confirm eligibility or provide financial
+          advice. Scheme summaries are for orientation only — always verify current details with the
+          official source.
         </p>
       </div>
     </>

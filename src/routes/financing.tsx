@@ -3,7 +3,6 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageHeader } from "../components/site/PageHeader";
 import { schemes } from "../data/catalog";
 
-
 export const Route = createFileRoute("/financing")({
   head: () => ({
     meta: [
@@ -14,12 +13,15 @@ export const Route = createFileRoute("/financing")({
           "How Indian businesses and MSMEs can finance decentralised renewable energy projects, plus support schemes such as MSE GIFT, MSE SPICE, PMFME, PMEGP and ZED.",
       },
       { property: "og:title", content: "Renewable Energy Financing in India — LayaGreenEnergy" },
-      { property: "og:description", content: "Government schemes that may support DRE adoption by MSMEs." },
-      { property: "og:url", content: "https://layagreenenergy.dev/financing" },
-      { property: "og:image", content: "https://layagreenenergy.dev/og-image.jpg" },
-      { name: "twitter:image", content: "https://layagreenenergy.dev/og-image.jpg" },
+      {
+        property: "og:description",
+        content: "Government schemes that may support DRE adoption by MSMEs.",
+      },
+      { property: "og:url", content: "https://urjasetu.dev/financing" },
+      { property: "og:image", content: "https://urjasetu.dev/og-image.jpg" },
+      { name: "twitter:image", content: "https://urjasetu.dev/og-image.jpg" },
     ],
-    links: [{ rel: "canonical", href: "https://layagreenenergy.dev/financing" }],
+    links: [{ rel: "canonical", href: "https://urjasetu.dev/financing" }],
   }),
   component: Financing,
 });
@@ -34,7 +36,6 @@ function Financing() {
       />
       <div className="container-page py-12">
         <ul className="divide-y divide-border border-y border-border">
-
           {schemes.map((s) => (
             <li key={s.name} className="grid gap-2 py-6 md:grid-cols-[12rem_1fr]">
               <h2 className="font-display text-lg font-semibold">{s.name}</h2>
@@ -43,8 +44,8 @@ function Financing() {
           ))}
         </ul>
         <p className="mt-8 max-w-2xl text-sm text-muted-foreground">
-          LayaGreenEnergy does not process applications, guarantee eligibility or provide financial advice. Scheme details
-          shown here are summaries for orientation only.
+          LayaGreenEnergy does not process applications, guarantee eligibility or provide financial
+          advice. Scheme details shown here are summaries for orientation only.
         </p>
       </div>
     </>

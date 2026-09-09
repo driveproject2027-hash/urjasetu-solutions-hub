@@ -13,12 +13,15 @@ export const Route = createFileRoute("/opportunities")({
           "Enterprise opportunities in decentralised renewable energy: solar drying, cold storage, service centres, e-mobility, waste-to-fuel and textile clusters.",
       },
       { property: "og:title", content: "Start a DRE Business — LayaGreenEnergy" },
-      { property: "og:description", content: "Enterprise opportunities in decentralised renewable energy." },
-      { property: "og:url", content: "https://layagreenenergy.dev/opportunities" },
-      { property: "og:image", content: "https://layagreenenergy.dev/og-image.jpg" },
-      { name: "twitter:image", content: "https://layagreenenergy.dev/og-image.jpg" },
+      {
+        property: "og:description",
+        content: "Enterprise opportunities in decentralised renewable energy.",
+      },
+      { property: "og:url", content: "https://urjasetu.dev/opportunities" },
+      { property: "og:image", content: "https://urjasetu.dev/og-image.jpg" },
+      { name: "twitter:image", content: "https://urjasetu.dev/og-image.jpg" },
     ],
-    links: [{ rel: "canonical", href: "https://layagreenenergy.dev/opportunities" }],
+    links: [{ rel: "canonical", href: "https://urjasetu.dev/opportunities" }],
   }),
   component: Opportunities,
 });
@@ -84,10 +87,13 @@ function Opportunities() {
         <div className="mt-16 border border-border bg-ivory p-8">
           <h2 className="text-xl font-semibold">Financing and support</h2>
           <p className="mt-2 max-w-2xl text-muted-foreground">
-            Several central schemes support micro and small enterprises adopting cleaner energy. Eligibility and
-            limits vary and change over time.
+            Several central schemes support micro and small enterprises adopting cleaner energy.
+            Eligibility and limits vary and change over time.
           </p>
-          <Link to="/financing" className="mt-4 inline-block text-sm font-medium text-primary hover:underline">
+          <Link
+            to="/financing"
+            className="mt-4 inline-block text-sm font-medium text-primary hover:underline"
+          >
             See financing and support →
           </Link>
         </div>

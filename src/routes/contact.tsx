@@ -9,7 +9,7 @@ import { userMessage } from "../lib/user-error";
 
 // Update these with the official contact details.
 const PHONE = "8499883525";
-const EMAIL = "hello@layagreenenergy.dev";
+const EMAIL = "hello@urjasetu.dev";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -23,15 +23,16 @@ export const Route = createFileRoute("/contact")({
       { property: "og:title", content: "Contact LayaGreenEnergy" },
       {
         property: "og:description",
-        content: "Reach the LayaGreenEnergy team by phone, or send a short enquiry about your DRE requirement.",
+        content:
+          "Reach the LayaGreenEnergy team by phone, or send a short enquiry about your DRE requirement.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
-      { property: "og:url", content: "https://layagreenenergy.dev/contact" },
-      { property: "og:image", content: "https://layagreenenergy.dev/og-image.jpg" },
-      { name: "twitter:image", content: "https://layagreenenergy.dev/og-image.jpg" },
+      { property: "og:url", content: "https://urjasetu.dev/contact" },
+      { property: "og:image", content: "https://urjasetu.dev/og-image.jpg" },
+      { name: "twitter:image", content: "https://urjasetu.dev/og-image.jpg" },
     ],
-    links: [{ rel: "canonical", href: "https://layagreenenergy.dev/contact" }],
+    links: [{ rel: "canonical", href: "https://urjasetu.dev/contact" }],
   }),
   component: Contact,
 });
@@ -52,7 +53,10 @@ function Contact() {
         <aside className="space-y-6">
           <div className="border border-border bg-ivory p-6">
             <p className="eyebrow">Call us</p>
-            <a href={`tel:${PHONE}`} className="mt-3 block font-display text-2xl font-semibold text-primary">
+            <a
+              href={`tel:${PHONE}`}
+              className="mt-3 block font-display text-2xl font-semibold text-primary"
+            >
               {PHONE}
             </a>
             <p className="mt-2 text-sm text-muted-foreground">
@@ -69,13 +73,15 @@ function Contact() {
 
         <section>
           <p className="max-w-2xl text-base text-foreground/85">
-            Have a specific DRE requirement? Share a few details and we&rsquo;ll connect you with the right
-            domain-specific expert.
+            Have a specific DRE requirement? Share a few details and we&rsquo;ll connect you with
+            the right domain-specific expert.
           </p>
 
           {sent ? (
             <div className="mt-6 border border-border bg-ivory p-6">
-              <h2 className="font-display text-lg font-semibold">Thank you — your enquiry has been noted.</h2>
+              <h2 className="font-display text-lg font-semibold">
+                Thank you — your enquiry has been noted.
+              </h2>
               <p className="mt-2 text-sm text-foreground/80">
                 Someone from the team will get in touch. For anything urgent, call {PHONE}.
               </p>
@@ -109,7 +115,6 @@ function Contact() {
                   .finally(() => setBusy(false));
               }}
             >
-
               <Field label="Name" name="name" />
               <Field label="Business / Organisation" name="org" />
               <Field label="Phone number" name="phone" type="tel" />

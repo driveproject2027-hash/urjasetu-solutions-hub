@@ -21,16 +21,20 @@ export const Route = createFileRoute("/stories/")({
       },
       { property: "og:title", content: "Business Stories — LayaGreenEnergy" },
       { property: "og:description", content: "Every DRE journey starts with a real problem." },
-      { property: "og:url", content: "https://layagreenenergy.dev/stories" },
-      { property: "og:image", content: "https://layagreenenergy.dev/og-image.jpg" },
-      { name: "twitter:image", content: "https://layagreenenergy.dev/og-image.jpg" },
+      { property: "og:url", content: "https://urjasetu.dev/stories" },
+      { property: "og:image", content: "https://urjasetu.dev/og-image.jpg" },
+      { name: "twitter:image", content: "https://urjasetu.dev/og-image.jpg" },
     ],
-    links: [{ rel: "canonical", href: "https://layagreenenergy.dev/stories" }],
+    links: [{ rel: "canonical", href: "https://urjasetu.dev/stories" }],
   }),
   component: StoriesIndex,
 });
 
-const images: Record<string, string> = { textile: storyTextile, dryer: storyDryer, cold: storyCold };
+const images: Record<string, string> = {
+  textile: storyTextile,
+  dryer: storyDryer,
+  cold: storyCold,
+};
 
 type PublishedStory = {
   id: string;
@@ -79,7 +83,8 @@ function StoriesIndex() {
             <div>
               <h2 className="font-display text-lg font-semibold">Share your own story</h2>
               <p className="mt-1 text-sm text-muted-foreground">
-                Tell us what problem you faced and what changed. Stories are published only after review and your consent.
+                Tell us what problem you faced and what changed. Stories are published only after
+                review and your consent.
               </p>
             </div>
             <button
@@ -111,20 +116,69 @@ function StoriesIndex() {
                   .then(() => {
                     form.reset();
                     setShowForm(false);
-                    toast.success("Story submitted", { description: "Our team will review it before publishing." });
+                    toast.success("Story submitted", {
+                      description: "Our team will review it before publishing.",
+                    });
                   })
-                  .catch((err: unknown) => toast.error("Could not submit", { description: userMessage(err) }))
+                  .catch((err: unknown) =>
+                    toast.error("Could not submit", { description: userMessage(err) }),
+                  )
                   .finally(() => setBusy(false));
               }}
             >
-              <input name="stitle" required placeholder="Headline" aria-label="Headline" className="border border-input bg-background px-3 py-2.5 text-base" />
-              <input name="sbusiness" placeholder="Business name" aria-label="Business name" className="border border-input bg-background px-3 py-2.5 text-base" />
-              <input name="ssector" placeholder="Sector" aria-label="Sector" className="border border-input bg-background px-3 py-2.5 text-base" />
-              <input name="slocation" placeholder="District, state" aria-label="Location" className="border border-input bg-background px-3 py-2.5 text-base" />
-              <textarea name="sproblem" rows={3} placeholder="The problem you faced" aria-label="Problem" className="border border-input bg-background px-3 py-2.5 text-base md:col-span-2" />
-              <textarea name="ssolution" rows={3} placeholder="What you did about it" aria-label="Solution" className="border border-input bg-background px-3 py-2.5 text-base md:col-span-2" />
-              <textarea name="soutcome" rows={3} placeholder="What changed afterwards" aria-label="Outcome" className="border border-input bg-background px-3 py-2.5 text-base md:col-span-2" />
-              <input name="semail" type="email" placeholder="Contact email" aria-label="Contact email" className="border border-input bg-background px-3 py-2.5 text-base" />
+              <input
+                name="stitle"
+                required
+                placeholder="Headline"
+                aria-label="Headline"
+                className="border border-input bg-background px-3 py-2.5 text-base"
+              />
+              <input
+                name="sbusiness"
+                placeholder="Business name"
+                aria-label="Business name"
+                className="border border-input bg-background px-3 py-2.5 text-base"
+              />
+              <input
+                name="ssector"
+                placeholder="Sector"
+                aria-label="Sector"
+                className="border border-input bg-background px-3 py-2.5 text-base"
+              />
+              <input
+                name="slocation"
+                placeholder="District, state"
+                aria-label="Location"
+                className="border border-input bg-background px-3 py-2.5 text-base"
+              />
+              <textarea
+                name="sproblem"
+                rows={3}
+                placeholder="The problem you faced"
+                aria-label="Problem"
+                className="border border-input bg-background px-3 py-2.5 text-base md:col-span-2"
+              />
+              <textarea
+                name="ssolution"
+                rows={3}
+                placeholder="What you did about it"
+                aria-label="Solution"
+                className="border border-input bg-background px-3 py-2.5 text-base md:col-span-2"
+              />
+              <textarea
+                name="soutcome"
+                rows={3}
+                placeholder="What changed afterwards"
+                aria-label="Outcome"
+                className="border border-input bg-background px-3 py-2.5 text-base md:col-span-2"
+              />
+              <input
+                name="semail"
+                type="email"
+                placeholder="Contact email"
+                aria-label="Contact email"
+                className="border border-input bg-background px-3 py-2.5 text-base"
+              />
               <button
                 type="submit"
                 disabled={busy}

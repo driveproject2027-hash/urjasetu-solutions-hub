@@ -42,11 +42,11 @@ export const Route = createFileRoute("/drive")({
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
-      { property: "og:url", content: "https://layagreenenergy.dev/drive" },
-      { property: "og:image", content: "https://layagreenenergy.dev/og-image.jpg" },
-      { name: "twitter:image", content: "https://layagreenenergy.dev/og-image.jpg" },
+      { property: "og:url", content: "https://urjasetu.dev/drive" },
+      { property: "og:image", content: "https://urjasetu.dev/og-image.jpg" },
+      { name: "twitter:image", content: "https://urjasetu.dev/og-image.jpg" },
     ],
-    links: [{ rel: "canonical", href: "https://layagreenenergy.dev/drive" }],
+    links: [{ rel: "canonical", href: "https://urjasetu.dev/drive" }],
   }),
   component: Drive,
 });
@@ -78,18 +78,20 @@ function Drive() {
           <section>
             <h2 className="text-xl font-semibold">What DRIVE is</h2>
             <p className="mt-3 leading-relaxed text-foreground/85">
-              DRIVE is an initiative working on decentralised renewable energy adoption within Indian enterprises. It
-              brings together awareness building, technology matching, enterprise development and financing linkages so
-              that a small business can move from an energy problem to a working solution.
+              DRIVE is an initiative working on decentralised renewable energy adoption within
+              Indian enterprises. It brings together awareness building, technology matching,
+              enterprise development and financing linkages so that a small business can move from
+              an energy problem to a working solution.
             </p>
           </section>
 
           <section>
             <h2 className="text-xl font-semibold">Purpose</h2>
             <p className="mt-3 leading-relaxed text-foreground/85">
-              To make decentralised renewable energy a practical, financeable choice for micro, small and medium
-              enterprises — starting from the business problem rather than the technology catalogue. LayaGreenEnergy is the
-              platform through which this happens; DRIVE supports it.
+              To make decentralised renewable energy a practical, financeable choice for micro,
+              small and medium enterprises — starting from the business problem rather than the
+              technology catalogue. LayaGreenEnergy is the platform through which this happens;
+              DRIVE supports it.
             </p>
           </section>
 
@@ -109,19 +111,20 @@ function Drive() {
             <h2 className="text-xl font-semibold">The DRIVE approach</h2>
             <ol className="mt-4 space-y-3 text-foreground/85">
               <li>
-                <span className="text-xs text-muted-foreground">01</span> Understand the business problem before
-                proposing any technology.
+                <span className="text-xs text-muted-foreground">01</span> Understand the business
+                problem before proposing any technology.
               </li>
               <li>
-                <span className="text-xs text-muted-foreground">02</span> Match an appropriate decentralised renewable
-                energy solution to that problem.
+                <span className="text-xs text-muted-foreground">02</span> Match an appropriate
+                decentralised renewable energy solution to that problem.
               </li>
               <li>
-                <span className="text-xs text-muted-foreground">03</span> Work out how the project will be financed.
+                <span className="text-xs text-muted-foreground">03</span> Work out how the project
+                will be financed.
               </li>
               <li>
-                <span className="text-xs text-muted-foreground">04</span> Pilot with a credible provider, then scale
-                what works.
+                <span className="text-xs text-muted-foreground">04</span> Pilot with a credible
+                provider, then scale what works.
               </li>
             </ol>
           </section>
@@ -137,14 +140,16 @@ function Drive() {
               ))}
             </dl>
             <p className="mt-4 text-sm text-muted-foreground">
-              Impact figures are published only once verified by the project authorities. Additional verified metrics
-              will be added here as they become available.
+              Impact figures are published only once verified by the project authorities. Additional
+              verified metrics will be added here as they become available.
             </p>
           </section>
         </div>
 
         <aside className="space-y-4 border-t border-border pt-6 lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0">
-          <h2 className="text-sm font-semibold uppercase tracking-[0.12em] text-muted-foreground">Related</h2>
+          <h2 className="text-sm font-semibold uppercase tracking-[0.12em] text-muted-foreground">
+            Related
+          </h2>
           <Link to="/about" className="block font-medium hover:text-primary">
             About LayaGreenEnergy →
           </Link>

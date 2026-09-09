@@ -17,8 +17,6 @@ type EventItem = {
   contact?: string;
 };
 
-
-
 export const Route = createFileRoute("/events")({
   head: () => ({
     meta: [
@@ -31,15 +29,16 @@ export const Route = createFileRoute("/events")({
       { property: "og:title", content: "Events & Awareness — LayaGreenEnergy" },
       {
         property: "og:description",
-        content: "Workshops, awareness programmes and enterprise engagements on decentralised renewable energy.",
+        content:
+          "Workshops, awareness programmes and enterprise engagements on decentralised renewable energy.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
-      { property: "og:url", content: "https://layagreenenergy.dev/events" },
-      { property: "og:image", content: "https://layagreenenergy.dev/og-image.jpg" },
-      { name: "twitter:image", content: "https://layagreenenergy.dev/og-image.jpg" },
+      { property: "og:url", content: "https://urjasetu.dev/events" },
+      { property: "og:image", content: "https://urjasetu.dev/og-image.jpg" },
+      { name: "twitter:image", content: "https://urjasetu.dev/og-image.jpg" },
     ],
-    links: [{ rel: "canonical", href: "https://layagreenenergy.dev/events" }],
+    links: [{ rel: "canonical", href: "https://urjasetu.dev/events" }],
   }),
   component: Events,
 });
@@ -84,8 +83,8 @@ function Events() {
           <div className="max-w-2xl border border-border bg-ivory p-6">
             <h2 className="font-display text-lg font-semibold">No events listed at the moment</h2>
             <p className="mt-2 text-foreground/85">
-              Upcoming awareness programmes, workshops and enterprise engagements will be published here once
-              confirmed by the project authorities.
+              Upcoming awareness programmes, workshops and enterprise engagements will be published
+              here once confirmed by the project authorities.
             </p>
             <Link to="/contact" className="mt-4 inline-block font-medium text-primary underline">
               Contact us to know about upcoming sessions →
@@ -103,7 +102,9 @@ function Events() {
                   <h2 className="font-display text-lg font-semibold">{e.name}</h2>
                   <p className="mt-2 text-foreground/85">{e.description}</p>
                   {e.contact && (
-                    <p className="mt-2 text-sm text-muted-foreground">Registration / contact: {e.contact}</p>
+                    <p className="mt-2 text-sm text-muted-foreground">
+                      Registration / contact: {e.contact}
+                    </p>
                   )}
                 </div>
               </li>

@@ -16,12 +16,15 @@ export const Route = createFileRoute("/providers/")({
           "Search verified decentralised renewable energy providers by technology, industry, location and service area.",
       },
       { property: "og:title", content: "Find DRE Providers — LayaGreenEnergy" },
-      { property: "og:description", content: "A directory of DRE installers, manufacturers and service providers." },
-      { property: "og:url", content: "https://layagreenenergy.dev/providers" },
-      { property: "og:image", content: "https://layagreenenergy.dev/og-image.jpg" },
-      { name: "twitter:image", content: "https://layagreenenergy.dev/og-image.jpg" },
+      {
+        property: "og:description",
+        content: "A directory of DRE installers, manufacturers and service providers.",
+      },
+      { property: "og:url", content: "https://urjasetu.dev/providers" },
+      { property: "og:image", content: "https://urjasetu.dev/og-image.jpg" },
+      { name: "twitter:image", content: "https://urjasetu.dev/og-image.jpg" },
     ],
-    links: [{ rel: "canonical", href: "https://layagreenenergy.dev/providers" }],
+    links: [{ rel: "canonical", href: "https://urjasetu.dev/providers" }],
   }),
   component: ProvidersIndex,
 });
@@ -79,7 +82,6 @@ function ProvidersIndex() {
     network: approved.filter((a) => a.provider_type === "network").length,
   };
 
-
   const techs = [...new Set(solutions.map((s) => s.name))];
   const states = [...new Set(providers.map((p) => p.state))];
 
@@ -133,7 +135,6 @@ function ProvidersIndex() {
           })}
         </nav>
       </div>
-
 
       <div className="container-page grid gap-10 py-12 lg:grid-cols-[16rem_1fr]">
         <aside className="space-y-6">
@@ -200,12 +201,16 @@ function ProvidersIndex() {
         </aside>
 
         <div>
-          <p className="mb-6 border-l-2 border-primary pl-4 text-sm text-muted-foreground">{activeTab.blurb}</p>
+          <p className="mb-6 border-l-2 border-primary pl-4 text-sm text-muted-foreground">
+            {activeTab.blurb}
+          </p>
 
           {approvedForType.length > 0 && (
             <section className="mb-10">
               <h2 className="mb-3 font-display text-xl font-semibold">
-                {providerType === "all" ? "Verified platform partners" : `Verified ${activeTab.label.toLowerCase()}`}
+                {providerType === "all"
+                  ? "Verified platform partners"
+                  : `Verified ${activeTab.label.toLowerCase()}`}
               </h2>
               <ul className="divide-y divide-border border-y border-border">
                 {approvedForType.map((a) => (
@@ -221,10 +226,16 @@ function ProvidersIndex() {
                       <p className="mt-2 text-sm">{a.services.join(" · ")}</p>
                     )}
                     {a.description && (
-                      <p className="mt-2 max-w-2xl whitespace-pre-line text-sm text-foreground/85">{a.description}</p>
+                      <p className="mt-2 max-w-2xl whitespace-pre-line text-sm text-foreground/85">
+                        {a.description}
+                      </p>
                     )}
                     {a.website && (
-                      <a href={a.website} className="mt-2 inline-block text-sm text-primary underline" rel="noreferrer">
+                      <a
+                        href={a.website}
+                        className="mt-2 inline-block text-sm text-primary underline"
+                        rel="noreferrer"
+                      >
                         Visit website
                       </a>
                     )}
@@ -236,76 +247,77 @@ function ProvidersIndex() {
 
           {!showSolutionDirectory && approvedForType.length === 0 && (
             <p className="border-y border-border py-8 text-sm text-muted-foreground">
-              No {activeTab.label.toLowerCase()} are listed yet. Organisations of this kind can apply through Join Us
-              and appear here once verified.
+              No {activeTab.label.toLowerCase()} are listed yet. Organisations of this kind can
+              apply through Join Us and appear here once verified.
             </p>
           )}
 
           {showSolutionDirectory && (
             <>
-              <p className="mb-4 text-sm text-muted-foreground">{results.length} solution providers</p>
+              <p className="mb-4 text-sm text-muted-foreground">
+                {results.length} solution providers
+              </p>
               <ul className="divide-y divide-border border-y border-border">
                 {results.map((p) => (
-              <li key={p.id} className="py-6">
-                <div className="flex flex-wrap items-start justify-between gap-4">
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <h2 className="font-display text-lg font-semibold">{p.name}</h2>
-                      {p.verified && (
-                        <span className="inline-flex items-center gap-1 text-xs font-medium text-primary">
-                          <BadgeCheck className="size-4" /> DRE Platform Verified
+                  <li key={p.id} className="py-6">
+                    <div className="flex flex-wrap items-start justify-between gap-4">
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <h2 className="font-display text-lg font-semibold">{p.name}</h2>
+                          {p.verified && (
+                            <span className="inline-flex items-center gap-1 text-xs font-medium text-primary">
+                              <BadgeCheck className="size-4" /> DRE Platform Verified
+                            </span>
+                          )}
+                        </div>
+                        <p className="mt-1 flex items-center gap-1 text-sm text-muted-foreground">
+                          <MapPin className="size-3.5" /> {p.city}, {p.state}
+                        </p>
+                        <p className="mt-3 max-w-2xl text-sm">{p.about}</p>
+                        <dl className="mt-3 grid gap-x-8 gap-y-1 text-sm sm:grid-cols-2">
+                          <div className="flex gap-2">
+                            <dt className="text-muted-foreground">Technologies</dt>
+                            <dd>{p.technologies.join(", ")}</dd>
+                          </div>
+                          <div className="flex gap-2">
+                            <dt className="text-muted-foreground">Industries</dt>
+                            <dd>{p.industries.join(", ")}</dd>
+                          </div>
+                          <div className="flex gap-2">
+                            <dt className="text-muted-foreground">Service areas</dt>
+                            <dd>{p.serviceAreas.join(", ")}</dd>
+                          </div>
+                          <div className="flex gap-2">
+                            <dt className="text-muted-foreground">Projects</dt>
+                            <dd>{p.projects}</dd>
+                          </div>
+                        </dl>
+                      </div>
+                      <div className="flex flex-col items-start gap-3">
+                        <span className="inline-flex items-center gap-1 text-sm">
+                          <Star className="size-4 text-amber" /> {p.rating.toFixed(1)}
                         </span>
-                      )}
+                        <Link
+                          to="/providers/$id"
+                          params={{ id: p.id }}
+                          className="border border-border px-4 py-2 text-sm hover:border-primary hover:text-primary"
+                        >
+                          View profile
+                        </Link>
+                        <Link
+                          to="/providers/$id"
+                          params={{ id: p.id }}
+                          className="bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-forest-deep"
+                        >
+                          Request quote
+                        </Link>
+                      </div>
                     </div>
-                    <p className="mt-1 flex items-center gap-1 text-sm text-muted-foreground">
-                      <MapPin className="size-3.5" /> {p.city}, {p.state}
-                    </p>
-                    <p className="mt-3 max-w-2xl text-sm">{p.about}</p>
-                    <dl className="mt-3 grid gap-x-8 gap-y-1 text-sm sm:grid-cols-2">
-                      <div className="flex gap-2">
-                        <dt className="text-muted-foreground">Technologies</dt>
-                        <dd>{p.technologies.join(", ")}</dd>
-                      </div>
-                      <div className="flex gap-2">
-                        <dt className="text-muted-foreground">Industries</dt>
-                        <dd>{p.industries.join(", ")}</dd>
-                      </div>
-                      <div className="flex gap-2">
-                        <dt className="text-muted-foreground">Service areas</dt>
-                        <dd>{p.serviceAreas.join(", ")}</dd>
-                      </div>
-                      <div className="flex gap-2">
-                        <dt className="text-muted-foreground">Projects</dt>
-                        <dd>{p.projects}</dd>
-                      </div>
-                    </dl>
-                  </div>
-                  <div className="flex flex-col items-start gap-3">
-                    <span className="inline-flex items-center gap-1 text-sm">
-                      <Star className="size-4 text-amber" /> {p.rating.toFixed(1)}
-                    </span>
-                    <Link
-                      to="/providers/$id"
-                      params={{ id: p.id }}
-                      className="border border-border px-4 py-2 text-sm hover:border-primary hover:text-primary"
-                    >
-                      View profile
-                    </Link>
-                    <Link
-                      to="/providers/$id"
-                      params={{ id: p.id }}
-                      className="bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-forest-deep"
-                    >
-                      Request quote
-                    </Link>
-                  </div>
-                </div>
-              </li>
-            ))}
+                  </li>
+                ))}
               </ul>
             </>
           )}
-
         </div>
       </div>
     </>

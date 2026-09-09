@@ -14,13 +14,14 @@ export const Route = createFileRoute("/join-us/")({
       { property: "og:title", content: "Join LayaGreenEnergy" },
       {
         property: "og:description",
-        content: "Three ways to join the DRE marketplace: solution provider, finance provider or network partner.",
+        content:
+          "Three ways to join the DRE marketplace: solution provider, finance provider or network partner.",
       },
-      { property: "og:url", content: "https://layagreenenergy.dev/join-us" },
-      { property: "og:image", content: "https://layagreenenergy.dev/og-image.jpg" },
-      { name: "twitter:image", content: "https://layagreenenergy.dev/og-image.jpg" },
+      { property: "og:url", content: "https://urjasetu.dev/join-us" },
+      { property: "og:image", content: "https://urjasetu.dev/og-image.jpg" },
+      { name: "twitter:image", content: "https://urjasetu.dev/og-image.jpg" },
     ],
-    links: [{ rel: "canonical", href: "https://layagreenenergy.dev/join-us" }],
+    links: [{ rel: "canonical", href: "https://urjasetu.dev/join-us" }],
   }),
   component: JoinUs,
 });
@@ -61,9 +62,15 @@ function JoinUs() {
       <div className="container-page py-12">
         <div className="grid gap-px border border-border bg-border md:grid-cols-3">
           {paths.map((p) => (
-            <Link key={p.to} to={p.to} className="group bg-background p-7 transition-colors hover:bg-ivory">
+            <Link
+              key={p.to}
+              to={p.to}
+              className="group bg-background p-7 transition-colors hover:bg-ivory"
+            >
               <p className="eyebrow">{p.eyebrow}</p>
-              <h2 className="mt-2 font-display text-xl font-semibold group-hover:text-primary">{p.title}</h2>
+              <h2 className="mt-2 font-display text-xl font-semibold group-hover:text-primary">
+                {p.title}
+              </h2>
               <p className="mt-3 text-base text-foreground/85">{p.text}</p>
               <p className="mt-4 text-sm text-muted-foreground">What we ask for: {p.asks}</p>
               <span className="mt-5 inline-block text-sm font-medium text-primary">Register →</span>

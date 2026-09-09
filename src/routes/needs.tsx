@@ -4,7 +4,12 @@ import { toast } from "sonner";
 
 import { PageHeader } from "../components/site/PageHeader";
 import { openNeeds } from "../data/catalog";
-import { fetchPublicNeeds, submitCustomerRequest, submitNeedResponse, submitOpenNeed } from "../lib/db";
+import {
+  fetchPublicNeeds,
+  submitCustomerRequest,
+  submitNeedResponse,
+  submitOpenNeed,
+} from "../lib/db";
 import { userMessage } from "../lib/user-error";
 
 export const Route = createFileRoute("/needs")({
@@ -17,12 +22,15 @@ export const Route = createFileRoute("/needs")({
           "Active requirements posted by Indian businesses looking for decentralised renewable energy solutions. Providers can respond directly.",
       },
       { property: "og:title", content: "Open Needs — LayaGreenEnergy" },
-      { property: "og:description", content: "Real demand from businesses. Providers respond with proposals." },
-      { property: "og:url", content: "https://layagreenenergy.dev/needs" },
-      { property: "og:image", content: "https://layagreenenergy.dev/og-image.jpg" },
-      { name: "twitter:image", content: "https://layagreenenergy.dev/og-image.jpg" },
+      {
+        property: "og:description",
+        content: "Real demand from businesses. Providers respond with proposals.",
+      },
+      { property: "og:url", content: "https://urjasetu.dev/needs" },
+      { property: "og:image", content: "https://urjasetu.dev/og-image.jpg" },
+      { name: "twitter:image", content: "https://urjasetu.dev/og-image.jpg" },
     ],
-    links: [{ rel: "canonical", href: "https://layagreenenergy.dev/needs" }],
+    links: [{ rel: "canonical", href: "https://urjasetu.dev/needs" }],
   }),
   component: Needs,
 });
@@ -101,14 +109,20 @@ function Needs() {
                     description: "Our team reviews it before publishing to providers.",
                   });
                 })
-                .catch((err: unknown) => toast.error("Could not post", { description: userMessage(err) }))
+                .catch((err: unknown) =>
+                  toast.error("Could not post", { description: userMessage(err) }),
+                )
                 .finally(() => setBusy(false));
             }}
           >
             <h2 className="text-lg font-semibold md:col-span-2">Post your requirement</h2>
             <Input label="Business type" placeholder="e.g. Food processing" />
             <Input label="Location" placeholder="District, state" />
-            <Input label="Problem" placeholder="What is going wrong today?" className="md:col-span-2" />
+            <Input
+              label="Problem"
+              placeholder="What is going wrong today?"
+              className="md:col-span-2"
+            />
             <Input label="What solution are you looking for?" placeholder="e.g. Solar dryer" />
             <Input label="Budget" placeholder="e.g. ₹1–2 lakh" />
             <Input label="Timeline" placeholder="e.g. Within 2 months" />
@@ -139,8 +153,8 @@ function Needs() {
               />
             </div>
             <p className="text-xs text-muted-foreground md:col-span-2">
-              Contact details are never shown publicly. Private needs are shared only with providers matched to your
-              requirement.
+              Contact details are never shown publicly. Private needs are shared only with providers
+              matched to your requirement.
             </p>
             <button
               type="submit"
@@ -166,7 +180,9 @@ function Needs() {
                   <p className="mt-1 text-sm text-muted-foreground">
                     {[n.business_name, n.sector, n.location].filter(Boolean).join(" · ")}
                   </p>
-                  {n.description && <p className="mt-3 max-w-2xl whitespace-pre-line text-base">{n.description}</p>}
+                  {n.description && (
+                    <p className="mt-3 max-w-2xl whitespace-pre-line text-base">{n.description}</p>
+                  )}
                   <dl className="mt-3 flex flex-wrap gap-x-8 gap-y-1 text-sm">
                     <div className="flex gap-2">
                       <dt className="text-muted-foreground">Budget</dt>
@@ -198,14 +214,38 @@ function Needs() {
                               description: "The business and our team can now see your proposal.",
                             });
                           })
-                          .catch((err: unknown) => toast.error("Could not send", { description: userMessage(err) }))
+                          .catch((err: unknown) =>
+                            toast.error("Could not send", { description: userMessage(err) }),
+                          )
                           .finally(() => setBusy(false));
                       }}
                     >
-                      <input name="rname" placeholder="Your name / organisation" aria-label="Your name" className="border border-input bg-background px-3 py-2 text-sm" />
-                      <input name="remail" type="email" placeholder="Email" aria-label="Email" className="border border-input bg-background px-3 py-2 text-sm" />
-                      <textarea name="rmessage" rows={3} required placeholder="What you propose, indicative price and timeline" aria-label="Message" className="border border-input bg-background px-3 py-2 text-sm" />
-                      <button type="submit" disabled={busy} className="justify-self-start bg-primary px-4 py-2 text-sm font-medium text-primary-foreground disabled:opacity-60">
+                      <input
+                        name="rname"
+                        placeholder="Your name / organisation"
+                        aria-label="Your name"
+                        className="border border-input bg-background px-3 py-2 text-sm"
+                      />
+                      <input
+                        name="remail"
+                        type="email"
+                        placeholder="Email"
+                        aria-label="Email"
+                        className="border border-input bg-background px-3 py-2 text-sm"
+                      />
+                      <textarea
+                        name="rmessage"
+                        rows={3}
+                        required
+                        placeholder="What you propose, indicative price and timeline"
+                        aria-label="Message"
+                        className="border border-input bg-background px-3 py-2 text-sm"
+                      />
+                      <button
+                        type="submit"
+                        disabled={busy}
+                        className="justify-self-start bg-primary px-4 py-2 text-sm font-medium text-primary-foreground disabled:opacity-60"
+                      >
                         Send response
                       </button>
                     </form>
@@ -229,7 +269,9 @@ function Needs() {
               <div>
                 <div className="flex flex-wrap items-center gap-3">
                   <h2 className="font-display text-lg font-semibold">{n.title}</h2>
-                  <span className="border border-border px-2 py-0.5 text-xs text-muted-foreground">{n.status}</span>
+                  <span className="border border-border px-2 py-0.5 text-xs text-muted-foreground">
+                    {n.status}
+                  </span>
                 </div>
                 <p className="mt-1 text-sm text-muted-foreground">
                   {n.business} · {n.location}
@@ -268,7 +310,9 @@ function Needs() {
                         description: "Our team will get back to you with the requirement details.",
                       }),
                     )
-                    .catch((err: unknown) => toast.error("Could not record", { description: userMessage(err) }))
+                    .catch((err: unknown) =>
+                      toast.error("Could not record", { description: userMessage(err) }),
+                    )
                     .finally(() => setBusy(false));
                 }}
                 className="border border-primary px-4 py-2 text-sm font-medium text-primary transition-colors hover:bg-primary hover:text-primary-foreground"

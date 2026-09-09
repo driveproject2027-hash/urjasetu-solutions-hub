@@ -17,12 +17,15 @@ export const Route = createFileRoute("/join-us/network-partner")({
           "NGOs, FPOs, clusters, incubators and local facilitators can register as LayaGreenEnergy network partners and connect enterprises to decentralised renewable energy.",
       },
       { property: "og:title", content: "Register as a Network Partner — LayaGreenEnergy" },
-      { property: "og:description", content: "Help local enterprises find the right DRE solution and support." },
-      { property: "og:url", content: "https://layagreenenergy.dev/join-us/network-partner" },
-      { property: "og:image", content: "https://layagreenenergy.dev/og-image.jpg" },
-      { name: "twitter:image", content: "https://layagreenenergy.dev/og-image.jpg" },
+      {
+        property: "og:description",
+        content: "Help local enterprises find the right DRE solution and support.",
+      },
+      { property: "og:url", content: "https://urjasetu.dev/join-us/network-partner" },
+      { property: "og:image", content: "https://urjasetu.dev/og-image.jpg" },
+      { name: "twitter:image", content: "https://urjasetu.dev/og-image.jpg" },
     ],
-    links: [{ rel: "canonical", href: "https://layagreenenergy.dev/join-us/network-partner" }],
+    links: [{ rel: "canonical", href: "https://urjasetu.dev/join-us/network-partner" }],
   }),
   component: NetworkPartnerForm,
 });
@@ -96,7 +99,9 @@ function NetworkPartnerForm() {
                 });
                 form.reset();
               })
-              .catch((err: unknown) => toast.error("Could not submit", { description: userMessage(err) }))
+              .catch((err: unknown) =>
+                toast.error("Could not submit", { description: userMessage(err) }),
+              )
               .finally(() => setBusy(false));
           }}
         >
@@ -127,7 +132,12 @@ function NetworkPartnerForm() {
           <Field label="City" name="city" required />
           <Field label="State" name="state" required />
 
-          <CheckboxGroup label="How you support enterprises" name="services" options={support} className="md:col-span-2" />
+          <CheckboxGroup
+            label="How you support enterprises"
+            name="services"
+            options={support}
+            className="md:col-span-2"
+          />
           <Field
             label="Other support (if not listed above)"
             name="services_other"
@@ -153,7 +163,12 @@ function NetworkPartnerForm() {
             rows={3}
             className="md:col-span-2"
           />
-          <TextArea label="Anything else we should know" name="notes" rows={3} className="md:col-span-2" />
+          <TextArea
+            label="Anything else we should know"
+            name="notes"
+            rows={3}
+            className="md:col-span-2"
+          />
 
           <p className="text-xs text-muted-foreground md:col-span-2">
             Not sure this is the right form?{" "}

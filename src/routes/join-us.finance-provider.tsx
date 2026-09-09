@@ -17,12 +17,15 @@ export const Route = createFileRoute("/join-us/finance-provider")({
           "Banks, NBFCs, cooperatives and leasing companies can register on LayaGreenEnergy to finance MSME investments in decentralised renewable energy.",
       },
       { property: "og:title", content: "Register as a Finance Provider — LayaGreenEnergy" },
-      { property: "og:description", content: "Reach MSMEs seeking finance for renewable energy assets." },
-      { property: "og:url", content: "https://layagreenenergy.dev/join-us/finance-provider" },
-      { property: "og:image", content: "https://layagreenenergy.dev/og-image.jpg" },
-      { name: "twitter:image", content: "https://layagreenenergy.dev/og-image.jpg" },
+      {
+        property: "og:description",
+        content: "Reach MSMEs seeking finance for renewable energy assets.",
+      },
+      { property: "og:url", content: "https://urjasetu.dev/join-us/finance-provider" },
+      { property: "og:image", content: "https://urjasetu.dev/og-image.jpg" },
+      { name: "twitter:image", content: "https://urjasetu.dev/og-image.jpg" },
     ],
-    links: [{ rel: "canonical", href: "https://layagreenenergy.dev/join-us/finance-provider" }],
+    links: [{ rel: "canonical", href: "https://urjasetu.dev/join-us/finance-provider" }],
   }),
   component: FinanceProviderForm,
 });
@@ -99,7 +102,9 @@ function FinanceProviderForm() {
                 });
                 form.reset();
               })
-              .catch((err: unknown) => toast.error("Could not submit", { description: userMessage(err) }))
+              .catch((err: unknown) =>
+                toast.error("Could not submit", { description: userMessage(err) }),
+              )
               .finally(() => setBusy(false));
           }}
         >
@@ -130,7 +135,12 @@ function FinanceProviderForm() {
           <Field label="City" name="city" required />
           <Field label="State" name="state" required />
 
-          <CheckboxGroup label="Financing products offered" name="services" options={products} className="md:col-span-2" />
+          <CheckboxGroup
+            label="Financing products offered"
+            name="services"
+            options={products}
+            className="md:col-span-2"
+          />
           <Field
             label="Other product (if not listed above)"
             name="services_other"
@@ -142,11 +152,29 @@ function FinanceProviderForm() {
           <Field label="Maximum ticket size (₹)" name="ticket_max" />
           <Field label="Typical tenure" name="tenure" placeholder="e.g. 3–7 years" />
           <Field label="Indicative interest range" name="interest" placeholder="e.g. 9–13% p.a." />
-          <Field label="Collateral requirement" name="collateral" placeholder="Collateral-free / partial / full" />
-          <Field label="Regulator or licence" name="licence" placeholder="RBI, NABARD, SIDBI empanelment…" />
-          <Field label="Geographies covered" name="geographies" className="md:col-span-2" placeholder="States and districts you lend in" />
+          <Field
+            label="Collateral requirement"
+            name="collateral"
+            placeholder="Collateral-free / partial / full"
+          />
+          <Field
+            label="Regulator or licence"
+            name="licence"
+            placeholder="RBI, NABARD, SIDBI empanelment…"
+          />
+          <Field
+            label="Geographies covered"
+            name="geographies"
+            className="md:col-span-2"
+            placeholder="States and districts you lend in"
+          />
 
-          <CheckboxGroup label="Sectors you fund" name="sectors" options={sectors} className="md:col-span-2" />
+          <CheckboxGroup
+            label="Sectors you fund"
+            name="sectors"
+            options={sectors}
+            className="md:col-span-2"
+          />
           <Field
             label="Government schemes you process"
             name="schemes"
@@ -154,11 +182,16 @@ function FinanceProviderForm() {
             placeholder="MSE GIFT, PMEGP, PMFME, CGTMSE…"
           />
           <Field label="Website" name="website" className="md:col-span-2" />
-          <TextArea label="Anything else we should know" name="notes" rows={4} className="md:col-span-2" />
+          <TextArea
+            label="Anything else we should know"
+            name="notes"
+            rows={4}
+            className="md:col-span-2"
+          />
 
           <p className="text-xs text-muted-foreground md:col-span-2">
-            LayaGreenEnergy does not process loan applications or guarantee eligibility. If your offering does not fit these
-            fields,{" "}
+            LayaGreenEnergy does not process loan applications or guarantee eligibility. If your
+            offering does not fit these fields,{" "}
             <Link to="/contact" className="text-primary hover:underline">
               contact us
             </Link>
