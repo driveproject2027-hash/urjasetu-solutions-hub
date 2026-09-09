@@ -94,12 +94,46 @@ alter table public.business_opportunities enable row level security;
 alter table public.schemes enable row level security;
 alter table public.resource_articles enable row level security;
 
-create policy "public read" on public.dre_solutions for select to anon, authenticated using (true);
-create policy "public read" on public.demo_providers for select to anon, authenticated using (true);
-create policy "public read" on public.demo_stories for select to anon, authenticated using (true);
-create policy "public read" on public.business_opportunities for select to anon, authenticated using (true);
-create policy "public read" on public.schemes for select to anon, authenticated using (true);
-create policy "public read" on public.resource_articles for select to anon, authenticated using (true);
+do $$
+begin
+  if not exists (
+    select 1 from pg_policies
+    where schemaname = 'public' and tablename = 'dre_solutions' and policyname = 'public read'
+  ) then
+    create policy "public read" on public.dre_solutions for select to anon, authenticated using (true);
+  end if;
+  if not exists (
+    select 1 from pg_policies
+    where schemaname = 'public' and tablename = 'demo_providers' and policyname = 'public read'
+  ) then
+    create policy "public read" on public.demo_providers for select to anon, authenticated using (true);
+  end if;
+  if not exists (
+    select 1 from pg_policies
+    where schemaname = 'public' and tablename = 'demo_stories' and policyname = 'public read'
+  ) then
+    create policy "public read" on public.demo_stories for select to anon, authenticated using (true);
+  end if;
+  if not exists (
+    select 1 from pg_policies
+    where schemaname = 'public' and tablename = 'business_opportunities' and policyname = 'public read'
+  ) then
+    create policy "public read" on public.business_opportunities for select to anon, authenticated using (true);
+  end if;
+  if not exists (
+    select 1 from pg_policies
+    where schemaname = 'public' and tablename = 'schemes' and policyname = 'public read'
+  ) then
+    create policy "public read" on public.schemes for select to anon, authenticated using (true);
+  end if;
+  if not exists (
+    select 1 from pg_policies
+    where schemaname = 'public' and tablename = 'resource_articles' and policyname = 'public read'
+  ) then
+    create policy "public read" on public.resource_articles for select to anon, authenticated using (true);
+  end if;
+end
+$$;
 
 grant select on public.dre_solutions, public.demo_providers, public.demo_stories,
   public.business_opportunities, public.schemes, public.resource_articles to anon, authenticated;

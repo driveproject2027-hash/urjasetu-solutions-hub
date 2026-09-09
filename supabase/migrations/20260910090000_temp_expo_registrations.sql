@@ -30,9 +30,20 @@ grant select on public.expo_registrations to authenticated;
 grant all on public.expo_registrations to service_role;
 
 -- Reads are restricted to administrators whose post includes the expo section.
-create policy "scoped admin read expo registrations"
-  on public.expo_registrations for select to authenticated
-  using (public.has_admin_section(auth.uid(), 'expo'));
+do $$
+begin
+  if not exists (
+    select 1 from pg_policies
+    where schemaname = 'public'
+      and tablename = 'expo_registrations'
+      and policyname = 'scoped admin read expo registrations'
+  ) then
+    create policy "scoped admin read expo registrations"
+      on public.expo_registrations for select to authenticated
+      using (public.has_admin_section(auth.uid(), 'expo'));
+  end if;
+end
+$$;
 
 -- TEMPORARY: drop everything again after the expo with:
 --   drop table if exists public.expo_registrations;
