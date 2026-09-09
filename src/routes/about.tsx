@@ -17,11 +17,11 @@ export const Route = createFileRoute("/about")({
         content:
           "A DRE marketplace built around real business problems, not technology catalogues.",
       },
-      { property: "og:url", content: "https://urjasetu.dev/about" },
-      { property: "og:image", content: "https://urjasetu.dev/og-image.jpg" },
-      { name: "twitter:image", content: "https://urjasetu.dev/og-image.jpg" },
+      { property: "og:url", content: "https://urjasethu.dev/about" },
+      { property: "og:image", content: "https://urjasethu.dev/og-image.jpg" },
+      { name: "twitter:image", content: "https://urjasethu.dev/og-image.jpg" },
     ],
-    links: [{ rel: "canonical", href: "https://urjasetu.dev/about" }],
+    links: [{ rel: "canonical", href: "https://urjasethu.dev/about" }],
   }),
   component: About,
 });

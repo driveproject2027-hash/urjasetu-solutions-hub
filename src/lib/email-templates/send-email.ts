@@ -7,7 +7,7 @@ import { TEMPLATES } from "./registry";
 
 // Configuration
 const SITE_NAME = "LayaGreenEnergy";
-const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || "noreply@urjasetu.dev";
+const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || "noreply@urjasethu.dev";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 

@@ -17,11 +17,11 @@ export const Route = createFileRoute("/join-us/")({
         content:
           "Three ways to join the DRE marketplace: solution provider, finance provider or network partner.",
       },
-      { property: "og:url", content: "https://urjasetu.dev/join-us" },
-      { property: "og:image", content: "https://urjasetu.dev/og-image.jpg" },
-      { name: "twitter:image", content: "https://urjasetu.dev/og-image.jpg" },
+      { property: "og:url", content: "https://urjasethu.dev/join-us" },
+      { property: "og:image", content: "https://urjasethu.dev/og-image.jpg" },
+      { name: "twitter:image", content: "https://urjasethu.dev/og-image.jpg" },
     ],
-    links: [{ rel: "canonical", href: "https://urjasetu.dev/join-us" }],
+    links: [{ rel: "canonical", href: "https://urjasethu.dev/join-us" }],
   }),
   component: JoinUs,
 });

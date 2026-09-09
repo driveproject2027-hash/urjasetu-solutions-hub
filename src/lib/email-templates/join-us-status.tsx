@@ -110,8 +110,8 @@ const Email = ({
 
         <Text style={paragraph}>
           You can view the platform and your listing details at{" "}
-          <Link href="https://urjasetu.dev" style={{ color: forest }}>
-            urjasetu.dev
+          <Link href="https://urjasethu.dev" style={{ color: forest }}>
+            urjasethu.dev
           </Link>
           . If anything looks incorrect, simply reply to this email and we will get back to you.
         </Text>

@@ -9,7 +9,7 @@ import { userMessage } from "../lib/user-error";
 
 // Update these with the official contact details.
 const PHONE = "8499883525";
-const EMAIL = "hello@urjasetu.dev";
+const EMAIL = "hello@urjasethu.dev";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -28,11 +28,11 @@ export const Route = createFileRoute("/contact")({
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
-      { property: "og:url", content: "https://urjasetu.dev/contact" },
-      { property: "og:image", content: "https://urjasetu.dev/og-image.jpg" },
-      { name: "twitter:image", content: "https://urjasetu.dev/og-image.jpg" },
+      { property: "og:url", content: "https://urjasethu.dev/contact" },
+      { property: "og:image", content: "https://urjasethu.dev/og-image.jpg" },
+      { name: "twitter:image", content: "https://urjasethu.dev/og-image.jpg" },
     ],
-    links: [{ rel: "canonical", href: "https://urjasetu.dev/contact" }],
+    links: [{ rel: "canonical", href: "https://urjasethu.dev/contact" }],
   }),
   component: Contact,
 });

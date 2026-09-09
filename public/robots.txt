@@ -7,4 +7,4 @@ Disallow: /account
 Disallow: /auth
 Disallow: /lovable/
 
-Sitemap: https://urjasetu.dev/sitemap.xml
+Sitemap: https://urjasethu.dev/sitemap.xml
