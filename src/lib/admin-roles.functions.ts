@@ -1,139 +1,136 @@
-import { createServerFn } from '@tanstack/react-start'
+import { createServerFn } from "@tanstack/react-start";
 
-import { requireSupabaseAuth } from '@/integrations/supabase/auth-middleware'
+import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import { assertSuperAdmin } from "@/lib/admin-auth.server";
 
 export type AdminUser = {
-  userId: string
-  email: string
-  fullName: string
-  level: 'super_admin' | 'admin'
-  post: string
-  sections: string[]
-}
+  userId: string;
+  email: string;
+  fullName: string;
+  level: "super_admin" | "admin";
+  post: string;
+  sections: string[];
+};
 
-async function assertSuperAdmin(context: { supabase: any; userId: string }) {
-  const { data, error } = await context.supabase.rpc('has_role', {
-    _user_id: context.userId,
-    _role: 'super_admin',
-  })
-  if (error) throw new Error(error.message)
-  if (!data) throw new Error('Forbidden')
-}
-
-export const listAdmins = createServerFn({ method: 'POST' })
+export const listAdmins = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }): Promise<AdminUser[]> => {
-    await assertSuperAdmin(context as never)
-    const { supabaseAdmin } = await import('@/integrations/supabase/client.server')
+    await assertSuperAdmin(context);
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
     const { data: roles, error } = await supabaseAdmin
-      .from('user_roles')
-      .select('user_id, role')
-      .in('role', ['admin', 'super_admin'])
-    if (error) throw new Error(error.message)
+      .from("user_roles")
+      .select("user_id, role")
+      .in("role", ["admin", "super_admin"]);
+    if (error) throw new Error(error.message);
 
-    const ids = [...new Set((roles ?? []).map((r) => r.user_id))]
-    if (ids.length === 0) return []
+    const ids = [...new Set((roles ?? []).map((r) => r.user_id))];
+    if (ids.length === 0) return [];
 
     const { data: profiles } = await supabaseAdmin
-      .from('profiles')
-      .select('id, email, full_name')
-      .in('id', ids)
+      .from("profiles")
+      .select("id, email, full_name")
+      .in("id", ids);
 
     const { data: perms } = await supabaseAdmin
-      .from('admin_permissions')
-      .select('user_id, post, sections')
-      .in('user_id', ids)
+      .from("admin_permissions")
+      .select("user_id, post, sections")
+      .in("user_id", ids);
 
     return ids.map((id) => {
-      const profile = profiles?.find((p) => p.id === id)
-      const perm = perms?.find((p) => p.user_id === id)
-      const isSuper = (roles ?? []).some((r) => r.user_id === id && r.role === 'super_admin')
+      const profile = profiles?.find((p) => p.id === id);
+      const perm = perms?.find((p) => p.user_id === id);
+      const isSuper = (roles ?? []).some((r) => r.user_id === id && r.role === "super_admin");
       return {
         userId: id,
-        email: profile?.email ?? '',
-        fullName: profile?.full_name ?? '',
-        level: isSuper ? ('super_admin' as const) : ('admin' as const),
-        post: perm?.post ?? 'full_admin',
-        sections: perm?.sections ?? ['all'],
-      }
-    })
-  })
+        email: profile?.email ?? "",
+        fullName: profile?.full_name ?? "",
+        level: isSuper ? ("super_admin" as const) : ("admin" as const),
+        post: perm?.post ?? "full_admin",
+        sections: perm?.sections ?? ["all"],
+      };
+    });
+  });
 
-export const setAdminAccess = createServerFn({ method: 'POST' })
+export const setAdminAccess = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .validator(
     (input: {
-      email: string
-      level: 'super_admin' | 'admin' | 'none'
-      post?: string
-      sections?: string[]
+      email: string;
+      level: "super_admin" | "admin" | "none";
+      post?: string;
+      sections?: string[];
     }) => {
-      const email = (input?.email ?? '').trim().toLowerCase()
-      if (!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) throw new Error('Enter a valid email address')
-      if (!['super_admin', 'admin', 'none'].includes(input?.level)) throw new Error('Unknown access level')
+      const email = (input?.email ?? "").trim().toLowerCase();
+      if (!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email))
+        throw new Error("Enter a valid email address");
+      if (!["super_admin", "admin", "none"].includes(input?.level))
+        throw new Error("Unknown access level");
       const allowed = [
-        'all',
-        'joinus',
-        'requests',
-        'stories',
-        'needs',
-        'quotes',
-        'events',
-        'resources',
-        'impact',
-        'workspace',
-      ]
-      const sections = (input.sections ?? []).filter((s) => allowed.includes(s))
-      return { email, level: input.level, post: input.post ?? 'custom', sections }
+        "all",
+        "joinus",
+        "requests",
+        "stories",
+        "needs",
+        "quotes",
+        "events",
+        "resources",
+        "impact",
+        "workspace",
+      ];
+      const sections = (input.sections ?? []).filter((s) => allowed.includes(s));
+      return { email, level: input.level, post: input.post ?? "custom", sections };
     },
   )
   .handler(async ({ data, context }) => {
-    await assertSuperAdmin(context as never)
-    const { supabaseAdmin } = await import('@/integrations/supabase/client.server')
+    await assertSuperAdmin(context);
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
     const { data: profile, error: profileError } = await supabaseAdmin
-      .from('profiles')
-      .select('id, email')
-      .ilike('email', data.email)
-      .maybeSingle()
-    if (profileError) throw new Error(profileError.message)
-    if (!profile) throw new Error('No LayaGreenEnergy account found with that email. Ask them to sign up first.')
+      .from("profiles")
+      .select("id, email")
+      .ilike("email", data.email)
+      .maybeSingle();
+    if (profileError) throw new Error(profileError.message);
+    if (!profile)
+      throw new Error(
+        "No LayaGreenEnergy account found with that email. Ask them to sign up first.",
+      );
 
-    if (profile.id === context.userId && data.level !== 'super_admin') {
-      throw new Error('You cannot remove your own super admin access.')
+    if (profile.id === context.userId && data.level !== "super_admin") {
+      throw new Error("You cannot remove your own super admin access.");
     }
 
     const { error: delError } = await supabaseAdmin
-      .from('user_roles')
+      .from("user_roles")
       .delete()
-      .eq('user_id', profile.id)
-      .in('role', ['admin', 'super_admin'])
-    if (delError) throw new Error(delError.message)
+      .eq("user_id", profile.id)
+      .in("role", ["admin", "super_admin"]);
+    if (delError) throw new Error(delError.message);
 
-    if (data.level !== 'none') {
+    if (data.level !== "none") {
       const { error: insError } = await supabaseAdmin
-        .from('user_roles')
-        .insert({ user_id: profile.id, role: data.level })
-      if (insError) throw new Error(insError.message)
+        .from("user_roles")
+        .insert({ user_id: profile.id, role: data.level });
+      if (insError) throw new Error(insError.message);
     }
 
     // Scoped posts only apply to normal admins; super admins always see everything.
-    if (data.level === 'admin' && data.sections.length > 0 && !data.sections.includes('all')) {
+    if (data.level === "admin" && data.sections.length > 0 && !data.sections.includes("all")) {
       const { error: permError } = await supabaseAdmin
-        .from('admin_permissions')
+        .from("admin_permissions")
         .upsert(
           { user_id: profile.id, post: data.post, sections: data.sections },
-          { onConflict: 'user_id' },
-        )
-      if (permError) throw new Error(permError.message)
+          { onConflict: "user_id" },
+        );
+      if (permError) throw new Error(permError.message);
     } else {
       const { error: clearError } = await supabaseAdmin
-        .from('admin_permissions')
+        .from("admin_permissions")
         .delete()
-        .eq('user_id', profile.id)
-      if (clearError) throw new Error(clearError.message)
+        .eq("user_id", profile.id);
+      if (clearError) throw new Error(clearError.message);
     }
 
-    return { email: data.email, level: data.level }
-  })
+    return { email: data.email, level: data.level };
+  });

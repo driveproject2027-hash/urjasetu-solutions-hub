@@ -1,8 +1,8 @@
 // TEMPORARY • DRE EXPO: validated, rate-limited server endpoint.
 // Mirrors the public-forms pattern: writes use the service role so the
 // browser never has direct insert rights on expo_registrations.
-import { createServerFn } from '@tanstack/react-start'
-import { z } from 'zod'
+import { createServerFn } from "@tanstack/react-start";
+import { z } from "zod";
 
 import {
   expoInterests,
@@ -10,67 +10,36 @@ import {
   expoPowerPhases,
   expoTechnologies,
   expoVendorCategories,
-} from './expo'
-import type { ExpoRegistrationInput } from './expo'
+} from "./expo";
+import type { ExpoRegistrationInput } from "./expo";
 
-const trimmed = (max: number) => z.string().trim().max(max)
-const required = (max: number, label: string) =>
-  z.string().trim().min(1, `${label} is required`).max(max, `${label} must be under ${max} characters`)
-
-const optional = <T extends z.ZodTypeAny>(schema: T) =>
-  z.union([schema, z.literal('')]).optional().transform((v) => (v === '' ? undefined : v))
-
-const mobileSchema = z
-  .string()
-  .trim()
-  .min(6, 'Enter a valid mobile number')
-  .max(20, 'Enter a valid mobile number')
-  .regex(/^[+]?[0-9 ()-]{6,20}$/, 'Mobile number can only contain digits, spaces, +, - and ()')
-
-const emailSchema = z
-  .string()
-  .trim()
-  .email('Enter a valid email address')
-  .max(255, 'Email must be under 255 characters')
-
-const urlSchema = z
-  .string()
-  .trim()
-  .max(300)
-  .refine((value) => {
-    try {
-      const parsed = new URL(value.startsWith('http') ? value : `https://${value}`)
-      return parsed.protocol === 'http:' || parsed.protocol === 'https:'
-    } catch {
-      return false
-    }
-  }, 'Enter a valid website address')
+import { emailSchema, mobileSchema, optional, required, trimmed, urlSchema } from "./validation";
 
 const entrepreneurSchema = z.object({
-  full_name: required(120, 'Full name'),
+  full_name: required(120, "Full name"),
   mobile: mobileSchema,
   email: optional(emailSchema),
   organisation: optional(trimmed(160)),
   district: optional(trimmed(160)),
-  participant_type: z.enum(expoParticipantTypes, { message: 'Select a participant type' }),
+  participant_type: z.enum(expoParticipantTypes, { message: "Select a participant type" }),
   interests: z.array(z.enum(expoInterests)).max(expoInterests.length).default([]),
   requirement: optional(trimmed(2000)),
-})
+});
 
 const vendorSchema = z
   .object({
-    organisation: required(200, 'Company / organisation name'),
-    contact_person: required(120, 'Contact person name'),
+    organisation: required(200, "Company / organisation name"),
+    contact_person: required(120, "Contact person name"),
     mobile: mobileSchema,
     email: emailSchema,
     district: optional(trimmed(160)),
     website: optional(urlSchema),
-    category: z.enum(expoVendorCategories, { message: 'Select a vendor category' }),
+    category: z.enum(expoVendorCategories, { message: "Select a vendor category" }),
     technologies: z
       .array(z.enum(expoTechnologies))
-      .min(1, 'Select at least one technology / product')
+      .min(1, "Select at least one technology / product")
       .max(expoTechnologies.length),
-    experience_years: required(10, 'Years of experience'),
+    experience_years: required(10, "Years of experience"),
     previous_projects: optional(trimmed(120)),
     service_area: optional(trimmed(300)),
     description: optional(trimmed(4000)),
@@ -84,65 +53,69 @@ const vendorSchema = z
     if (value.requires_electricity) {
       if (!value.power_requirement?.trim()) {
         ctx.addIssue({
-          code: 'custom',
-          path: ['power_requirement'],
-          message: 'Approximate power requirement is needed for stall planning',
-        })
+          code: "custom",
+          path: ["power_requirement"],
+          message: "Approximate power requirement is needed for stall planning",
+        });
       }
       if (!value.equipment?.trim()) {
         ctx.addIssue({
-          code: 'custom',
-          path: ['equipment'],
-          message: 'Tell us which equipment you will operate',
-        })
+          code: "custom",
+          path: ["equipment"],
+          message: "Tell us which equipment you will operate",
+        });
       }
     }
-  })
+  });
 
-export const expoRegistrationSchema = z.discriminatedUnion('kind', [
-  z.object({ kind: z.literal('entrepreneur'), payload: entrepreneurSchema }),
-  z.object({ kind: z.literal('vendor'), payload: vendorSchema }),
-])
+export const expoRegistrationSchema = z.discriminatedUnion("kind", [
+  z.object({ kind: z.literal("entrepreneur"), payload: entrepreneurSchema }),
+  z.object({ kind: z.literal("vendor"), payload: vendorSchema }),
+]);
 
-export const submitExpoRegistration = createServerFn({ method: 'POST' })
+export const submitExpoRegistration = createServerFn({ method: "POST" })
   .validator((input: unknown) => expoRegistrationSchema.parse(input))
   .handler(async ({ data }) => {
-    const { supabaseAdmin } = await import('@/integrations/supabase/client.server')
-    const { clientKey, enforce, RateLimitError } = await import('./rate-limit.server')
-    const { publicWriteLimits } = await import('./security-config.server')
-    const { firstIssue } = await import('./validation')
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { clientKey, enforce, RateLimitError } = await import("./rate-limit.server");
+    const { publicWriteLimits } = await import("./security-config.server");
 
-    const parsed = expoRegistrationSchema.parse(data)
-    const limits = publicWriteLimits()
-    const ip = await clientKey()
+    const limits = publicWriteLimits();
+    const ip = await clientKey();
     try {
-      await enforce('expo:ip', ip, limits.perIp)
-      await enforce(`expo:${parsed.kind}`, ip, limits.perForm)
+      await enforce("expo:ip", ip, limits.perIp);
+      await enforce(`expo:${data.kind}`, ip, limits.perForm);
     } catch (error) {
       if (error instanceof RateLimitError) {
-        throw new Error('Too many submissions from this device. Please try again later.')
+        throw new Error("Too many submissions from this device. Please try again later.");
       }
-      throw error
+      throw error;
     }
 
     const requiresElectricity =
-      parsed.kind === 'vendor' && parsed.payload.requires_electricity === true
+      data.kind === "vendor" && data.payload.requires_electricity === true;
 
     const row = {
-      kind: parsed.kind,
-      payload: parsed.payload,
+      kind: data.kind,
+      payload: data.payload,
       requires_electricity: requiresElectricity,
-      power_requirement:
-        parsed.kind === 'vendor' ? parsed.payload.power_requirement ?? null : null,
-    }
+      power_requirement: data.kind === "vendor" ? (data.payload.power_requirement ?? null) : null,
+    };
 
-    const client = supabaseAdmin as unknown as { from: (t: string) => any }
-    const { error } = await client.from('expo_registrations').insert(row)
+    // NOTE: expo_registrations exists in the database but has not yet been
+    // generated into src/integrations/supabase/types.ts, so a narrow cast is
+    // required. Regenerate types (supabase gen types) to remove this cast.
+    const db = supabaseAdmin as unknown as {
+      from: (t: "expo_registrations") => {
+        insert: (r: typeof row) => Promise<{ error: { message: string } | null }>;
+      };
+    };
+    const { error } = await db.from("expo_registrations").insert(row);
     if (error) {
-      console.error('[expo] insert failed', error)
-      throw new Error('We could not save your registration. Please try again.')
+      console.error("[expo] insert failed", error);
+      throw new Error("We could not save your registration. Please try again.");
     }
-    return { ok: true as const }
-  })
+    return { ok: true as const };
+  });
 
-export type { ExpoRegistrationInput }
+export type { ExpoRegistrationInput };

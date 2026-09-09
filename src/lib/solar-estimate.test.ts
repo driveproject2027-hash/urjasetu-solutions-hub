@@ -1,34 +1,32 @@
-import test from 'node:test';
-import assert from 'node:assert/strict';
-
-import { estimateSolarProject } from './solar-estimate.ts';
-
-test('estimateSolarProject returns a sensible commercial bill-based estimate', () => {
-  const result = estimateSolarProject({
-    mode: 'bill',
-    bill: 15000,
-    state: 'Andhra Pradesh',
-    customerType: 'commercial',
-    includeResidentialSubsidy: false,
+import { describe, expect, it } from "vitest";
+import { estimateSolarProject } from "./solar-estimate.ts";
+describe("estimateSolarProject", () => {
+  it("estimateSolarProject returns a sensible commercial bill-based estimate", () => {
+    const result = estimateSolarProject({
+      mode: "bill",
+      bill: 15000,
+      state: "Andhra Pradesh",
+      customerType: "commercial",
+      includeResidentialSubsidy: false,
+    });
+    expect(result.recommendedSystemKw).toBeGreaterThanOrEqual(1);
+    expect(result.generationKwhPerMonth).toBeGreaterThan(0);
+    expect(result.monthlySavings).toBeGreaterThan(0);
+    expect(result.investment).toBeGreaterThan(0);
+    expect(result.paybackYears).toBeGreaterThan(0);
+    expect(result.tariffUsed).toBe(8);
   });
 
-  assert.ok(result.recommendedSystemKw >= 1);
-  assert.ok(result.generationKwhPerMonth > 0);
-  assert.ok(result.monthlySavings > 0);
-  assert.ok(result.investment > 0);
-  assert.ok(result.paybackYears > 0);
-  assert.equal(result.tariffUsed, 8);
-});
+  it("estimateSolarProject respects residential subsidy cap", () => {
+    const result = estimateSolarProject({
+      mode: "units",
+      units: 500,
+      state: "Karnataka",
+      customerType: "residential",
+      includeResidentialSubsidy: true,
+    });
 
-test('estimateSolarProject respects residential subsidy cap', () => {
-  const result = estimateSolarProject({
-    mode: 'units',
-    units: 500,
-    state: 'Karnataka',
-    customerType: 'residential',
-    includeResidentialSubsidy: true,
+    expect(result.subsidyAmount).toBeGreaterThanOrEqual(0);
+    expect(result.investment).toBeLessThanOrEqual(result.recommendedSystemKw * 65000);
   });
-
-  assert.ok(result.subsidyAmount >= 0);
-  assert.ok(result.investment <= result.recommendedSystemKw * 65000);
 });

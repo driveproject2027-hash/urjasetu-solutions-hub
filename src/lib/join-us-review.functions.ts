@@ -1,133 +1,125 @@
-import { createServerFn } from '@tanstack/react-start'
+import { createServerFn } from "@tanstack/react-start";
 
-import { requireSupabaseAuth } from '@/integrations/supabase/auth-middleware'
+import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import { assertAdminSection } from "@/lib/admin-auth.server";
 
 export type ReviewUpdateResult = {
-  status: string
-  notified: 'sent' | 'skipped' | 'suppressed' | 'failed'
-  recipient?: string
-}
+  status: string;
+  notified: "sent" | "skipped" | "suppressed" | "failed";
+  recipient?: string;
+};
 
 const STATUS_LABELS: Record<string, string> = {
-  pending: 'Pending review',
-  under_review: 'Under review',
-  approved: 'Approved',
-  rejected: 'Not approved',
-  suspended: 'Suspended',
-}
+  pending: "Pending review",
+  under_review: "Under review",
+  approved: "Approved",
+  rejected: "Not approved",
+  suspended: "Suspended",
+};
 
 const STATUS_MESSAGES: Record<string, string> = {
-  pending: 'Your registration has been received and is waiting to be reviewed by our team.',
-  under_review: 'Our team is currently reviewing the details you submitted.',
+  pending: "Your registration has been received and is waiting to be reviewed by our team.",
+  under_review: "Our team is currently reviewing the details you submitted.",
   approved:
-    'Your organisation is now listed on LayaGreenEnergy and can receive customer enquiries and quote requests.',
+    "Your organisation is now listed on LayaGreenEnergy and can receive customer enquiries and quote requests.",
   rejected:
-    'After review, we are unable to list your organisation at this time. You are welcome to reapply with updated details.',
+    "After review, we are unable to list your organisation at this time. You are welcome to reapply with updated details.",
   suspended:
-    'Your listing has been temporarily suspended and is not visible in the public directory.',
-}
+    "Your listing has been temporarily suspended and is not visible in the public directory.",
+};
 
 const PATH_LABELS: Record<string, string> = {
-  solution: 'DRE Solution Provider',
-  finance: 'Finance Provider',
-  network: 'Network Partner',
-}
-
-async function assertJoinUsManager(context: { supabase: any; userId: string }) {
-  const { data, error } = await context.supabase.rpc('has_admin_section', {
-    _user_id: context.userId,
-    _section: 'joinus',
-  })
-  if (error) throw new Error(error.message)
-  if (!data) throw new Error('Forbidden')
-}
+  solution: "DRE Solution Provider",
+  finance: "Finance Provider",
+  network: "Network Partner",
+};
 
 // Contact details (email, phone, documents) are withheld from the browser by
 // column-level grants; admins read them through this verified server function.
-export const listJoinUsSubmissions = createServerFn({ method: 'POST' })
+export const listJoinUsSubmissions = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
-    await assertJoinUsManager(context as never)
+    await assertAdminSection(context, "joinus");
 
-    const { supabaseAdmin } = await import('@/integrations/supabase/client.server')
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { data, error } = await supabaseAdmin
-      .from('provider_applications')
-      .select('*')
-      .order('applied_at', { ascending: false })
-    if (error) throw new Error(error.message)
-    return data ?? []
-  })
+      .from("provider_applications")
+      .select("*")
+      .order("applied_at", { ascending: false });
+    if (error) throw new Error(error.message);
+    return data ?? [];
+  });
 
-export const updateJoinUsStatus = createServerFn({ method: 'POST' })
+export const updateJoinUsStatus = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .validator((input: { id: string; status: string }) => {
-    if (!input?.id || !input?.status) throw new Error('Missing application id or status')
-    if (!STATUS_LABELS[input.status]) throw new Error('Unknown review status')
-    return input
+    if (!input?.id || !input?.status) throw new Error("Missing application id or status");
+    if (!STATUS_LABELS[input.status]) throw new Error("Unknown review status");
+    return input;
   })
 
   .handler(async ({ data, context }): Promise<ReviewUpdateResult> => {
-    const { supabase } = context
-    await assertJoinUsManager(context as never)
+    const { supabase } = context;
+    await assertAdminSection(context, "joinus");
 
-    const { supabaseAdmin } = await import('@/integrations/supabase/client.server')
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
     const { data: before, error: readError } = await supabaseAdmin
-      .from('provider_applications')
-      .select('id, status, organisation, contact_person, email, provider_type, admin_notes')
-      .eq('id', data.id)
-      .maybeSingle()
-    if (readError) throw new Error(readError.message)
-    if (!before) throw new Error('Application not found')
+      .from("provider_applications")
+      .select("id, status, organisation, contact_person, email, provider_type, admin_notes")
+      .eq("id", data.id)
+      .maybeSingle();
+    if (readError) throw new Error(readError.message);
+    if (!before) throw new Error("Application not found");
 
     const { error: updateError } = await supabase
-      .from('provider_applications')
+      .from("provider_applications")
       .update({ status: data.status })
-      .eq('id', data.id)
-    if (updateError) throw new Error(updateError.message)
+      .eq("id", data.id);
+    if (updateError) throw new Error(updateError.message);
 
     if (before.status === data.status) {
-      return { status: data.status, notified: 'skipped' }
+      return { status: data.status, notified: "skipped" };
     }
     if (!before.email) {
-      return { status: data.status, notified: 'skipped' }
+      return { status: data.status, notified: "skipped" };
     }
 
     try {
-      const { sendTemplateEmail } = await import('@/lib/email-templates/send-email')
-      const result = await sendTemplateEmail('join-us-status', before.email, {
+      const { sendTemplateEmail } = await import("@/lib/email-templates/send-email");
+      const result = await sendTemplateEmail("join-us-status", before.email, {
         templateData: {
-          organisation: before.organisation ?? '',
-          contactPerson: before.contact_person ?? '',
-          pathLabel: PATH_LABELS[before.provider_type] ?? '',
+          organisation: before.organisation ?? "",
+          contactPerson: before.contact_person ?? "",
+          pathLabel: PATH_LABELS[before.provider_type] ?? "",
           statusLabel: STATUS_LABELS[data.status] ?? data.status,
-          statusMessage: STATUS_MESSAGES[data.status] ?? '',
-          adminNote: before.admin_notes ?? '',
+          statusMessage: STATUS_MESSAGES[data.status] ?? "",
+          adminNote: before.admin_notes ?? "",
         },
         idempotencyKey: `join-us-status-${before.id}-${data.status}`,
-      })
+      });
       return {
         status: data.status,
-        notified: result.sent ? 'sent' : 'suppressed',
+        notified: result.sent ? "sent" : "suppressed",
         recipient: before.email,
-      }
+      };
     } catch (error) {
-      console.error('[join-us-status] email send failed', error)
-      return { status: data.status, notified: 'failed', recipient: before.email }
+      console.error("[join-us-status] email send failed", error);
+      return { status: data.status, notified: "failed", recipient: before.email };
     }
-  })
+  });
 
-export const deleteJoinUsSubmission = createServerFn({ method: 'POST' })
+export const deleteJoinUsSubmission = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .validator((input: { id: string }) => {
-    if (!input?.id) throw new Error('Missing application id')
-    return input
+    if (!input?.id) throw new Error("Missing application id");
+    return input;
   })
   .handler(async ({ data, context }) => {
-    await assertJoinUsManager(context as never)
+    await assertAdminSection(context, "joinus");
 
-    const { supabaseAdmin } = await import('@/integrations/supabase/client.server')
-    const { error } = await supabaseAdmin.from('provider_applications').delete().eq('id', data.id)
-    if (error) throw new Error(error.message)
-    return { deleted: true as const }
-  })
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { error } = await supabaseAdmin.from("provider_applications").delete().eq("id", data.id);
+    if (error) throw new Error(error.message);
+    return { deleted: true as const };
+  });

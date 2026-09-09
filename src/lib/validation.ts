@@ -3,9 +3,13 @@
 // silently sanitize or coerce unknown shapes.
 import { z } from "zod";
 
-const trimmed = (max: number) => z.string().trim().max(max);
-const required = (max: number, label: string) =>
-  z.string().trim().min(1, `${label} is required`).max(max, `${label} must be under ${max} characters`);
+export const trimmed = (max: number) => z.string().trim().max(max);
+export const required = (max: number, label: string) =>
+  z
+    .string()
+    .trim()
+    .min(1, `${label} is required`)
+    .max(max, `${label} must be under ${max} characters`);
 
 export const emailSchema = z
   .string()
@@ -14,12 +18,14 @@ export const emailSchema = z
   .max(255, "Email must be under 255 characters");
 
 // Indian and international dial formats, digits/space/+/-/() only.
-export const phoneSchema = z
+export const mobileSchema = z
   .string()
   .trim()
   .min(6, "Enter a valid phone number")
   .max(20, "Enter a valid phone number")
   .regex(/^[+]?[0-9 ()-]{6,20}$/, "Phone number can only contain digits, spaces, +, - and ()");
+
+export const phoneSchema = mobileSchema;
 
 export const urlSchema = z
   .string()
@@ -34,16 +40,27 @@ export const urlSchema = z
     }
   }, "Enter a valid website address");
 
-const optional = <T extends z.ZodTypeAny>(schema: T) =>
-  z.union([schema, z.literal("")]).optional().transform((v) => (v === "" ? undefined : v));
+export const optional = <T extends z.ZodTypeAny>(schema: T) =>
+  z
+    .union([schema, z.literal("")])
+    .optional()
+    .transform((v) => (v === "" ? undefined : v));
 
 const detailsSchema = z
-  .record(z.union([z.string().max(2000), z.number(), z.boolean(), z.array(z.string().max(300)).max(50)]))
+  .record(
+    z.union([z.string().max(2000), z.number(), z.boolean(), z.array(z.string().max(300)).max(50)]),
+  )
   .refine((value) => Object.keys(value).length <= 40, "Too many fields")
   .optional();
 
 export const customerRequestSchema = z.object({
-  source: z.enum(["find_my_solution", "contact", "post_a_need", "quote_request", "story_submission"]),
+  source: z.enum([
+    "find_my_solution",
+    "contact",
+    "post_a_need",
+    "quote_request",
+    "story_submission",
+  ]),
   name: optional(trimmed(120)),
   business_name: optional(trimmed(160)),
   email: optional(emailSchema),
