@@ -1,8 +1,26 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
-  <title id="title">LayaGreenEnergy</title>
-  <desc id="desc">A rising sun behind a renewable energy leaf</desc>
-  <rect width="64" height="64" rx="14" fill="#174f35"/>
-  <circle cx="45" cy="19" r="13" fill="#f2c94c"/>
-  <path d="M10 52c1-16 10-29 31-38 1 16-5 29-19 36-5 3-9 3-12 2Z" fill="#fffaf0"/>
-  <path d="M12 51c9-10 18-19 29-27" fill="none" stroke="#174f35" stroke-width="4" stroke-linecap="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="110 70 550 620" role="img" aria-labelledby="title desc">
+  <title id="title">Laya Green Energy</title>
+  <desc id="desc">Laya Green Energy transparent logo with leaf mark and tagline</desc>
+  <defs>
+    <linearGradient id="leaf" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#74b631" />
+      <stop offset="1" stop-color="#064f35" />
+    </linearGradient>
+  </defs>
+  <path d="M267 83c54 11 88 57 88 112v169c0 54-26 87-73 104-10-18-15-38-15-62V83Z" fill="url(#leaf)" />
+  <path d="M323 425c53-81 124-108 218-102-26 80-75 126-145 137-24 4-48 3-73-1 43-43 97-71 160-87-69 12-122 32-160 53Z" fill="url(#leaf)" />
+  <path d="M323 425c-4 10-6 22-5 38" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" />
+  <g fill="#124936">
+    <path d="M145 470h19v100h61v18h-80V470Z" />
+    <path d="m255 588 58-118h11l-34 118h-35Z" />
+    <path d="m313 470h20l58 118h-21l-34-118h-23Z" />
+    <path d="m407 470 35 45 35-45h23l-48 63v55h-20v-55l-48-63h23Z" />
+    <path d="m507 588 58-118h11l-34 118h-35Z" />
+    <path d="m565 470h20l58 118h-21l-34-118h-23Z" />
+    <text x="384" y="632" font-family="Arial, Helvetica, sans-serif" font-size="30" letter-spacing="10" text-anchor="middle">GREEN ENERGY</text>
+  </g>
+  <g fill="#32664e" font-family="Arial, Helvetica, sans-serif" text-anchor="middle">
+    <path d="M116 665h40M612 665h40" stroke="#32664e" stroke-width="2" />
+    <text x="384" y="670" font-size="15" letter-spacing="5">CLEANER TODAY  BRIGHTER TOMORROW</text>
+  </g>
 </svg>

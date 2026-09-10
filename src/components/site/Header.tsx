@@ -28,9 +28,9 @@ export function Header() {
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur">
       <div className="container-page flex h-24 items-center justify-between gap-6">
-        <Link to="/" className="flex h-24 w-24 shrink-0 items-center" aria-label="Laya Green Energy home">
+        <Link to="/" className="flex h-24 w-28 shrink-0 items-center" aria-label="Laya Green Energy home">
           <img
-            src="/laya-green-energy-logo.svg"
+            src="/WhatsApp_Image_2026-09-08_at_20.49.59_copy-removebg-preview.png"
             alt="Laya Green Energy"
             className="h-full w-full bg-transparent object-contain mix-blend-multiply"
           />
