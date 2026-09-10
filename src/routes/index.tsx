@@ -75,11 +75,11 @@ export const Route = createFileRoute("/")({
         content:
           "Start with the problem. Find suitable DRE solutions, verified providers and financing routes across India.",
       },
-      { property: "og:url", content: "https://urjasethu.dev/" },
-      { property: "og:image", content: "https://urjasethu.dev/og-image.jpg" },
-      { name: "twitter:image", content: "https://urjasethu.dev/og-image.jpg" },
+      { property: "og:url", content: "https://layagreenenergy.com/" },
+      { property: "og:image", content: "https://layagreenenergy.com/og-image.jpg" },
+      { name: "twitter:image", content: "https://layagreenenergy.com/og-image.jpg" },
     ],
-    links: [{ rel: "canonical", href: "https://urjasethu.dev/" }],
+    links: [{ rel: "canonical", href: "https://layagreenenergy.com/" }],
     scripts: [
       {
         type: "application/ld+json",

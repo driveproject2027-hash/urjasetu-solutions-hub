@@ -1,9 +1,51 @@
 import { createServer } from "node:http";
+import { readFile, stat } from "node:fs/promises";
+import { fileURLToPath } from "node:url";
+import { extname, relative, resolve } from "node:path";
 
 import handler from "../dist/server/server.js";
 
 const port = Number(process.env.PORT || 3000);
 const host = process.env.HOST || "0.0.0.0";
+const clientRoot = resolve(fileURLToPath(new URL("../dist/client/", import.meta.url)));
+
+const contentTypes = {
+  ".css": "text/css; charset=utf-8",
+  ".gif": "image/gif",
+  ".html": "text/html; charset=utf-8",
+  ".ico": "image/x-icon",
+  ".jpg": "image/jpeg",
+  ".js": "text/javascript; charset=utf-8",
+  ".json": "application/json; charset=utf-8",
+  ".png": "image/png",
+  ".svg": "image/svg+xml",
+  ".webp": "image/webp",
+};
+
+async function serveClientFile(request, response) {
+  if (request.method !== "GET" && request.method !== "HEAD") return false;
+
+  const pathname = new URL(requestUrl(request), "http://localhost").pathname;
+  const filePath = resolve(clientRoot, `.${decodeURIComponent(pathname)}`);
+  const relativePath = relative(clientRoot, filePath);
+  if (relativePath.startsWith("..") || relativePath.includes("..")) return false;
+
+  try {
+    const file = await stat(filePath);
+    if (!file.isFile()) return false;
+    response.statusCode = 200;
+    response.setHeader("content-type", contentTypes[extname(filePath)] ?? "application/octet-stream");
+    response.setHeader("content-length", file.size);
+    if (request.method === "HEAD") {
+      response.end();
+    } else {
+      response.end(await readFile(filePath));
+    }
+    return true;
+  } catch {
+    return false;
+  }
+}
 
 function requestUrl(request) {
   const forwardedProto = request.headers["x-forwarded-proto"];
@@ -14,6 +56,8 @@ function requestUrl(request) {
 
 const server = createServer(async (request, response) => {
   try {
+    if (await serveClientFile(request, response)) return;
+
     const headers = new Headers();
     for (const [name, value] of Object.entries(request.headers)) {
       if (Array.isArray(value)) {

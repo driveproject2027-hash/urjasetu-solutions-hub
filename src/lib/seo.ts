@@ -3,7 +3,7 @@
  * social preview image and JSON-LD builders used by route `head()` options.
  */
 
-export const SITE_URL = "https://urjasethu.dev";
+export const SITE_URL = "https://layagreenenergy.com";
 export const SITE_NAME = "LayaGreenEnergy";
 export const OG_IMAGE = `${SITE_URL}/og-image.jpg`;
 

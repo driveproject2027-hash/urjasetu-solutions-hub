@@ -17,11 +17,11 @@ export const Route = createFileRoute("/about")({
         content:
           "A DRE marketplace built around real business problems, not technology catalogues.",
       },
-      { property: "og:url", content: "https://urjasethu.dev/about" },
-      { property: "og:image", content: "https://urjasethu.dev/og-image.jpg" },
-      { name: "twitter:image", content: "https://urjasethu.dev/og-image.jpg" },
+      { property: "og:url", content: "https://layagreenenergy.com/about" },
+      { property: "og:image", content: "https://layagreenenergy.com/og-image.jpg" },
+      { name: "twitter:image", content: "https://layagreenenergy.com/og-image.jpg" },
     ],
-    links: [{ rel: "canonical", href: "https://urjasethu.dev/about" }],
+    links: [{ rel: "canonical", href: "https://layagreenenergy.com/about" }],
   }),
   component: About,
 });

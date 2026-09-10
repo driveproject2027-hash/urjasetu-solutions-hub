@@ -18,7 +18,7 @@ const EMAIL_TEMPLATES: Record<string, React.ComponentType<any>> = {
 };
 
 const SITE_NAME = "LayaGreenEnergy";
-const ROOT_DOMAIN = "urjasethu.dev";
+const ROOT_DOMAIN = "layagreenenergy.com";
 const SAMPLE_PROJECT_URL = `https://${ROOT_DOMAIN}`;
 const SAMPLE_EMAIL = "user@example.test";
 
