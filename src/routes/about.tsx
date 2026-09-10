@@ -61,18 +61,6 @@ function About() {
               ecosystem for decentralised renewable energy in Indian enterprises: awareness,
               technology matching, enterprise development and financing linkages.
             </p>
-            <p className="mt-3 leading-relaxed text-foreground/85">
-              LayaGreenEnergy is designed to stand on its own as a platform. DRIVE supports it; it
-              does not define it.
-            </p>
-          </section>
-          <section>
-            <h2 className="text-xl font-semibold">What is demo content</h2>
-            <p className="mt-3 leading-relaxed text-foreground/85">
-              Providers, business stories and open needs currently shown on the platform are
-              realistic but fictional demonstrations. No real testimonials, certifications, reviews
-              or project outcomes are published without verification and consent.
-            </p>
           </section>
         </div>
 

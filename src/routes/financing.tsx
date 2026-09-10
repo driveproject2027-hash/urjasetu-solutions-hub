@@ -39,7 +39,19 @@ function Financing() {
           {schemes.map((s) => (
             <li key={s.name} className="grid gap-2 py-6 md:grid-cols-[12rem_1fr]">
               <h2 className="font-display text-lg font-semibold">{s.name}</h2>
-              <p className="text-base text-foreground/85">{s.what}</p>
+              <div>
+                <p className="text-base text-foreground/85">{s.what}</p>
+                {s.source && (
+                  <a
+                    href={s.source}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="mt-2 inline-block text-sm text-primary underline"
+                  >
+                    Official scheme details →
+                  </a>
+                )}
+              </div>
             </li>
           ))}
         </ul>

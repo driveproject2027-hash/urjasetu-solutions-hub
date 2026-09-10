@@ -9,7 +9,7 @@ import { userMessage } from "../lib/user-error";
 
 // Update these with the official contact details.
 const PHONE = "8499883525";
-const EMAIL = "hello@urjasethu.dev";
+const EMAIL = "vamsi@lgv.co.in";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({

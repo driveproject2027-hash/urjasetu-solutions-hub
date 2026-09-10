@@ -109,7 +109,7 @@ function ProvidersIndex() {
       <PageHeader
         eyebrow="Marketplace"
         title="Find DRE providers"
-        intro="Installers, manufacturers and service providers working with Indian MSMEs and rural enterprises. All listings shown are demo data."
+        intro="Installers, manufacturers and service providers working with Indian MSMEs and rural enterprises."
       />
 
       <div className="border-b border-border bg-ivory">
@@ -254,11 +254,18 @@ function ProvidersIndex() {
 
           {showSolutionDirectory && (
             <>
-              <p className="mb-4 text-sm text-muted-foreground">
-                {results.length} solution providers
-              </p>
-              <ul className="divide-y divide-border border-y border-border">
-                {results.map((p) => (
+              {results.length === 0 ? (
+                <p className="border-y border-border py-8 text-sm text-muted-foreground">
+                  No solution providers are listed yet. Providers will appear here once they are
+                  verified.
+                </p>
+              ) : (
+                <>
+                  <p className="mb-4 text-sm text-muted-foreground">
+                    {results.length} solution providers
+                  </p>
+                  <ul className="divide-y divide-border border-y border-border">
+                    {results.map((p) => (
                   <li key={p.id} className="py-6">
                     <div className="flex flex-wrap items-start justify-between gap-4">
                       <div>
@@ -314,8 +321,10 @@ function ProvidersIndex() {
                       </div>
                     </div>
                   </li>
-                ))}
-              </ul>
+                    ))}
+                  </ul>
+                </>
+              )}
             </>
           )}
         </div>

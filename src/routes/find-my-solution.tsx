@@ -11,7 +11,7 @@ import { problems, solutions, stories, type ProblemId } from "../data/catalog";
 import { ContactPrompt } from "../components/site/ContactPrompt";
 import { userMessage } from "../lib/user-error";
 
-const CONTACT_EMAIL = "contact@urjasetu.org";
+const CONTACT_EMAIL = "vamsi@lgv.co.in";
 
 const searchSchema = z.object({
   problem: z.string().optional(),

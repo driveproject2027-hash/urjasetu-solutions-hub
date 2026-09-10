@@ -178,7 +178,6 @@ function Home() {
               className="block border-b border-border bg-ivory px-5 py-5 md:absolute md:bottom-8 md:left-8 md:z-10 md:max-w-md md:rounded-md md:border md:border-white/30 md:bg-white/70 md:p-4 md:shadow-md md:backdrop-blur-md md:hover:shadow-lg"
               aria-label={`Read story: ${lead.headline}`}
             >
-              <p className="text-xs uppercase tracking-[0.14em] text-amber">Demo story</p>
               <h3 className="mt-2 font-display text-base font-semibold leading-snug text-foreground md:text-lg">
                 “{lead.headline}”
               </h3>
@@ -278,7 +277,6 @@ function Home() {
                   className="h-72 w-full object-cover transition-transform duration-500 group-hover:scale-[1.03] md:h-96"
                 />
               </Link>
-              <p className="mt-5 text-xs uppercase tracking-[0.14em] text-amber">Demo story</p>
               <h3 className="mt-2 font-display text-xl font-semibold md:text-2xl">
                 “{lead.headline}”
               </h3>

@@ -11,13 +11,8 @@ From the current project setup:
 - [src/server.ts](src/server.ts) handles the server entry for the app runtime
 - [src/lib/public-forms.server.ts](src/lib/public-forms.server.ts) already keeps writes in a server-controlled pattern
 
-The important deployment fact is that this repo currently has:
-
-- a `build` script
-- a `preview` script
-- no `start` script in [package.json](package.json)
-
-That means the Hostinger deployment command must be chosen carefully and should match the framework build output.
+The repository includes `build`, `preview` and `start` scripts. The `start` script runs
+`scripts/start.mjs`, which adapts the generated TanStack Fetch handler to Hostinger's HTTP server.
 
 ## Architecture to keep in production
 
@@ -72,17 +67,17 @@ Use:
 npm run build
 ```
 
-Do not use `npm start` unless your Hostinger runtime specifically supports a custom start command. This repo does not currently define a `start` script in [package.json](package.json).
+The repository defines a production `start` script in [package.json](package.json).
 
 ### 4. Configure the start command
 
-For Hostinger, the safest deployment option is usually:
+Use the production start command:
 
 ```bash
-npm run preview -- --host 0.0.0.0 --port 3000
+npm start
 ```
 
-If your Hostinger plan supports a specific app adapter or SSR runtime, use that adapter instead. The repo is not a plain static site; it is a TanStack app with SSR/server middleware, so the runtime must match the framework expectations.
+The server reads Hostinger's `PORT` environment variable and binds to `0.0.0.0`. Do not use `vite preview` as the production process.
 
 ## Required environment variables
 
@@ -123,7 +118,7 @@ NODE_ENV=production
 After adding the environment variables:
 
 1. Set build command to `npm run build`
-2. Set start command to `npm run preview -- --host 0.0.0.0 --port 3000`
+2. Set start command to `npm start`
 3. Deploy from the main branch
 4. Wait for build logs to finish
 5. Check homepage load
@@ -156,7 +151,7 @@ Fix:
 - Add `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`, and `SUPABASE_SERVICE_ROLE_KEY` in Hostinger
 - Ensure `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY` are also present
 
-### 2. `npm start` fails because no start script exists
+### 2. `npm start` fails
 
 Symptoms:
 
@@ -165,8 +160,9 @@ Symptoms:
 
 Fix:
 
-- Use `npm run preview -- --host 0.0.0.0 --port 3000` or the correct framework-compatible runtime command
-- Do not assume `npm start` is available
+- Confirm the build step completed successfully before starting the app
+- Confirm Hostinger is using the repository root as the application directory
+- Check the Node.js version and Hostinger application logs
 
 ### 3. Auth redirects break on production domains
 

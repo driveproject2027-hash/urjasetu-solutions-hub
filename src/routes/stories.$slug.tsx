@@ -58,7 +58,6 @@ function StoryPage() {
       <div className="border-b border-border bg-ivory">
         <div className="container-page grid gap-10 py-12 md:grid-cols-[1.1fr_1fr] md:items-center">
           <div>
-            <p className="text-xs uppercase tracking-[0.14em] text-amber">Demo story</p>
             <h1 className="mt-3 font-display text-3xl font-semibold leading-tight md:text-[2.4rem]">
               “{story.headline}”
             </h1>

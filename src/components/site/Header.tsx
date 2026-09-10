@@ -27,12 +27,13 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur">
-      <div className="container-page flex h-16 items-center justify-between gap-6">
-        <Link to="/" className="flex items-baseline">
-          <span className="font-display tracking-tight">
-            <span className="text-2xl font-bold text-primary">Laya</span>
-            <span className="text-base font-semibold text-primary/80"> GreenEnergy</span>
-          </span>
+      <div className="container-page flex h-24 items-center justify-between gap-6">
+        <Link to="/" className="flex h-24 w-24 shrink-0 items-center" aria-label="Laya Green Energy home">
+          <img
+            src="/laya-green-energy-logo.svg"
+            alt="Laya Green Energy"
+            className="h-full w-full bg-transparent object-contain mix-blend-multiply"
+          />
         </Link>
 
         <nav className="hidden flex-1 items-center justify-evenly px-6 xl:flex 2xl:px-10" aria-label="Primary">

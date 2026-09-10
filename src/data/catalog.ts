@@ -191,74 +191,7 @@ export type Provider = {
   about: string;
 };
 
-export const providers: Provider[] = [
-  {
-    id: "surya-vidyut",
-    name: "Surya Vidyut Systems",
-    city: "Visakhapatnam",
-    state: "Andhra Pradesh",
-    verified: true,
-    rating: 4.6,
-    projects: 84,
-    technologies: ["Solar PV", "Solar + Battery", "Solar Pumps"],
-    industries: ["Retail", "Textile", "Agriculture"],
-    serviceAreas: ["Visakhapatnam", "Vizianagaram", "Srikakulam"],
-    about:
-      "Demo listing. EPC firm working with MSMEs on rooftop generation and battery backup for continuous-process units.",
-  },
-  {
-    id: "hariti-cold",
-    name: "Hariti Cold Chain",
-    city: "Guntur",
-    state: "Andhra Pradesh",
-    verified: true,
-    rating: 4.3,
-    projects: 41,
-    technologies: ["Cold Chain & Cooling", "Energy Storage"],
-    industries: ["Agriculture", "Dairy", "Food Processing"],
-    serviceAreas: ["Guntur", "Krishna", "Prakasam"],
-    about: "Demo listing. Builds small cold rooms and milk chilling points for farmer groups and traders.",
-  },
-  {
-    id: "annapurna-dryers",
-    name: "Annapurna Solar Dryers",
-    city: "Vizianagaram",
-    state: "Andhra Pradesh",
-    verified: false,
-    rating: 4.1,
-    projects: 27,
-    technologies: ["Solar Drying", "Energy-Efficient Processing"],
-    industries: ["Food Processing", "Agriculture"],
-    serviceAreas: ["Vizianagaram", "Visakhapatnam"],
-    about: "Demo listing. Manufactures cabinet and tunnel dryers for spice, fruit and fish drying enterprises.",
-  },
-  {
-    id: "gati-emobility",
-    name: "Gati E-Mobility",
-    city: "Hyderabad",
-    state: "Telangana",
-    verified: true,
-    rating: 4.4,
-    projects: 63,
-    technologies: ["E-Mobility & Retail", "Energy Storage"],
-    industries: ["Retail", "Logistics"],
-    serviceAreas: ["Hyderabad", "Rangareddy", "Medak"],
-    about: "Demo listing. Supplies electric load carriers, solar vending carts and small charging points.",
-  },
-  {
-    id: "bhoomi-bioenergy",
-    name: "Bhoomi Bioenergy",
-    city: "Warangal",
-    state: "Telangana",
-    verified: false,
-    rating: 3.9,
-    projects: 18,
-    technologies: ["Waste-to-Fuel", "Energy-Efficient Processing"],
-    industries: ["Agriculture", "Food Processing"],
-    serviceAreas: ["Warangal", "Khammam"],
-    about: "Demo listing. Installs small biogas digesters and briquetting units for agri clusters.",
-  },
-];
+export const providers: Provider[] = [];
 
 export type Story = {
   slug: string;
@@ -450,6 +383,30 @@ export const opportunities = [
 ];
 
 export const schemes = [
+  {
+    name: "SBI Surya Shakti – Solar Finance",
+    what:
+      "SBI term-loan finance for existing and prospective SME and business enterprises installing rooftop or ground-mounted grid-connected solar systems. The captive variant is available up to ₹10 crore with up to 10 years' repayment; the PPA or group-captive variant is available up to ₹50 crore with up to 15 years' repayment. Minimum borrower contribution is 20% for captive projects and 25% for PPA or group-captive projects.",
+    source: "https://sbi.bank.in/web/business/sme/sme-loans/surya-shakti-solar-finance",
+  },
+  {
+    name: "PNB Scheme for Financing of Rooftop Solar Power Systems",
+    what:
+      "PNB finance for individuals installing residential rooftop solar. Applicants may apply singly or jointly with eligible family members and must meet conditions including a CIBIL score of 680 or equivalent, ownership or rooftop rights over the residential property, sufficient roof area as required by MNRE, a current electricity bill, maximum age of 75 years and a PNB savings account.",
+    source: "https://pnb.bank.in/SCHEME-FOR-FINANCING-OF-ROOFTOP-SOLAR-POWER-SYSTEMS.html",
+  },
+  {
+    name: "SIDBI Green Finance Scheme (GFS)",
+    what:
+      "SIDBI green finance for eligible MSMEs undertaking green and clean projects, including renewable-energy investments such as solar. Use the official SIDBI product page to confirm the current project criteria, pricing, limits and application process.",
+    source: "https://www.sidbi.in/green-finance",
+  },
+  {
+    name: "SIDBI End To End Energy Efficiency (4E) Scheme",
+    what:
+      "SIDBI finance for MSMEs implementing energy-efficiency improvements and eligible clean-energy equipment. Solar installations may be relevant where they form part of the business's energy-efficiency or renewable-energy project; confirm current eligibility and terms directly with SIDBI.",
+    source: "https://www.sidbi.in/green-finance",
+  },
   {
     name: "MSE GIFT",
     what: "Interest subvention support for MSEs adopting green investments.",

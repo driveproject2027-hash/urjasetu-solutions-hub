@@ -261,7 +261,6 @@ function StoriesIndex() {
                   className="h-60 w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                 />
               </Link>
-              <p className="mt-4 text-xs uppercase tracking-[0.14em] text-amber">Demo story</p>
               <h2 className="mt-2 font-display text-xl font-semibold leading-snug">
                 <Link to="/stories/$slug" params={{ slug: s.slug }} className="hover:text-primary">
                   “{s.headline}”

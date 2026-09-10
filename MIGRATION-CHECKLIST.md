@@ -70,7 +70,7 @@ This document tracks all changes made to migrate from Lovable to self-hosted on 
 - [ ] Test locally with production env vars
   ```bash
   npm run build
-  npm run preview
+  npm start
   ```
 - [ ] Review and update error tracking
   - [ ] Either: Keep console logging only
@@ -147,7 +147,7 @@ This document tracks all changes made to migrate from Lovable to self-hosted on 
 - [ ] `npm run lint` passes
 - [ ] `npm run build` completes successfully
 - [ ] Development server starts: `npm run dev`
-- [ ] Preview build runs: `npm run preview`
+- [ ] Production server runs: `npm start`
 - [ ] Email preview routes still work at `/lovable/email/`
 - [ ] Authentication flow works with Supabase
 - [ ] Google OAuth login works

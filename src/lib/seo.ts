@@ -22,7 +22,7 @@ export function organizationLd() {
     url: `${SITE_URL}/`,
     description:
       "LayaGreenEnergy connects Indian businesses with decentralised renewable energy (DRE) solutions, solution providers, finance providers and network partners.",
-    logo: `${SITE_URL}/favicon.png`,
+    logo: `${SITE_URL}/laya-green-energy-logo.svg`,
     telephone: "+91-8499883525",
     areaServed: "IN",
   };
