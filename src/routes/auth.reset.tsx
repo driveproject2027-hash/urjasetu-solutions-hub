@@ -25,18 +25,18 @@ function ResetPassword() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Supabase delivers the reset link as a URL hash (#access_token=...) or a
-    // ?code=... query param; either way the client picks up the session.
+    // A recovery link creates a temporary authenticated session. Do not treat a
+    // normal signed-in session as proof that this page was opened from a reset
+    // email, otherwise any existing session can bypass the password form.
     const { data } = supabase.auth.onAuthStateChange((event) => {
-      if (event === "PASSWORD_RECOVERY" || event === "SIGNED_IN") setReady(true);
+      if (event === "PASSWORD_RECOVERY") {
+        window.sessionStorage.setItem("laya-password-recovery", "1");
+        setReady(true);
+      }
     });
-    supabase.auth
-      .getSession()
-      .then(({ data: { session } }) => {
-        if (session) setReady(true);
-        else setReady(false);
-      })
-      .catch(() => setReady(false));
+
+    // Keep the recovery session active while the form is open so updateUser can
+    // consume it. After a successful update, onSubmit signs it out.
     return () => data.subscription.unsubscribe();
   }, []);
 
@@ -50,8 +50,9 @@ function ResetPassword() {
     try {
       const { error } = await supabase.auth.updateUser({ password });
       if (error) throw error;
+      await supabase.auth.signOut();
       toast.success("Password updated", {
-        description: "You can now sign in with your new password.",
+        description: "Your password has been updated. Please sign in again.",
       });
       setMessage("Your password has been updated. Redirecting to sign in…");
       setTimeout(() => void navigate({ to: "/auth" }), 2000);

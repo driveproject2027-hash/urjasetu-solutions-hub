@@ -19,6 +19,7 @@ import { Footer } from "../components/site/Footer";
 import { ExpoFab } from "../components/site/ExpoCta";
 import { Toaster } from "../components/ui/sonner";
 import { organizationLd, webSiteLd } from "../lib/seo";
+import { supabase } from "@/integrations/supabase/client";
 
 function NotFoundComponent() {
   return (
@@ -136,6 +137,16 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const router = useRouter();
+
+  useEffect(() => {
+    const { data } = supabase.auth.onAuthStateChange((event) => {
+      if (event !== "PASSWORD_RECOVERY") return;
+      window.sessionStorage.setItem("laya-password-recovery", "1");
+      void router.navigate({ to: "/auth/reset" });
+    });
+    return () => data.subscription.unsubscribe();
+  }, [router]);
 
   return (
     <QueryClientProvider client={queryClient}>
