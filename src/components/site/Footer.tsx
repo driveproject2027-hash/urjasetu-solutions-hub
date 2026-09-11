@@ -61,7 +61,7 @@ export function Footer() {
       <div className="border-t border-ivory/15">
         <div className="container-page flex flex-col gap-2 py-6 text-xs text-ivory/60 sm:flex-row sm:items-center sm:justify-between">
           <p>Developed under the DRIVE initiative — Decentralised Renewable Energy Innovation for Vibrant Enterprises.</p>
-          <p>Demo content. Estimates are indicative and must be verified before any investment decision.</p>
+          <p>Estimates are indicative and must be verified before any investment decision.</p>
         </div>
       </div>
     </footer>

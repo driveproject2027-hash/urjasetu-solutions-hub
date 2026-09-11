@@ -59,12 +59,12 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       {
-        title: "Decentralised Renewable Energy Solutions for Businesses in India | LayaGreenEnergy",
+        title: "Solar Backup, Cold Storage & Renewable Energy for Indian Businesses | LayaGreenEnergy",
       },
       {
         name: "description",
         content:
-          "LayaGreenEnergy connects Indian businesses with decentralised renewable energy (DRE) solutions, verified providers, finance providers and network partners. Start with your problem, get a recommendation, compare providers.",
+          "Explore solar backup for stitching units, cold storage, solar drying and renewable-energy solutions for MSMEs and rural businesses in India. Start with your problem and find a suitable provider.",
       },
       {
         property: "og:title",
@@ -303,7 +303,7 @@ function Home() {
                 >
                   <img
                     src={storyImages[s.image]}
-                    alt=""
+                    alt={`${s.headline} — ${s.person}, ${s.location}`}
                     loading="lazy"
                     width={1200}
                     height={900}

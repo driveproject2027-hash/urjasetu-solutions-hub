@@ -106,14 +106,14 @@ function ProviderProfile() {
             <h2 className="text-lg font-semibold">Previous projects</h2>
             <p className="mt-2 text-sm text-muted-foreground">
               Project records and photographs appear here once the provider uploads them and the platform reviews
-              them. This demo listing has none.
+              them. No project records have been published for this profile yet.
             </p>
           </section>
           <section>
             <h2 className="text-lg font-semibold">Reviews</h2>
             <p className="mt-2 text-sm text-muted-foreground">
               Reviews are only shown after a verified project or enquiry. No reviews have been submitted for this
-              demo listing.
+              profile yet.
             </p>
           </section>
         </div>

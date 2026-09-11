@@ -6,9 +6,9 @@ export type Locale = "en" | "te" | "hi";
 export const dictionaries = {
   en: {
     "hero.eyebrow": "DRE Solutions • Technology • Business",
-    "hero.title": "Find the right DRE solution for your business.",
+    "hero.title": "Solar backup, cold storage and renewable-energy solutions for Indian businesses.",
     "hero.body":
-      "Tell us what is holding your business back. Discover suitable renewable-energy solutions and connect with providers who can help.",
+      "Tell us what is holding your business back — power cuts, spoilage, high energy costs or diesel dependence. Discover suitable solutions and connect with providers who can help.",
     "hero.cta": "Find My Solution",
     "hero.secondary": "Explore DRE Solutions",
     "hero.provider": "Are you a DRE business? Join the platform",

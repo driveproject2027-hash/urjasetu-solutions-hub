@@ -246,19 +246,57 @@ function ProvidersIndex() {
           )}
 
           {!showSolutionDirectory && approvedForType.length === 0 && (
-            <p className="border-y border-border py-8 text-sm text-muted-foreground">
-              No {activeTab.label.toLowerCase()} are listed yet. Organisations of this kind can
-              apply through Join Us and appear here once verified.
-            </p>
+            <section className="border border-border bg-ivory p-6 md:p-8">
+              <h2 className="font-display text-xl font-semibold">
+                No verified {activeTab.label.toLowerCase()} are listed yet
+              </h2>
+              <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+                We are building this directory carefully. If you are looking for finance or local
+                ecosystem support, tell us what your business needs and our team can help identify
+                the right route while verified partners are being onboarded.
+              </p>
+              <div className="mt-5 flex-wrap gap-3">
+                <Link
+                  to="/find-my-solution"
+                  className="bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground hover:bg-forest-deep"
+                >
+                  Find my solution
+                </Link>
+                <Link
+                  to="/join-us"
+                  className="border border-border px-4 py-2.5 text-sm font-medium hover:border-primary hover:text-primary"
+                >
+                  Join as a partner
+                </Link>
+              </div>
+            </section>
           )}
 
           {showSolutionDirectory && (
             <>
               {results.length === 0 ? (
-                <p className="border-y border-border py-8 text-sm text-muted-foreground">
-                  No solution providers are listed yet. Providers will appear here once they are
-                  verified.
-                </p>
+                <section className="border border-border bg-ivory p-6 md:p-8">
+                  <h2 className="font-display text-xl font-semibold">No matching providers yet</h2>
+                  <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+                    No verified solution providers match these filters. Describe your business
+                    problem and we can help you explore solar backup, cooling, processing or other
+                    decentralised renewable-energy options.
+                  </p>
+                  <div className="mt-5 flex-wrap gap-3">
+                    <Link
+                      to="/find-my-solution"
+                      className="bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground hover:bg-forest-deep"
+                    >
+                      Find my solution
+                    </Link>
+                    <Link
+                      to="/join-us/solution-provider"
+                      className="border border-border px-4 py-2.5 text-sm font-medium hover:border-primary hover:text-primary"
+                    >
+                      List your organisation
+                    </Link>
+                  </div>
+                </section>
               ) : (
                 <>
                   <p className="mb-4 text-sm text-muted-foreground">
